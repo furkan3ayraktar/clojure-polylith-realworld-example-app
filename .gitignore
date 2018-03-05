@@ -1,2 +1,5 @@
 **/.idea/**
 **/target/**
+database.db
+.nrepl-port
+.lein-env

@@ -4,7 +4,8 @@
                                   [lein-ring "0.9.7"]]
                    :dependencies [[ring/ring-mock "0.3.0"]]
                    :test-paths   ["test"]
-                   :env          {:allowed-origins "http://localhost:3000"}}}
+                   :env          {:allowed-origins "http://localhost:3000"
+                                  :environment     "LOCAL"}}}
   :dependencies [[clj-jwt "0.1.1"]
                  [com.taoensso/timbre "4.10.0"]
                  [compojure "1.6.0"]
