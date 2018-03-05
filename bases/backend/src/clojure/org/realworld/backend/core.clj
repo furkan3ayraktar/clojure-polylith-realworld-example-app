@@ -1,6 +1,7 @@
 (ns clojure.org.realworld.backend.core
   (:require [clojure.org.realworld.backend.handler :as h]
             [clojure.org.realworld.backend.middleware :as m]
+            [clojure.org.realworld.common.interface :as common]
             [compojure.core :refer [routes wrap-routes defroutes GET POST PUT DELETE ANY OPTIONS]]
             [ring.logger.timbre :as logger]
             [ring.middleware.json :as js]
@@ -61,7 +62,7 @@
 
 (defn init []
   (try
-    ;; Do any tasks needs to be done on server initialization here
+    (common/init-logging)
     (log/info "Initialized server.")
     (catch Exception e
       (log/error e "Could not start server."))))
