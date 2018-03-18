@@ -3,9 +3,7 @@
             [clojure.org.realworld.common.interface]
             [clojure.org.realworld.database.interface :as database]
             [clojure.test :refer :all]
-            [clojure.org.realworld.profile.core :as core]
-            [clojure.spec.alpha :as s]
-            [clojure.spec.gen.alpha :as gen]))
+            [clojure.org.realworld.profile.core :as core]))
 
 (defn- test-db
   ([] {:classname   "org.sqlite.JDBC"
