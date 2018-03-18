@@ -54,9 +54,11 @@
 
 (defn update-user! [auth-token {:keys [username email password image bio]}]
   (if-let [user (store/find-by-token auth-token)]
-    (if-let [_ (store/find-by-email email)]
+    (if (and (not= email (:email user))
+             (not (nil? (store/find-by-email email))))
       [false {:errors {:email ["A user exists with given email."]}}]
-      (if-let [_ (store/find-by-username username)]
+      (if (and (not= username (:username user))
+               (not (nil? (store/find-by-username username))))
         [false {:errors {:username ["A user exists with given username."]}}]
         (let [password-map (when password {:password (encrypt-password password)})
               user-input (merge {:email email
