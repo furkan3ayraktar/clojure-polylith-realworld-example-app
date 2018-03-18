@@ -6,7 +6,7 @@
 (defn wrap-auth-token [handler]
   (fn [req]
     (let [authorization (get (:headers req) "authorization")
-          token (-> (str/split authorization #" ") last)]
+          token (when authorization (-> (str/split authorization #" ") last))]
       (if (str/blank? token)
         {:status 401
          :body {:errors {:authorization "Authorization required."}}}
