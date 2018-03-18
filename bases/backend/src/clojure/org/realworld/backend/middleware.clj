@@ -4,13 +4,13 @@
             [taoensso.timbre :as log]))
 
 (defn wrap-auth-token [handler]
-  (fn [req]))
-
-(defn wrap-authentication [handler]
-  (fn [req]))
-
-(defn wrap-auth-cookie [handler]
-  (fn [req]))
+  (fn [req]
+    (let [authorization (get (:headers req) "authorization")
+          token (-> (str/split authorization #" ") last)]
+      (if (str/blank? token)
+        {:status 401
+         :body {:errors {:authorization "Authorization required."}}}
+        (handler (assoc req :auth-token token))))))
 
 (defn wrap-exceptions [handler]
   (fn [req]

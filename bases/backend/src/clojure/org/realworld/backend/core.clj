@@ -40,10 +40,8 @@
 
 (def ^:private app-routes
   (routes
-    (-> public-routes
-        (wrap-routes m/wrap-auth-token))
+    public-routes
     (-> private-routes
-        (wrap-routes m/wrap-authentication)
         (wrap-routes m/wrap-auth-token))
     other-routes))
 
@@ -53,7 +51,6 @@
       kp/wrap-keyword-params
       pr/wrap-params
       mp/wrap-multipart-params
-      m/wrap-auth-cookie
       js/wrap-json-params
       np/wrap-nested-params
       js/wrap-json-response

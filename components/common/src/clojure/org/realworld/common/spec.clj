@@ -1,13 +1,18 @@
 (ns clojure.org.realworld.common.spec
   (:require [clojure.spec.alpha :as s]
             [clojure.spec.gen.alpha :as gen]
-            [clojure.string :as str]))
+            [clojure.string :as str])
+  (:import (java.util UUID)))
 
 (def ^:private email-regex #"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63}$")
 (def ^:private uri-regex #"https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)")
 (def ^:private slug-regex #"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 
 (s/def :core/non-empty-string (s/and string? not-empty))
+
+(s/def :core/username (s/with-gen :core/non-empty-string
+                                  #(gen/fmap (fn [_] (str (UUID/randomUUID)))
+                                             (gen/string-alphanumeric))))
 
 (s/def :core/email (s/with-gen (s/and string? #(re-matches email-regex %))
                                #(gen/fmap (fn [[s1 s2]] (str s1 "@" s2 ".com"))
@@ -31,10 +36,15 @@
 
 (s/def :user/id pos-int?)
 (s/def :user/email :core/email)
-(s/def :user/username :core/non-empty-string)
+(s/def :user/username :core/username)
 (s/def :user/password :core/password)
-(s/def :user/image :core/uri)
-(s/def :user/bio :core/non-empty-string)
+
+(s/def :user/image (s/or :uri :core/uri
+                         :nil nil?))
+
+(s/def :user/bio (s/or :string :core/non-empty-string
+                       :nil nil?))
+
 (s/def :user/token :core/non-empty-string)
 
 (s/def :core/login (s/keys :req-un [:user/email
@@ -44,13 +54,14 @@
                                        :user/email
                                        :user/password]))
 
-(s/def :core/update-user (s/keys :opt-un [:user/email
-                                          :user/username
-                                          :user/password
+(s/def :core/update-user (s/keys :req-un [:user/email
+                                          :user/username]
+                                 :opt-un [:user/password
                                           :user/image
                                           :user/bio]))
 
-(s/def :core/user (s/keys :req-un [:user/email
+(s/def :core/user (s/keys :req-un [:user/id
+                                   :user/email
                                    :user/username]
                           :opt-un [:user/image
                                    :user/bio

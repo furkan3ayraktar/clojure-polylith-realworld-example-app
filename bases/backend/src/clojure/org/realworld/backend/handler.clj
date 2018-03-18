@@ -2,7 +2,8 @@
   (:require [clojure.org.realworld.article.interface :as article]
             [clojure.org.realworld.profile.interface :as profile]
             [clojure.org.realworld.tags.interface :as tags]
-            [clojure.org.realworld.user.interface :as user]))
+            [clojure.org.realworld.user.interface :as user]
+            [clojure.spec.alpha :as s]))
 
 (defn- parse-query-param [param]
   (if (string? param)
@@ -26,12 +27,39 @@
   (handler 404 {:message "Route not found."}))
 
 (defn login [req]
-  (handler 200))
+  (let [user (-> req :params :user)]
+    (if (s/valid? :core/login user)
+      (let [[ok? res] (user/login user)]
+        (handler (if ok? 200 404) {:user res}))
+      (handler 422 {:errors {:body ["Invalid request body."]}}))))
 
 (defn register [req]
-  (handler 200))
+  (let [user (-> req :params :user)]
+    (if (s/valid? :core/register user)
+      (let [[ok? res] (user/register! user)]
+        (handler (if ok? 200 404) {:user res}))
+      (handler 422 {:errors {:body ["Invalid request body."]}}))))
+
+(defn current-user [req]
+  (let [auth-token (-> req :auth-token)
+        [ok? res] (user/user-by-token auth-token)]
+    (handler (if ok? 200 404) {:user res})))
+
+(defn update-user [req]
+  (let [auth-token (-> req :auth-token)
+        user (-> req :params :user)]
+    (if (s/valid? :core/update-user user)
+      (let [[ok? res] (user/update-user! auth-token user)]
+        (handler (if ok? 200 404) {:user res}))
+      (handler 422 {:errors {:body ["Invalid request body."]}}))))
 
 (defn profile [req]
+  (handler 200))
+
+(defn follow-profile [req]
+  (handler 200))
+
+(defn unfollow-profile [req]
   (handler 200))
 
 (defn articles [req]
@@ -44,18 +72,6 @@
   (handler 200))
 
 (defn tags [req]
-  (handler 200))
-
-(defn current-user [req]
-  (handler 200))
-
-(defn update-user [req]
-  (handler 200))
-
-(defn follow-profile [req]
-  (handler 200))
-
-(defn unfollow-profile [req]
   (handler 200))
 
 (defn feed [req]

@@ -1,76 +1,72 @@
 (ns clojure.org.realworld.user.core
-  (:require [clojure.java.jdbc :as jdbc]
-            [java-jdbc.sql :as sql]
-            [clojure.org.realworld.database.interface :as database]
+  (:require [clojure.org.realworld.user.store :as store]
             [crypto.password.pbkdf2 :as crypto]
             [clj-jwt.core :as jwt]
             [clj-time.core :as t]
             [environ.core :refer [env]]))
 
-(declare find-by-token)
-
 (defn- token-secret []
   (if (contains? env :secret)
     (env :secret)
-    "some-default-secret-dont-use-it"))
+    "some-default-secret-do-not-use-it"))
 
-(defn encrypt-password [password]
-  (-> password crypto/encrypt str))
-
-(defn generate-token [email]
+(defn- generate-token [email]
   (let [now   (t/now)
         claim {:iss email
                :exp (t/plus now (t/days 7))
                :iat now}]
     (-> claim jwt/jwt (jwt/sign :HS256 (token-secret)) jwt/to-str)))
 
-(defn- prepare-user [result-map key val]
-  "Prepares the user data before updates"
-  (cond
-    (= key :password) (assoc result-map :password (encrypt-password val))
-    (= key :token) result-map
-    :else (assoc result-map key val)))
+(defn encrypt-password [password]
+  (-> password crypto/encrypt str))
 
-(defn update-token [email]
-  (let [new-tok (generate-token email)]
-    (if
-      (not
-        (nil? (jdbc/update! (database/db) :users {:token new-tok} ["email=?" email])))
-      new-tok
-      nil)))
+(defn user->visible-user [user]
+  (dissoc user :password))
 
-(defn insert-user [user]
-  (let [db (database/db)
-        email (user :email)
-        username (user :username)
-        bio (if (contains? user :bio) (user :bio) "")
-        image ""
-        password (-> user :password encrypt-password)
-        token (generate-token email)]
-    (jdbc/insert! db
-                  :users
-                  {:email email
-                   :username username
-                   :bio bio
-                   :image image
-                   :token token
-                   :password password})))
+(defn login [{:keys [email password]}]
+  (if-let [user (store/find-by-email email)]
+    (if (crypto/check password (:password user))
+      (let [new-token (generate-token email)
+            _         (store/update-token! email new-token)
+            new-user  (assoc user :token new-token)]
+        [true (user->visible-user new-user)])
+      [false {:errors {:password ["Invalid password."]}}])
+    [false {:errors {:email ["Invalid email."]}}]))
 
-(defn update-by-token [token user-map]
-  (let [prepared-user (reduce-kv prepare-user {} user-map)
-        db (database/db)]
-    (jdbc/update! db :users prepared-user ["token = ?" token])))
+(defn register! [{:keys [username email password]}]
+  (if-let [_ (store/find-by-email email)]
+    [false {:errors {:email ["A user exists with given email."]}}]
+    (if-let [_ (store/find-by-username username)]
+      [false {:errors {:username ["A user exists with given username."]}}]
+      (let [user-input {:email email
+                        :username username
+                        :password (encrypt-password password)
+                        :token    (generate-token email)}
+            _          (store/insert-user! user-input)]
+        (if-let [user (store/find-by-email email)]
+          [true (user->visible-user user)]
+          [false {:errors {:other ["Cannot insert user into db."]}}])))))
 
-(defn find-by-email-password [email password]
-  "Finds an user by it's email and password."
-  (let [results (jdbc/query (database/db)
-                            (sql/select * :users (sql/where {:email email})))
-        user (first results)]
-    (if (crypto/check password (user :password)) user nil)))
+(defn user-by-token [token]
+  (if-let [user (store/find-by-token token)]
+    [true user]
+    [false {:errors {:token ["Cannot find a user with associated token."]}}]))
 
-(defn find-by-token [token]
-  "Finds an user by it's token."
-  (let [results (jdbc/query (database/db)
-                            (sql/select * :users (sql/where {:token token})))
-        user (first results)]
-    user))
+(defn update-user! [auth-token {:keys [username email password image bio]}]
+  (if-let [user (store/find-by-token auth-token)]
+    (if-let [_ (store/find-by-email email)]
+      [false {:errors {:email ["A user exists with given email."]}}]
+      (if-let [_ (store/find-by-username username)]
+        [false {:errors {:username ["A user exists with given username."]}}]
+        (let [password-map (when password {:password (encrypt-password password)})
+              user-input (merge {:email email
+                                 :username username
+                                 :token (generate-token email)
+                                 :image image
+                                 :bio bio}
+                                password-map)
+              _          (store/update-user! (:id user) user-input)]
+          (if-let [updated-user (store/find-by-email email)]
+            [true (user->visible-user updated-user)]
+            [false {:errors {:other ["Cannot update user."]}}]))))
+    [false {:errors {:token ["Cannot find a user with associated token."]}}]))

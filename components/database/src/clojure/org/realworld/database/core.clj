@@ -7,7 +7,10 @@
     (env :database)
     "database.db"))
 
-(defn db []
-  {:classname "org.sqlite.JDBC"
-   :subprotocol "sqlite"
-   :subname (db-path)})
+(defn db
+  ([path]
+   {:classname "org.sqlite.JDBC"
+    :subprotocol "sqlite"
+    :subname path})
+  ([]
+   (db (db-path))))
