@@ -55,13 +55,28 @@
       (handler 422 {:errors {:body ["Invalid request body."]}}))))
 
 (defn profile [req]
-  (handler 200))
+  (let [auth-token (-> req :auth-token)
+        username (-> req :params :username)]
+    (if (s/valid? :core/username username)
+      (let [[ok? res] (profile/profile auth-token username)]
+        (handler (if ok? 200 404) res))
+      (handler 422 {:errors {:username ["Invalid username."]}}))))
 
 (defn follow-profile [req]
-  (handler 200))
+  (let [auth-token (-> req :auth-token)
+        username (-> req :params :username)]
+    (if (s/valid? :core/username username)
+      (let [[ok? res] (profile/follow! auth-token username)]
+        (handler (if ok? 200 404) res))
+      (handler 422 {:errors {:username ["Invalid username."]}}))))
 
 (defn unfollow-profile [req]
-  (handler 200))
+  (let [auth-token (-> req :auth-token)
+        username (-> req :params :username)]
+    (if (s/valid? :core/username username)
+      (let [[ok? res] (profile/unfollow! auth-token username)]
+        (handler (if ok? 200 404) res))
+      (handler 422 {:errors {:username ["Invalid username."]}}))))
 
 (defn articles [req]
   (handler 200))

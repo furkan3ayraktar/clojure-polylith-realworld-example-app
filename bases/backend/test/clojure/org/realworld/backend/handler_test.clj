@@ -1,6 +1,7 @@
 (ns clojure.org.realworld.backend.handler-test
   (:require [clojure.test :refer :all]
             [clojure.org.realworld.backend.handler :as handler]
+            [clojure.org.realworld.profile.interface :as profile]
             [clojure.org.realworld.user.interface :as user]
             [clojure.spec.alpha :as s]
             [clojure.spec.gen.alpha :as gen]))
@@ -9,7 +10,10 @@
   (with-redefs [user/login         (fn [_] [true {}])
                 user/register!     (fn [_] [true {}])
                 user/user-by-token (fn [_] [true {}])
-                user/update-user!  (fn [_ _] [true {}])]
+                user/update-user!  (fn [_ _] [true {}])
+                profile/profile    (fn [_ _] [true {}])
+                profile/follow!    (fn [_ _] [true {}])
+                profile/unfollow!  (fn [_ _] [true {}])]
 
     (f)))
 
@@ -58,4 +62,41 @@
             :body {}}
            res))))
 
+(deftest profile--invalid-input--return-422
+  (let [res (handler/profile {})]
+    (is (= {:status 422
+            :body {:errors {:username ["Invalid username."]}}}
+           res))))
+
+(deftest profile--valid-input--return-200
+  (let [res (handler/profile {:auth-token "token"
+                              :params {:username (gen/generate (s/gen :core/username))}})]
+    (is (= {:status 200
+            :body {}}
+           res))))
+
+(deftest follow--invalid-input--return-422
+  (let [res (handler/follow-profile {})]
+    (is (= {:status 422
+            :body {:errors {:username ["Invalid username."]}}}
+           res))))
+
+(deftest follow--valid-input--return-200
+  (let [res (handler/follow-profile {:auth-token "token"
+                                     :params {:username (gen/generate (s/gen :core/username))}})]
+    (is (= {:status 200
+            :body {}}
+           res))))
+
+(deftest unfollow--invalid-input--return-422
+  (let [res (handler/unfollow-profile {})]
+    (is (= {:status 422
+            :body {:errors {:username ["Invalid username."]}}}
+           res))))
+
+(deftest unfollow--valid-input--return-200
+  (let [res (handler/unfollow-profile {:auth-token "token"
+                                       :params {:username (gen/generate (s/gen :core/username))}})]
+    (is (= {:status 200
+            :body {}}
            res))))
