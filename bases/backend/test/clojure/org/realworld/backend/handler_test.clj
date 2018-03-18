@@ -24,7 +24,7 @@
 (deftest login--valid-input--return-200
   (let [res (handler/login {:params {:user (gen/generate (s/gen :core/login))}})]
     (is (= {:status 200
-            :body {:user {}}}
+            :body {}}
            res))))
 
 (deftest register--invalid-input--return-422
@@ -36,13 +36,13 @@
 (deftest register--valid-input--return-200
   (let [res (handler/register {:params {:user (gen/generate (s/gen :core/register))}})]
     (is (= {:status 200
-            :body {:user {}}}
+            :body {}}
            res))))
 
 (deftest current-user--valid-input--return-200
   (let [res (handler/current-user {:auth-token "token"})]
     (is (= {:status 200
-            :body {:user {}}}
+            :body {}}
            res))))
 
 (deftest update-user--invalid-input--return-422
@@ -55,5 +55,7 @@
   (let [res (handler/update-user {:auth-token "token"
                                   :params {:user (gen/generate (s/gen :core/update-user))}})]
     (is (= {:status 200
-            :body {:user {}}}
+            :body {}}
+           res))))
+
            res))))

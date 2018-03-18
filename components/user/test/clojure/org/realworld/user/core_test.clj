@@ -40,7 +40,7 @@
                                          :password (core/encrypt-password "password")})
         [ok? res] (core/login {:email "test@test.com" :password "password"})]
     (is (true? ok?))
-    (is (true? (s/valid? :core/user res)))))
+    (is (true? (s/valid? :core/visible-user res)))))
 
 (deftest register!--user-exists-with-given-email--return-negative-result
   (let [_ (jdbc/insert! (test-db) :user {:email "test@test.com"})
@@ -58,8 +58,8 @@
   (let [input  (gen/generate (s/gen :core/register))
         [ok? res] (core/register! input)]
     (is (true? ok?))
-    (is (s/valid? :core/user res))
-    (is (not (nil? (:token res))))))
+    (is (s/valid? :core/visible-user res))
+    (is (not (nil? (-> res :user :token))))))
 
 (deftest user-by-token--user-not-found--return-negative-result
   (let [[ok? res] (core/user-by-token "token")]
@@ -70,7 +70,7 @@
   (let [_ (jdbc/insert! (test-db) :user {:email "test@test.com" :token "token" :username "username"})
         [ok? res] (core/user-by-token "token")]
     (is (true? ok?))
-    (is (s/valid? :core/user res))))
+    (is (s/valid? :core/visible-user res))))
 
 (deftest update-user!--user-not-found-with-given-token--return-negative-result
   (let [[ok? res] (core/update-user! "token" {})]
@@ -78,8 +78,9 @@
     (is (= {:errors {:token ["Cannot find a user with associated token."]}} res))))
 
 (deftest update-user!--user-exists-with-given-email--return-negative-result
-  (let [_ (jdbc/insert! (test-db) :user {:email "test@test.com" :token "token"})
-        [ok? res] (core/update-user! "token" {:email "test@test.com"})]
+  (let [_ (jdbc/insert! (test-db) :user {:email "test1@test.com"})
+        _ (jdbc/insert! (test-db) :user {:email "test2@test.com" :token "token"})
+        [ok? res] (core/update-user! "token" {:email "test1@test.com"})]
     (is (false? ok?))
     (is (= {:errors {:email ["A user exists with given email."]}} res))))
 
@@ -91,10 +92,12 @@
 
 (deftest update-user!--valid-input--return-positive-result
   (let [initial-inputs (gen/sample (s/gen :core/register) 20)
-        users          (map #(second (core/register! %)) initial-inputs)
+        users          (map #(-> (core/register! %) second :user) initial-inputs)
         inputs         (gen/sample (s/gen :core/update-user) 20)
         results        (map-indexed #(core/update-user! (:token (nth users %1)) %2) inputs)]
     (is (every? true? (map first results)))
-    (is (every? #(s/valid? :core/user (second %)) results))
+    (is (every? #(s/valid? :core/visible-user (second %)) results))
     (is (= (map #(dissoc % :password) inputs)
-           (map-indexed #(select-keys (second %2) (keys (nth inputs %1))) results)))))
+           (map-indexed #(select-keys (-> %2 second :user)
+                                      (keys (nth inputs %1)))
+                        results)))))

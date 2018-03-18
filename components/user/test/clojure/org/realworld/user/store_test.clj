@@ -4,7 +4,6 @@
             [clojure.org.realworld.user.store :as store]
             [clojure.test :refer :all]))
 
-
 (defn test-db
   ([] {:classname   "org.sqlite.JDBC"
        :subprotocol "sqlite"

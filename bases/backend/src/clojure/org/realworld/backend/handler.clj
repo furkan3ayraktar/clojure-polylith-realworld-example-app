@@ -1,5 +1,6 @@
 (ns clojure.org.realworld.backend.handler
   (:require [clojure.org.realworld.article.interface :as article]
+            [clojure.org.realworld.common.spec]
             [clojure.org.realworld.profile.interface :as profile]
             [clojure.org.realworld.tags.interface :as tags]
             [clojure.org.realworld.user.interface :as user]
@@ -30,27 +31,27 @@
   (let [user (-> req :params :user)]
     (if (s/valid? :core/login user)
       (let [[ok? res] (user/login user)]
-        (handler (if ok? 200 404) {:user res}))
+        (handler (if ok? 200 404) res))
       (handler 422 {:errors {:body ["Invalid request body."]}}))))
 
 (defn register [req]
   (let [user (-> req :params :user)]
     (if (s/valid? :core/register user)
       (let [[ok? res] (user/register! user)]
-        (handler (if ok? 200 404) {:user res}))
+        (handler (if ok? 200 404) res))
       (handler 422 {:errors {:body ["Invalid request body."]}}))))
 
 (defn current-user [req]
   (let [auth-token (-> req :auth-token)
         [ok? res] (user/user-by-token auth-token)]
-    (handler (if ok? 200 404) {:user res})))
+    (handler (if ok? 200 404) res)))
 
 (defn update-user [req]
   (let [auth-token (-> req :auth-token)
         user (-> req :params :user)]
     (if (s/valid? :core/update-user user)
       (let [[ok? res] (user/update-user! auth-token user)]
-        (handler (if ok? 200 404) {:user res}))
+        (handler (if ok? 200 404) res))
       (handler 422 {:errors {:body ["Invalid request body."]}}))))
 
 (defn profile [req]

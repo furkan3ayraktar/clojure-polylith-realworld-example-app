@@ -67,6 +67,8 @@
                                    :user/bio
                                    :user/token]))
 
+(s/def :core/visible-user (s/keys :req-un [:core/user]))
+
 (s/def :profile/username :user/username)
 (s/def :profile/bio :user/bio)
 (s/def :profile/image :user/image)

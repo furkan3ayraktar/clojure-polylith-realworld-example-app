@@ -21,7 +21,7 @@
   (-> password crypto/encrypt str))
 
 (defn user->visible-user [user]
-  (dissoc user :password))
+  {:user (dissoc user :password)})
 
 (defn login [{:keys [email password]}]
   (if-let [user (store/find-by-email email)]
@@ -49,7 +49,7 @@
 
 (defn user-by-token [token]
   (if-let [user (store/find-by-token token)]
-    [true user]
+    [true (user->visible-user user)]
     [false {:errors {:token ["Cannot find a user with associated token."]}}]))
 
 (defn update-user! [auth-token {:keys [username email password image bio]}]
