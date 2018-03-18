@@ -24,7 +24,7 @@
   (handler 200))
 
 (defn other [_]
-  (handler 404 {:message "Route not found."}))
+  (handler 404 {:errors {:other ["Route not found."]}}))
 
 (defn login [req]
   (let [user (-> req :params :user)]
