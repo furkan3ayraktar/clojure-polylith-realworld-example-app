@@ -4,3 +4,4 @@ database.db
 .nrepl-port
 .lein-env
 test.db
+**/*.iml
