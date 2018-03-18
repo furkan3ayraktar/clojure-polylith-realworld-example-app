@@ -53,9 +53,9 @@
       mp/wrap-multipart-params
       js/wrap-json-params
       np/wrap-nested-params
+      m/wrap-exceptions
       js/wrap-json-response
-      m/wrap-cors
-      m/wrap-exceptions))
+      m/wrap-cors))
 
 (defn init []
   (try

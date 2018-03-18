@@ -20,7 +20,7 @@
         (let [message  (str "An unknown exception occurred.")]
           (log/error e message)
           {:status 500
-           :body   {:message message}})))))
+           :body   {:errors {:other [message]}}})))))
 
 (defn create-access-control-header [origin]
   (let [origins        (str/split (env :allowed-origins) #",")
