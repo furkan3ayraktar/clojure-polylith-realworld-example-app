@@ -1,16 +1,25 @@
 (ns clojure.org.realworld.backend.middleware
   (:require [clojure.string :as str]
+            [clojure.org.realworld.user.interface :as user]
             [environ.core :refer [env]]
             [taoensso.timbre :as log]))
 
-(defn wrap-auth-token [handler]
+(defn wrap-auth-user [handler]
   (fn [req]
     (let [authorization (get (:headers req) "authorization")
           token (when authorization (-> (str/split authorization #" ") last))]
-      (if (str/blank? token)
-        {:status 401
-         :body {:errors {:authorization "Authorization required."}}}
-        (handler (assoc req :auth-token token))))))
+      (if-not (str/blank? token)
+        (let [[ok? user] (user/user-by-token token)]
+          (if ok?
+            (handler (assoc req :auth-user user))
+            (handler req)))))))
+
+(defn wrap-authorization [handler]
+  (fn [req]
+    (if (:auth-user req)
+      (handler req)
+      {:status 401
+       :body {:errors {:authorization "Authorization required."}}})))
 
 (defn wrap-exceptions [handler]
   (fn [req]

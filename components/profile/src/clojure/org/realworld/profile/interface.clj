@@ -1,11 +1,11 @@
 (ns clojure.org.realworld.profile.interface
   (:require [clojure.org.realworld.profile.core :as core]))
 
-(defn profile [auth-token username]
-  (core/profile auth-token username))
+(defn profile [auth-user username]
+  (core/profile auth-user username))
 
-(defn follow! [auth-token username]
-  (core/follow! auth-token username))
+(defn follow! [auth-user username]
+  (core/follow! auth-user username))
 
-(defn unfollow! [auth-token username]
-  (core/unfollow! auth-token username))
+(defn unfollow! [auth-user username]
+  (core/unfollow! auth-user username))

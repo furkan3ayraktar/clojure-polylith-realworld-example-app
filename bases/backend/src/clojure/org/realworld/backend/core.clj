@@ -40,9 +40,11 @@
 
 (def ^:private app-routes
   (routes
-    public-routes
+    (-> public-routes
+        (wrap-routes m/wrap-auth-user))
     (-> private-routes
-        (wrap-routes m/wrap-auth-token))
+        (wrap-routes m/wrap-authorization)
+        (wrap-routes m/wrap-auth-user))
     other-routes))
 
 (def app

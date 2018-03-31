@@ -52,23 +52,21 @@
     [true (user->visible-user user)]
     [false {:errors {:token ["Cannot find a user with associated token."]}}]))
 
-(defn update-user! [auth-token {:keys [username email password image bio]}]
-  (if-let [user (store/find-by-token auth-token)]
-    (if (and (not= email (:email user))
-             (not (nil? (store/find-by-email email))))
-      [false {:errors {:email ["A user exists with given email."]}}]
-      (if (and (not= username (:username user))
-               (not (nil? (store/find-by-username username))))
-        [false {:errors {:username ["A user exists with given username."]}}]
-        (let [password-map (when password {:password (encrypt-password password)})
-              user-input (merge {:email email
-                                 :username username
-                                 :token (generate-token email)
-                                 :image image
-                                 :bio bio}
-                                password-map)
-              _          (store/update-user! (:id user) user-input)]
-          (if-let [updated-user (store/find-by-email email)]
-            [true (user->visible-user updated-user)]
-            [false {:errors {:other ["Cannot update user."]}}]))))
-    [false {:errors {:token ["Cannot find a user with associated token."]}}]))
+(defn update-user! [auth-user {:keys [username email password image bio]}]
+  (if (and (not= email (:email auth-user))
+           (not (nil? (store/find-by-email email))))
+    [false {:errors {:email ["A user exists with given email."]}}]
+    (if (and (not= username (:username auth-user))
+             (not (nil? (store/find-by-username username))))
+      [false {:errors {:username ["A user exists with given username."]}}]
+      (let [password-map (when password {:password (encrypt-password password)})
+            user-input (merge {:email email
+                               :username username
+                               :token (generate-token email)
+                               :image image
+                               :bio bio}
+                              password-map)
+            _          (store/update-user! (:id auth-user) user-input)]
+        (if-let [updated-user (store/find-by-email email)]
+          [true (user->visible-user updated-user)]
+          [false {:errors {:other ["Cannot update user."]}}])))))

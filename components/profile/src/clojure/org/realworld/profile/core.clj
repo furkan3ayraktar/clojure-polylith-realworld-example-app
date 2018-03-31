@@ -7,30 +7,25 @@
                   :following following?)]
     {:profile profile}))
 
-(defn profile [auth-token username]
-  (let [current-user (user/find-by-token auth-token)
-        user         (user/find-by-username username)]
+(defn profile [auth-user username]
+  (let [user (user/find-by-username username)]
     (if (nil? user)
       [false {:errors {:username ["Cannot find a profile with given username."]}}]
-      (let [following? (if (nil? current-user)
+      (let [following? (if (nil? auth-user)
                          false
-                         (store/following? (:id current-user) (:id user)))]
+                         (store/following? (:id auth-user) (:id user)))]
         [true (create-profile user following?)]))))
 
-(defn follow! [auth-token username]
-  (if-let [current-user (user/find-by-token auth-token)]
-    (if-let [user (user/find-by-username username)]
-      (do
-        (store/follow! (:id current-user) (:id user))
-        [true (create-profile user true)])
-      [false {:errors {:username ["Cannot find a profile with given username."]}}])
-    [false {:errors {:username ["Cannot find a user with associated token."]}}]))
+(defn follow! [auth-user username]
+  (if-let [user (user/find-by-username username)]
+    (do
+      (store/follow! (:id auth-user) (:id user))
+      [true (create-profile user true)])
+    [false {:errors {:username ["Cannot find a profile with given username."]}}]))
 
-(defn unfollow! [auth-token username]
-  (if-let [current-user (user/find-by-token auth-token)]
-    (if-let [user (user/find-by-username username)]
-      (do
-        (store/unfollow! (:id current-user) (:id user))
-        [true (create-profile user false)])
-      [false {:errors {:username ["Cannot find a profile with given username."]}}])
-    [false {:errors {:username ["Cannot find a user with associated token."]}}]))
+(defn unfollow! [auth-user username]
+  (if-let [user (user/find-by-username username)]
+    (do
+      (store/unfollow! (:id auth-user) (:id user))
+      [true (create-profile user false)])
+    [false {:errors {:username ["Cannot find a profile with given username."]}}]))

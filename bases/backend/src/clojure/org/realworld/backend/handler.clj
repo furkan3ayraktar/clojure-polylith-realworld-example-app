@@ -42,39 +42,38 @@
       (handler 422 {:errors {:body ["Invalid request body."]}}))))
 
 (defn current-user [req]
-  (let [auth-token (-> req :auth-token)
-        [ok? res] (user/user-by-token auth-token)]
-    (handler (if ok? 200 404) res)))
+  (let [auth-user (-> req :auth-user)]
+    (handler 200 {:user auth-user})))
 
 (defn update-user [req]
-  (let [auth-token (-> req :auth-token)
+  (let [auth-user (-> req :auth-user)
         user (-> req :params :user)]
     (if (s/valid? :core/update-user user)
-      (let [[ok? res] (user/update-user! auth-token user)]
+      (let [[ok? res] (user/update-user! auth-user user)]
         (handler (if ok? 200 404) res))
       (handler 422 {:errors {:body ["Invalid request body."]}}))))
 
 (defn profile [req]
-  (let [auth-token (-> req :auth-token)
+  (let [auth-user (-> req :auth-user)
         username (-> req :params :username)]
     (if (s/valid? :core/username username)
-      (let [[ok? res] (profile/profile auth-token username)]
+      (let [[ok? res] (profile/profile auth-user username)]
         (handler (if ok? 200 404) res))
       (handler 422 {:errors {:username ["Invalid username."]}}))))
 
 (defn follow-profile [req]
-  (let [auth-token (-> req :auth-token)
+  (let [auth-user (-> req :auth-user)
         username (-> req :params :username)]
     (if (s/valid? :core/username username)
-      (let [[ok? res] (profile/follow! auth-token username)]
+      (let [[ok? res] (profile/follow! auth-user username)]
         (handler (if ok? 200 404) res))
       (handler 422 {:errors {:username ["Invalid username."]}}))))
 
 (defn unfollow-profile [req]
-  (let [auth-token (-> req :auth-token)
+  (let [auth-user (-> req :auth-user)
         username (-> req :params :username)]
     (if (s/valid? :core/username username)
-      (let [[ok? res] (profile/unfollow! auth-token username)]
+      (let [[ok? res] (profile/unfollow! auth-user username)]
         (handler (if ok? 200 404) res))
       (handler 422 {:errors {:username ["Invalid username."]}}))))
 

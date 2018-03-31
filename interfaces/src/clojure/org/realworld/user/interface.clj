@@ -6,7 +6,7 @@
 
 (defn user-by-token [token])
 
-(defn update-user! [auth-token user-input])
+(defn update-user! [auth-user user-input])
 
 (defn find-by-token [token])
 

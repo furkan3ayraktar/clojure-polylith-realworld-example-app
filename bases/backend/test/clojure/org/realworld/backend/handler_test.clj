@@ -44,9 +44,10 @@
            res))))
 
 (deftest current-user--valid-input--return-200
-  (let [res (handler/current-user {:auth-token "token"})]
+  (let [auth-user (gen/generate (s/gen :core/user))
+        res (handler/current-user {:auth-user auth-user})]
     (is (= {:status 200
-            :body {}}
+            :body {:user auth-user}}
            res))))
 
 (deftest update-user--invalid-input--return-422
@@ -56,7 +57,7 @@
            res))))
 
 (deftest update-user--valid-input--return-200
-  (let [res (handler/update-user {:auth-token "token"
+  (let [res (handler/update-user {:auth-user (gen/generate (s/gen :core/user))
                                   :params {:user (gen/generate (s/gen :core/update-user))}})]
     (is (= {:status 200
             :body {}}
@@ -69,7 +70,7 @@
            res))))
 
 (deftest profile--valid-input--return-200
-  (let [res (handler/profile {:auth-token "token"
+  (let [res (handler/profile {:auth-user (gen/generate (s/gen :core/user))
                               :params {:username (gen/generate (s/gen :core/username))}})]
     (is (= {:status 200
             :body {}}
@@ -82,7 +83,7 @@
            res))))
 
 (deftest follow--valid-input--return-200
-  (let [res (handler/follow-profile {:auth-token "token"
+  (let [res (handler/follow-profile {:auth-user (gen/generate (s/gen :core/user))
                                      :params {:username (gen/generate (s/gen :core/username))}})]
     (is (= {:status 200
             :body {}}
@@ -95,7 +96,7 @@
            res))))
 
 (deftest unfollow--valid-input--return-200
-  (let [res (handler/unfollow-profile {:auth-token "token"
+  (let [res (handler/unfollow-profile {:auth-user (gen/generate (s/gen :core/user))
                                        :params {:username (gen/generate (s/gen :core/username))}})]
     (is (= {:status 200
             :body {}}

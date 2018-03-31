@@ -11,11 +11,8 @@
 (defn user-by-token [token]
   (core/user-by-token token))
 
-(defn update-user! [auth-token user-input]
-  (core/update-user! auth-token user-input))
-
-(defn find-by-token [token]
-  (store/find-by-token token))
+(defn update-user! [auth-user user-input]
+  (core/update-user! auth-user user-input))
 
 (defn find-by-username [username]
   (store/find-by-username username))

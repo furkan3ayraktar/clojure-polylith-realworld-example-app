@@ -2,8 +2,10 @@
   (:require [clojure.java.jdbc :as jdbc]
             [clojure.org.realworld.common.interface]
             [clojure.org.realworld.database.interface :as database]
-            [clojure.test :refer :all]
-            [clojure.org.realworld.profile.core :as core]))
+            [clojure.org.realworld.profile.core :as core]
+            [clojure.spec.gen.alpha :as gen]
+            [clojure.spec.alpha :as s]
+            [clojure.test :refer :all]))
 
 (defn- test-db
   ([] {:classname   "org.sqlite.JDBC"
@@ -11,17 +13,21 @@
        :subname     "test.db"})
   ([_] (test-db)))
 
+(def ^:private auth-user
+  (assoc (gen/generate (s/gen :core/user)) :id 1))
+
 (defn prepare-for-tests [f]
   (with-redefs [database/db test-db]
     (let [db (test-db)]
       (database/generate-db db)
+      (jdbc/insert! db :user auth-user)
       (f)
       (database/drop-db db))))
 
 (use-fixtures :each prepare-for-tests)
 
 (deftest profile--profile-not-found--return-negative-result
-  (let [[ok? res] (core/profile "token" "username")]
+  (let [[ok? res] (core/profile auth-user "username")]
     (is (false? ok?))
     (is (= {:errors {:username ["Cannot find a profile with given username."]}} res))))
 
@@ -29,7 +35,7 @@
   (let [_ (jdbc/insert! (database/db) :user {:username "username"
                                              :bio      "bio"
                                              :image    "image"})
-        [ok? res] (core/profile "token" "username")]
+        [ok? res] (core/profile nil "username")]
     (is (true? ok?))
     (is (= {:profile {:username "username"
                       :bio "bio"
@@ -41,8 +47,7 @@
   (let [_ (jdbc/insert! (database/db) :user {:username "username"
                                              :bio      "bio"
                                              :image    "image"})
-        _ (jdbc/insert! (database/db) :user {:token "token"})
-        [ok? res] (core/profile "token" "username")]
+        [ok? res] (core/profile auth-user "username")]
     (is (true? ok?))
     (is (= {:profile {:username "username"
                       :bio "bio"
@@ -54,9 +59,8 @@
   (let [_ (jdbc/insert! (database/db) :user {:username "username"
                                              :bio      "bio"
                                              :image    "image"})
-        _ (jdbc/insert! (database/db) :user {:token "token"})
-        _ (jdbc/insert! (database/db) :userFollows {:userId 2 :followedUserId 1})
-        [ok? res] (core/profile "token" "username")]
+        _ (jdbc/insert! (database/db) :userFollows {:userId 1 :followedUserId 2})
+        [ok? res] (core/profile auth-user "username")]
     (is (true? ok?))
     (is (= {:profile {:username "username"
                       :bio "bio"
@@ -64,23 +68,16 @@
                       :following true}}
            res))))
 
-(deftest follow!--not-logged-in--return-negative-result
-  (let [[ok? res] (core/follow! "token" "username")]
-    (is (false? ok?))
-    (is (= {:errors {:username ["Cannot find a user with associated token."]}} res))))
-
 (deftest follow!--profile-not-found--return-negative-result
-  (let [_ (jdbc/insert! (database/db) :user {:token "token"})
-        [ok? res] (core/follow! "token" "username")]
+  (let [[ok? res] (core/follow! auth-user "username")]
     (is (false? ok?))
     (is (= {:errors {:username ["Cannot find a profile with given username."]}} res))))
 
-(deftest follow!--logged-in-and-profile-found--return-positive-result
+(deftest follow!--profile-found--return-positive-result
   (let [_ (jdbc/insert! (database/db) :user {:username "username"
                                              :bio      "bio"
                                              :image    "image"})
-        _ (jdbc/insert! (database/db) :user {:token "token"})
-        [ok? res] (core/follow! "token" "username")]
+        [ok? res] (core/follow! auth-user "username")]
     (is (true? ok?))
     (is (= {:profile {:username "username"
                       :bio "bio"
@@ -88,14 +85,8 @@
                       :following true}}
            res))))
 
-(deftest unfollow!--not-logged-in--return-negative-result
-  (let [[ok? res] (core/unfollow! "token" "username")]
-    (is (false? ok?))
-    (is (= {:errors {:username ["Cannot find a user with associated token."]}} res))))
-
 (deftest unfollow!--profile-not-found--return-negative-result
-  (let [_ (jdbc/insert! (database/db) :user {:token "token"})
-        [ok? res] (core/unfollow! "token" "username")]
+  (let [[ok? res] (core/unfollow! auth-user "username")]
     (is (false? ok?))
     (is (= {:errors {:username ["Cannot find a profile with given username."]}} res))))
 
@@ -103,9 +94,8 @@
   (let [_ (jdbc/insert! (database/db) :user {:username "username"
                                              :bio      "bio"
                                              :image    "image"})
-        _ (jdbc/insert! (database/db) :user {:token "token"})
-        _ (jdbc/insert! (database/db) :userFollows {:userId 2 :followedUserId 1})
-        [ok? res] (core/unfollow! "token" "username")]
+        _ (jdbc/insert! (database/db) :userFollows {:userId 1 :followedUserId 2})
+        [ok? res] (core/unfollow! auth-user "username")]
     (is (true? ok?))
     (is (= {:profile {:username "username"
                       :bio "bio"
