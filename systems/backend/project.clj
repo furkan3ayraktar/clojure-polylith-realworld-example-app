@@ -14,7 +14,7 @@
                  [java-jdbc/dsl "0.1.3"]
                  [org.clojure/clojure "1.9.0"]
                  [org.clojure/data.json "0.2.6"]
-                 [org.clojure/java.jdbc "0.3.7"]
+                 [org.clojure/java.jdbc "0.7.5"]
                  [org.clojure/test.check "0.9.0"]
                  [org.xerial/sqlite-jdbc "3.7.2"]
                  [ring/ring-jetty-adapter "1.6.3"]

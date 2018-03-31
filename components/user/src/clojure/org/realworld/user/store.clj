@@ -1,6 +1,7 @@
 (ns clojure.org.realworld.user.store
   (:require [clojure.java.jdbc :as jdbc]
             [clojure.org.realworld.database.interface :as database]
+            [clojure.spec.alpha :as s]
             [java-jdbc.sql :as sql]))
 
 (defn find-by [key value]
@@ -13,6 +14,14 @@
 
 (defn find-by-username [username]
   (find-by :username username))
+
+(defn find-by-id [id]
+  (find-by :id id))
+
+(defn find-by-username-or-id [username-or-id]
+  (if (s/valid? :user/id username-or-id)
+    (find-by-id username-or-id)
+    (find-by-username username-or-id)))
 
 (defn find-by-token [token]
   (find-by :token token))

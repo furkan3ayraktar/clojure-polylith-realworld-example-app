@@ -84,11 +84,11 @@
 (s/def :article/title :core/non-empty-string)
 (s/def :article/description :core/non-empty-string)
 (s/def :article/body :core/non-empty-string)
-(s/def :article/createdAt pos-int?)
-(s/def :article/updatedAt pos-int?)
+(s/def :article/createdAt string?)
+(s/def :article/updatedAt string?)
 (s/def :article/tagList (s/coll-of :core/non-empty-string :kind vector?))
 (s/def :article/favorited boolean?)
-(s/def :article/favoritesCount pos-int?)
+(s/def :article/favoritesCount nat-int?)
 (s/def :article/author :core/profile)
 
 (s/def :core/create-article (s/keys :req-un [:article/title
@@ -111,9 +111,11 @@
                                       :article/author]
                              :opt-un [:article/tagList]))
 
+(s/def :core/visible-article (s/keys :req-un [:core/article]))
+
 (s/def :comment/id pos-int?)
-(s/def :comment/createdAt pos-int?)
-(s/def :comment/updatedAt pos-int?)
+(s/def :comment/createdAt string?)
+(s/def :comment/updatedAt string?)
 (s/def :comment/body :core/non-empty-string)
 (s/def :comment/author :core/profile)
 

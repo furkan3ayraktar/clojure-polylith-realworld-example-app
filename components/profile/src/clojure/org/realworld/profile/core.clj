@@ -7,8 +7,8 @@
                   :following following?)]
     {:profile profile}))
 
-(defn profile [auth-user username]
-  (let [user (user/find-by-username username)]
+(defn profile [auth-user username-or-id]
+  (let [user (user/find-by-username-or-id username-or-id)]
     (if (nil? user)
       [false {:errors {:username ["Cannot find a profile with given username."]}}]
       (let [following? (if (nil? auth-user)
@@ -17,14 +17,14 @@
         [true (create-profile user following?)]))))
 
 (defn follow! [auth-user username]
-  (if-let [user (user/find-by-username username)]
+  (if-let [user (user/find-by-username-or-id username)]
     (do
       (store/follow! (:id auth-user) (:id user))
       [true (create-profile user true)])
     [false {:errors {:username ["Cannot find a profile with given username."]}}]))
 
 (defn unfollow! [auth-user username]
-  (if-let [user (user/find-by-username username)]
+  (if-let [user (user/find-by-username-or-id username)]
     (do
       (store/unfollow! (:id auth-user) (:id user))
       [true (create-profile user false)])

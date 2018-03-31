@@ -14,5 +14,5 @@
 (defn update-user! [auth-user user-input]
   (core/update-user! auth-user user-input))
 
-(defn find-by-username [username]
-  (store/find-by-username username))
+(defn find-by-username-or-id [username-or-id]
+  (store/find-by-username-or-id username-or-id))

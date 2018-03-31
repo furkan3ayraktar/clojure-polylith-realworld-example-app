@@ -81,7 +81,12 @@
   (handler 200))
 
 (defn article [req]
-  (handler 200))
+  (let [auth-user (-> req :auth-user)
+        slug (-> req :params :slug)]
+    (if (s/valid? :core/slug slug)
+      (let [[ok? res] (article/article auth-user slug)]
+        (handler (if ok? 200 404) res))
+      (handler 422 {:errors {:slug ["Invalid slug."]}}))))
 
 (defn comments [req]
   (handler 200))
@@ -93,13 +98,30 @@
   (handler 200))
 
 (defn create-article [req]
-  (handler 200))
+  (let [auth-user (-> req :auth-user)
+        article (-> req :params :article)]
+    (if (s/valid? :core/create-article article)
+      (let [[ok? res] (article/create-article! auth-user article)]
+        (handler (if ok? 200 404) res))
+      (handler 422 {:errors {:body ["Invalid request body."]}}))))
 
 (defn update-article [req]
-  (handler 200))
+  (let [auth-user (-> req :auth-user)
+        slug (-> req :params :slug)
+        article (-> req :params :article)]
+    (if (and (s/valid? :core/update-article article)
+             (s/valid? :core/slug slug))
+      (let [[ok? res] (article/update-article! auth-user slug article)]
+        (handler (if ok? 200 404) res))
+      (handler 422 {:errors {:body ["Invalid request body."]}}))))
 
 (defn delete-article [req]
-  (handler 200))
+  (let [auth-user (-> req :auth-user)
+        slug (-> req :params :slug)]
+    (if (s/valid? :core/slug slug)
+      (let [[ok? res] (article/delete-article! auth-user slug)]
+        (handler (if ok? 200 404) res))
+      (handler 422 {:errors {:slug ["Invalid slug."]}}))))
 
 (defn add-comment [req]
   (handler 200))

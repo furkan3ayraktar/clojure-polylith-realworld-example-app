@@ -7,13 +7,14 @@
   (try
     (db-do-commands db
                     (create-table-ddl :user
-                                      [:id :integer :primary :key :autoincrement]
-                                      [:email :text :unique]
-                                      [:username :text :unique]
-                                      [:password :text]
-                                      [:image :text]
-                                      [:bio :text]
-                                      [:token :text :unique]))
+                                      [[:id :integer :primary :key :autoincrement]
+                                       [:email :text :unique]
+                                       [:username :text :unique]
+                                       [:password :text]
+                                       [:image :text]
+                                       [:bio :text]
+                                       [:token :text :unique]]
+                                      {:entities identity}))
     (catch Exception e
       (log/error e "An error occurred creating user table."))))
 
@@ -21,8 +22,9 @@
   (try
     (db-do-commands db
                     (create-table-ddl :userFollows
-                                      [:userId :integer "references user(id)"]
-                                      [:followedUserId :integer "references user(id)"]))
+                                      [[:userId :integer "references user(id)"]
+                                       [:followedUserId :integer "references user(id)"]]
+                                      {:entities identity}))
     (catch Exception e
       (log/error e "An error occurred creating user-follows table."))))
 
@@ -30,14 +32,15 @@
   (try
     (db-do-commands db
                     (create-table-ddl :article
-                                      [:id :integer :primary :key :autoincrement]
-                                      [:slug :text :unique]
-                                      [:title :text]
-                                      [:description :text]
-                                      [:body :text]
-                                      [:createdAt :datetime]
-                                      [:updatedAt :datetime]
-                                      [:userId :integer "references user(id)"]))
+                                      [[:id :integer :primary :key :autoincrement]
+                                       [:slug :text :unique]
+                                       [:title :text]
+                                       [:description :text]
+                                       [:body :text]
+                                       [:createdAt :datetime]
+                                       [:updatedAt :datetime]
+                                       [:userId :integer "references user(id)"]]
+                                      {:entities identity}))
     (catch Exception e
       (log/error e "An error occurred creating article table."))))
 
@@ -45,8 +48,9 @@
   (try
     (db-do-commands db
                     (create-table-ddl :tag
-                                      [:id :integer :primary :key :autoincrement]
-                                      [:name :text :unique]))
+                                      [[:id :integer :primary :key :autoincrement]
+                                       [:name :text :unique]]
+                                      {:entities identity}))
     (catch Exception e
       (log/error e "An error occurred creating tag table."))))
 
@@ -54,8 +58,9 @@
   (try
     (db-do-commands db
                     (create-table-ddl :articleTags
-                                      [:articleId :integer "references article(id)"]
-                                      [:tagId :integer "references tag(id)"]))
+                                      [[:articleId :integer "references article(id)"]
+                                       [:tagId :integer "references tag(id)"]]
+                                      {:entities identity}))
     (catch Exception e
       (log/error e "An error occurred creating article-tags table."))))
 
@@ -63,8 +68,9 @@
   (try
     (db-do-commands db
                     (create-table-ddl :favoriteArticles
-                                      [:articleId :integer "references article(id)"]
-                                      [:userId :integer "references user(id)"]))
+                                      [[:articleId :integer "references article(id)"]
+                                       [:userId :integer "references user(id)"]]
+                                      {:entities identity}))
     (catch Exception e
       (log/error e "An error occurred creating favorite-articles table."))))
 
@@ -72,11 +78,12 @@
   (try
     (db-do-commands db
                     (create-table-ddl :comment
-                                      [:id :integer :primary :key :autoincrement]
-                                      [:body :text]
-                                      [:articleId :integer "references article(id)"]
-                                      [:userId :integer "references user(id)"]
-                                      [:createdAt :datetime]))
+                                      [[:id :integer :primary :key :autoincrement]
+                                       [:body :text]
+                                       [:articleId :integer "references article(id)"]
+                                       [:userId :integer "references user(id)"]
+                                       [:createdAt :datetime]]
+                                      {:entities identity}))
     (catch Exception e
       (log/error e "An error occurred creating comment table."))))
 
@@ -91,10 +98,10 @@
 
 (defn drop-db [db]
   (db-do-commands db
-                  (drop-table-ddl :user)
-                  (drop-table-ddl :userFollows)
-                  (drop-table-ddl :article)
-                  (drop-table-ddl :tag)
-                  (drop-table-ddl :articleTags)
-                  (drop-table-ddl :favoriteArticles)
-                  (drop-table-ddl :comment)))
+                  [(drop-table-ddl :user)
+                   (drop-table-ddl :userFollows)
+                   (drop-table-ddl :article)
+                   (drop-table-ddl :tag)
+                   (drop-table-ddl :articleTags)
+                   (drop-table-ddl :favoriteArticles)
+                   (drop-table-ddl :comment)]))

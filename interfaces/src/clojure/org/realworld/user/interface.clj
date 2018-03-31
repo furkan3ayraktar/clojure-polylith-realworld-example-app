@@ -10,4 +10,4 @@
 
 (defn find-by-token [token])
 
-(defn find-by-username [username])
+(defn find-by-username-or-id [username-or-id])
