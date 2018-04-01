@@ -7,3 +7,7 @@
 (defn update-article! [auth-user slug article-input])
 
 (defn delete-article! [auth-user slug])
+
+(defn favorite-article! [auth-user slug])
+
+(defn unfavorite-article! [auth-user slug])
