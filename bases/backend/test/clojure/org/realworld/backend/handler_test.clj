@@ -8,17 +8,19 @@
             [clojure.spec.gen.alpha :as gen]))
 
 (defn prepare-for-tests [f]
-  (with-redefs [user/login              (fn [_] [true {}])
-                user/register!          (fn [_] [true {}])
-                user/user-by-token      (fn [_] [true {}])
-                user/update-user!       (fn [_ _] [true {}])
-                profile/profile         (fn [_ _] [true {}])
-                profile/follow!         (fn [_ _] [true {}])
-                profile/unfollow!       (fn [_ _] [true {}])
-                article/article         (fn [_ _] [true {}])
-                article/create-article! (fn [_ _] [true {}])
-                article/update-article! (fn [_ _ _] [true {}])
-                article/delete-article! (fn [_ _] [true {}])]
+  (with-redefs [user/login                  (fn [_] [true {}])
+                user/register!              (fn [_] [true {}])
+                user/user-by-token          (fn [_] [true {}])
+                user/update-user!           (fn [_ _] [true {}])
+                profile/profile             (fn [_ _] [true {}])
+                profile/follow!             (fn [_ _] [true {}])
+                profile/unfollow!           (fn [_ _] [true {}])
+                article/article             (fn [_ _] [true {}])
+                article/create-article!     (fn [_ _] [true {}])
+                article/update-article!     (fn [_ _ _] [true {}])
+                article/delete-article!     (fn [_ _] [true {}])
+                article/favorite-article!   (fn [_ _] [true {}])
+                article/unfavorite-article! (fn [_ _] [true {}])]
     (f)))
 
 (use-fixtures :each prepare-for-tests)
@@ -113,7 +115,7 @@
            res))))
 
 (deftest article--valid-input--return-200
-  (let [res (handler/article {:params    {:slug "this-is-slug"}})]
+  (let [res (handler/article {:params {:slug "this-is-slug"}})]
     (is (= {:status 200
             :body   {}}
            res))))
@@ -145,7 +147,7 @@
 
 (deftest update-article--valid-input--return-200
   (let [res (handler/update-article {:auth-user (gen/generate (s/gen :core/user))
-                                     :params    {:slug "this-is-slug"
+                                     :params    {:slug    "this-is-slug"
                                                  :article (gen/generate (s/gen :core/update-article))}})]
     (is (= {:status 200
             :body   {}}
@@ -160,6 +162,32 @@
 (deftest delete-article--valid-input--return-200
   (let [res (handler/delete-article {:auth-user (gen/generate (s/gen :core/user))
                                      :params    {:slug "this-is-slug"}})]
+    (is (= {:status 200
+            :body   {}}
+           res))))
+
+(deftest favorite-article--invalid-input--return-422
+  (let [res (handler/favorite-article {})]
+    (is (= {:status 422
+            :body   {:errors {:slug ["Invalid slug."]}}}
+           res))))
+
+(deftest favorite-article--valid-input--return-200
+  (let [res (handler/favorite-article {:auth-user (gen/generate (s/gen :core/user))
+                                       :params    {:slug "this-is-slug"}})]
+    (is (= {:status 200
+            :body   {}}
+           res))))
+
+(deftest unfavorite-article--invalid-input--return-422
+  (let [res (handler/unfavorite-article {})]
+    (is (= {:status 422
+            :body   {:errors {:slug ["Invalid slug."]}}}
+           res))))
+
+(deftest unfavorite-article--valid-input--return-200
+  (let [res (handler/unfavorite-article {:auth-user (gen/generate (s/gen :core/user))
+                                         :params    {:slug "this-is-slug"}})]
     (is (= {:status 200
             :body   {}}
            res))))

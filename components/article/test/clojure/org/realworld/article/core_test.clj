@@ -101,3 +101,36 @@
         create-res (map #(core/create-article! auth-user %) initial-inputs)
         update-res (map #(core/delete-article! auth-user (-> % second :article :slug)) create-res)]
     (is (every? #(= [true nil] %) update-res))))
+
+(deftest favorite-article!--profile-not-found--return-negative-result
+  (let [auth-user (assoc (gen/generate (s/gen :core/user)) :id 1)
+        _ (jdbc/insert! (test-db) :user auth-user)
+        [ok? res] (core/favorite-article! auth-user "slug")]
+    (is (false? ok?))
+    (is (= {:errors {:slug ["Cannot find an article with given slug."]}} res))))
+
+(deftest favorite-article!--profile-found--return-positive-result
+  (let [auth-user (assoc (gen/generate (s/gen :core/user)) :id 1)
+        _ (jdbc/insert! (test-db) :user auth-user)
+        [_ article] (core/create-article! auth-user (gen/generate (s/gen :core/create-article)))
+        [ok? res] (core/favorite-article! auth-user (-> article :article :slug))]
+    (is (true? ok?))
+    (is (= 1 (-> res :article :favoritesCount)))
+    (is (true? (-> res :article :favorited)))))
+
+(deftest unfavorite-article!--profile-not-found--return-negative-result
+  (let [auth-user (assoc (gen/generate (s/gen :core/user)) :id 1)
+        _ (jdbc/insert! (test-db) :user auth-user)
+        [ok? res] (core/unfavorite-article! auth-user "slug")]
+    (is (false? ok?))
+    (is (= {:errors {:slug ["Cannot find an article with given slug."]}} res))))
+
+(deftest unfavorite-article!--logged-in-and-profile-found--return-positive-result
+  (let [auth-user (assoc (gen/generate (s/gen :core/user)) :id 1)
+        _ (jdbc/insert! (test-db) :user auth-user)
+        [_ article] (core/create-article! auth-user (gen/generate (s/gen :core/create-article)))
+        _ (core/favorite-article! auth-user (-> article :article :slug))
+        [ok? res] (core/unfavorite-article! auth-user (-> article :article :slug))]
+    (is (true? ok?))
+    (is (= 0 (-> res :article :favoritesCount)))
+    (is (false? (-> res :article :favorited)))))

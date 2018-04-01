@@ -73,3 +73,17 @@
       [true (store/delete-article! (:id article))]
       [false {:errors {:authorization ["You need to be author of this article to delete it."]}}])
     [false {:errors {:slug ["Cannot find an article with given slug."]}}]))
+
+(defn favorite-article! [auth-user slug]
+  (if-let [article (store/find-by-slug slug)]
+    (do
+      (store/favorite! (:id auth-user) (:id article))
+      [true (article->visible-article article auth-user)])
+    [false {:errors {:slug ["Cannot find an article with given slug."]}}]))
+
+(defn unfavorite-article! [auth-user slug]
+  (if-let [article (store/find-by-slug slug)]
+    (do
+      (store/unfavorite! (:id auth-user) (:id article))
+      [true (article->visible-article article auth-user)])
+    [false {:errors {:slug ["Cannot find an article with given slug."]}}]))

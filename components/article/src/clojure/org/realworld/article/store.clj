@@ -67,3 +67,13 @@
   (jdbc/delete! (database/db) :favoriteArticles (sql/where {:articleId id}))
   (jdbc/delete! (database/db) :article (sql/where {:id id}))
   nil)
+
+(defn favorite! [user-id article-id]
+  (when-not (favorited? user-id article-id)
+    (jdbc/insert! (database/db) :favoriteArticles {:articleId article-id
+                                                   :userId user-id})))
+
+(defn unfavorite! [user-id article-id]
+  (when (favorited? user-id article-id)
+    (jdbc/delete! (database/db) :favoriteArticles (sql/where {:articleId article-id
+                                                              :userId user-id}))))

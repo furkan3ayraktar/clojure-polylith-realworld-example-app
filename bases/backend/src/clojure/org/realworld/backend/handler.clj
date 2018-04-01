@@ -130,7 +130,17 @@
   (handler 200))
 
 (defn favorite-article [req]
-  (handler 200))
+  (let [auth-user (-> req :auth-user)
+        slug (-> req :params :slug)]
+    (if (s/valid? :core/slug slug)
+      (let [[ok? res] (article/favorite-article! auth-user slug)]
+        (handler (if ok? 200 404) res))
+      (handler 422 {:errors {:slug ["Invalid slug."]}}))))
 
 (defn unfavorite-article [req]
-  (handler 200))
+  (let [auth-user (-> req :auth-user)
+        slug (-> req :params :slug)]
+    (if (s/valid? :core/slug slug)
+      (let [[ok? res] (article/unfavorite-article! auth-user slug)]
+        (handler (if ok? 200 404) res))
+      (handler 422 {:errors {:slug ["Invalid slug."]}}))))

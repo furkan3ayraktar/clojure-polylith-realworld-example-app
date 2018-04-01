@@ -12,3 +12,9 @@
 
 (defn delete-article! [auth-user slug]
   (core/delete-article! auth-user slug))
+
+(defn favorite-article! [auth-user slug]
+  (core/favorite-article! auth-user slug))
+
+(defn unfavorite-article! [auth-user slug]
+  (core/unfavorite-article! auth-user slug))

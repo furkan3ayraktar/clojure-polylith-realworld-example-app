@@ -178,3 +178,33 @@
     (is (nil? article-after))
     (is (= 0 favorites-count-after))
     (is (= [] tags-after))))
+
+(deftest favorite!--currently-not-favorited--insert-user-favorite
+  (let [before-favorited? (store/favorited? 1 2)
+        _ (store/favorite! 1 2)
+        after-favorited? (store/favorited? 1 2)]
+    (is (false? before-favorited?))
+    (is (true? after-favorited?))))
+
+(deftest favorite!--currently-favorited--do-nothing
+  (let [_ (store/favorite! 1 2)
+        before-favorited? (store/favorited? 1 2)
+        _ (store/favorite! 1 2)
+        after-favorited? (store/favorited? 1 2)]
+    (is (true? before-favorited?))
+    (is (true? after-favorited?))))
+
+(deftest unfavorite!--currently-favorited--delete-user-favorite
+  (let [_ (store/favorite! 1 2)
+        before-favorited? (store/favorited? 1 2)
+        _ (store/unfavorite! 1 2)
+        after-favorited? (store/favorited? 1 2)]
+    (is (true? before-favorited?))
+    (is (false? after-favorited?))))
+
+(deftest unfavorite!--currently-not-favorited--do-nothing
+  (let [before-favorited? (store/favorited? 1 2)
+        _ (store/unfavorite! 1 2)
+        after-favorited? (store/favorited? 1 2)]
+    (is (false? before-favorited?))
+    (is (false? after-favorited?))))
