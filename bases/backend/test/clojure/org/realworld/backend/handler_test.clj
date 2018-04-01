@@ -2,6 +2,7 @@
   (:require [clojure.test :refer :all]
             [clojure.org.realworld.article.interface :as article]
             [clojure.org.realworld.backend.handler :as handler]
+            [clojure.org.realworld.comments.interface :as comments]
             [clojure.org.realworld.profile.interface :as profile]
             [clojure.org.realworld.tags.interface :as tags]
             [clojure.org.realworld.user.interface :as user]
@@ -22,7 +23,10 @@
                 article/delete-article!     (fn [_ _] [true {}])
                 article/favorite-article!   (fn [_ _] [true {}])
                 article/unfavorite-article! (fn [_ _] [true {}])
-                tags/all-tags               (fn [] [true {:tags []}])]
+                tags/all-tags               (fn [] [true {:tags []}])
+                comments/article-comments   (fn [_ _] [true {:comments []}])
+                comments/add-comment!       (fn [_ _ _] [true {}])
+                comments/delete-comment!    (fn [_ _] [true {}])]
     (f)))
 
 (use-fixtures :each prepare-for-tests)
@@ -198,4 +202,65 @@
   (let [res (handler/tags {})]
     (is (= {:status 200
             :body {:tags []}}
+           res))))
+
+(deftest comments--invalid-input--return-422
+  (let [res (handler/comments {})]
+    (is (= {:status 422
+            :body   {:errors {:slug ["Invalid slug."]}}}
+           res))))
+
+(deftest comments--valid-input--return-200
+  (let [res (handler/comments {:auth-user (gen/generate (s/gen :core/user))
+                               :params    {:slug "this-is-slug"}})]
+    (is (= {:status 200
+            :body   {:comments []}}
+           res))))
+
+(deftest delete-comment--invalid-id-string--return-422
+  (let [res (handler/delete-comment {:id "asd"})]
+    (is (= {:status 422
+            :body   {:errors {:id ["Invalid comment id."]}}}
+           res))))
+
+(deftest delete-comment--nil-id-string--return-422
+  (let [res (handler/delete-comment {})]
+    (is (= {:status 422
+            :body   {:errors {:id ["Invalid comment id."]}}}
+           res))))
+
+(deftest delete-comment--valid-string-input--return-200
+  (let [res (handler/delete-comment {:auth-user (gen/generate (s/gen :core/user))
+                                     :params    {:id "1"}})]
+    (is (= {:status 200
+            :body   {}}
+           res))))
+
+(deftest delete-comment--valid-int-input--return-200
+  (let [res (handler/delete-comment {:auth-user (gen/generate (s/gen :core/user))
+                                     :params    {:id 1}})]
+    (is (= {:status 200
+            :body   {}}
+           res))))
+
+(deftest add-comment--invalid-slug--return-422
+  (let [res (handler/add-comment {:auth-user (gen/generate (s/gen :core/user))
+                                  :params {:comment (gen/generate (s/gen :core/add-comment))}})]
+    (is (= {:status 422
+            :body   {:errors {:body ["Invalid request body."]}}}
+           res))))
+
+(deftest add-comment--invalid-comment--return-422
+  (let [res (handler/add-comment {:auth-user (gen/generate (s/gen :core/user))
+                                  :params {:slug "this-is-slug"}})]
+    (is (= {:status 422
+            :body   {:errors {:body ["Invalid request body."]}}}
+           res))))
+
+(deftest add-comment--valid-input--return-200
+  (let [res (handler/add-comment {:auth-user (gen/generate (s/gen :core/user))
+                                  :params    {:slug "this-is-slug"
+                                              :comment (gen/generate (s/gen :core/add-comment))}})]
+    (is (= {:status 200
+            :body   {}}
            res))))

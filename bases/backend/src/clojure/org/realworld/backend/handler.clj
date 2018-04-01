@@ -1,5 +1,6 @@
 (ns clojure.org.realworld.backend.handler
   (:require [clojure.org.realworld.article.interface :as article]
+            [clojure.org.realworld.comments.interface :as comments]
             [clojure.org.realworld.common.interface]
             [clojure.org.realworld.profile.interface :as profile]
             [clojure.org.realworld.tags.interface :as tags]
@@ -89,7 +90,12 @@
       (handler 422 {:errors {:slug ["Invalid slug."]}}))))
 
 (defn comments [req]
-  (handler 200))
+  (let [auth-user (-> req :auth-user)
+        slug (-> req :params :slug)]
+    (if (s/valid? :core/slug slug)
+      (let [[ok? res] (comments/article-comments auth-user slug)]
+        (handler (if ok? 200 404) res))
+      (handler 422 {:errors {:slug ["Invalid slug."]}}))))
 
 (defn tags [_]
   (let [[ok? res] (tags/all-tags)]
@@ -125,10 +131,22 @@
       (handler 422 {:errors {:slug ["Invalid slug."]}}))))
 
 (defn add-comment [req]
-  (handler 200))
+  (let [auth-user (-> req :auth-user)
+        slug (-> req :params :slug)
+        comment (-> req :params :comment)]
+    (if (and (s/valid? :core/slug slug)
+             (s/valid? :core/add-comment comment))
+      (let [[ok? res] (comments/add-comment! auth-user slug comment)]
+        (handler (if ok? 200 404) res))
+      (handler 422 {:errors {:body ["Invalid request body."]}}))))
 
 (defn delete-comment [req]
-  (handler 200))
+  (let [auth-user (-> req :auth-user)
+        id (parse-query-param (-> req :params :id))]
+    (if (s/valid? :comment/id id)
+      (let [[ok? res] (comments/delete-comment! auth-user id)]
+        (handler (if ok? 200 404) res))
+      (handler 422 {:errors {:id ["Invalid comment id."]}}))))
 
 (defn favorite-article [req]
   (let [auth-user (-> req :auth-user)

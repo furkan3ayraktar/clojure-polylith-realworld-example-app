@@ -126,3 +126,5 @@
                                       :comment/updatedAt
                                       :comment/body
                                       :comment/author]))
+
+(s/def :core/visible-comment (s/keys :req-un [:core/comment]))

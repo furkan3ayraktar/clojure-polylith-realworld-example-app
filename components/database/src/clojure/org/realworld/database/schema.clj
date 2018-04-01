@@ -82,7 +82,8 @@
                                        [:body :text]
                                        [:articleId :integer "references article(id)"]
                                        [:userId :integer "references user(id)"]
-                                       [:createdAt :datetime]]
+                                       [:createdAt :datetime]
+                                       [:updatedAt :datetime]]
                                       {:entities identity}))
     (catch Exception e
       (log/error e "An error occurred creating comment table."))))
