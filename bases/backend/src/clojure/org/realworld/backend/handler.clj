@@ -91,8 +91,9 @@
 (defn comments [req]
   (handler 200))
 
-(defn tags [req]
-  (handler 200))
+(defn tags [_]
+  (let [[ok? res] (tags/all-tags)]
+    (handler (if ok? 200 404) res)))
 
 (defn feed [req]
   (handler 200))

@@ -3,6 +3,7 @@
             [clojure.org.realworld.article.interface :as article]
             [clojure.org.realworld.backend.handler :as handler]
             [clojure.org.realworld.profile.interface :as profile]
+            [clojure.org.realworld.tags.interface :as tags]
             [clojure.org.realworld.user.interface :as user]
             [clojure.spec.alpha :as s]
             [clojure.spec.gen.alpha :as gen]))
@@ -20,7 +21,8 @@
                 article/update-article!     (fn [_ _ _] [true {}])
                 article/delete-article!     (fn [_ _] [true {}])
                 article/favorite-article!   (fn [_ _] [true {}])
-                article/unfavorite-article! (fn [_ _] [true {}])]
+                article/unfavorite-article! (fn [_ _] [true {}])
+                tags/all-tags               (fn [] [true {:tags []}])]
     (f)))
 
 (use-fixtures :each prepare-for-tests)
@@ -190,4 +192,10 @@
                                          :params    {:slug "this-is-slug"}})]
     (is (= {:status 200
             :body   {}}
+           res))))
+
+(deftest tags--return-200
+  (let [res (handler/tags {})]
+    (is (= {:status 200
+            :body {:tags []}}
            res))))
