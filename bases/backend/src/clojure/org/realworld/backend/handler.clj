@@ -102,7 +102,13 @@
     (handler (if ok? 200 404) res)))
 
 (defn feed [req]
-  (handler 200))
+  (let [auth-user (-> req :auth-user)
+        limit (parse-query-param (-> req :params :limit))
+        offset (parse-query-param (-> req :params :offset))
+        [ok? res] (article/feed auth-user
+                                (if (pos-int? limit) limit nil)
+                                (if (nat-int? offset) offset nil))]
+    (handler (if ok? 200 404) res)))
 
 (defn create-article [req]
   (let [auth-user (-> req :auth-user)

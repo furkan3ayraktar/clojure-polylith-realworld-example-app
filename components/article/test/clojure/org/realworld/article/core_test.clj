@@ -134,3 +134,57 @@
     (is (true? ok?))
     (is (= 0 (-> res :article :favoritesCount)))
     (is (false? (-> res :article :favorited)))))
+
+(deftest feed--no-articles-found--return-response-with-empty-vector
+  (let [auth-user (assoc (gen/generate (s/gen :core/user)) :id 1)
+        _ (jdbc/insert! (test-db) :user auth-user)
+        [ok? res] (core/feed auth-user 10 0)]
+    (is (true? ok?))
+    (is (= {:articles []
+            :articlesCount 0}
+           res))))
+
+(deftest feed--articles-found--return-response
+  (let [auth-user (assoc (gen/generate (s/gen :core/user)) :id 1)
+        other-user (assoc (gen/generate (s/gen :core/user)) :id 2)
+        _ (jdbc/insert-multi! (test-db) :user [auth-user other-user])
+        _ (jdbc/insert! (test-db) :userFollows {:userId 1 :followedUserId 2})
+        articles (gen/sample (s/gen :core/create-article) 20)
+        _ (doseq [a articles]
+            (core/create-article! other-user a))
+        [ok? res] (core/feed auth-user 10 0)]
+    (is (true? ok?))
+    (is (= 10 (:articlesCount res)))
+    (is (= 10 (-> res :articles count)))
+    (is (= (map :title (take 10 (reverse articles)))
+           (map :title (:articles res))))))
+
+(deftest feed--no-limit-provided--return-response-with-limit-20
+  (let [auth-user (assoc (gen/generate (s/gen :core/user)) :id 1)
+        other-user (assoc (gen/generate (s/gen :core/user)) :id 2)
+        _ (jdbc/insert-multi! (test-db) :user [auth-user other-user])
+        _ (jdbc/insert! (test-db) :userFollows {:userId 1 :followedUserId 2})
+        articles (gen/sample (s/gen :core/create-article) 20)
+        _ (doseq [a articles]
+            (core/create-article! other-user a))
+        [ok? res] (core/feed auth-user nil nil)]
+    (is (true? ok?))
+    (is (= 20 (:articlesCount res)))
+    (is (= 20 (-> res :articles count)))
+    (is (= (map :title (take 20 (reverse articles)))
+           (map :title (:articles res))))))
+
+(deftest feed--offset-provided--return-response-with-limit-20
+  (let [auth-user (assoc (gen/generate (s/gen :core/user)) :id 1)
+        other-user (assoc (gen/generate (s/gen :core/user)) :id 2)
+        _ (jdbc/insert-multi! (test-db) :user [auth-user other-user])
+        _ (jdbc/insert! (test-db) :userFollows {:userId 1 :followedUserId 2})
+        articles (gen/sample (s/gen :core/create-article) 20)
+        _ (doseq [a articles]
+            (core/create-article! other-user a))
+        [ok? res] (core/feed auth-user nil 5)]
+    (is (true? ok?))
+    (is (= 15 (:articlesCount res)))
+    (is (= 15 (-> res :articles count)))
+    (is (= (map :title (take 15 (drop 5 (reverse articles))))
+           (map :title (:articles res))))))

@@ -23,6 +23,7 @@
                 article/delete-article!     (fn [_ _] [true {}])
                 article/favorite-article!   (fn [_ _] [true {}])
                 article/unfavorite-article! (fn [_ _] [true {}])
+                article/feed                (fn [_ limit offset] [true {:limit limit :offset offset}])
                 tags/all-tags               (fn [] [true {:tags []}])
                 comments/article-comments   (fn [_ _] [true {:comments []}])
                 comments/add-comment!       (fn [_ _ _] [true {}])
@@ -201,7 +202,7 @@
 (deftest tags--return-200
   (let [res (handler/tags {})]
     (is (= {:status 200
-            :body {:tags []}}
+            :body   {:tags []}}
            res))))
 
 (deftest comments--invalid-input--return-422
@@ -245,22 +246,75 @@
 
 (deftest add-comment--invalid-slug--return-422
   (let [res (handler/add-comment {:auth-user (gen/generate (s/gen :core/user))
-                                  :params {:comment (gen/generate (s/gen :core/add-comment))}})]
+                                  :params    {:comment (gen/generate (s/gen :core/add-comment))}})]
     (is (= {:status 422
             :body   {:errors {:body ["Invalid request body."]}}}
            res))))
 
 (deftest add-comment--invalid-comment--return-422
   (let [res (handler/add-comment {:auth-user (gen/generate (s/gen :core/user))
-                                  :params {:slug "this-is-slug"}})]
+                                  :params    {:slug "this-is-slug"}})]
     (is (= {:status 422
             :body   {:errors {:body ["Invalid request body."]}}}
            res))))
 
 (deftest add-comment--valid-input--return-200
   (let [res (handler/add-comment {:auth-user (gen/generate (s/gen :core/user))
-                                  :params    {:slug "this-is-slug"
+                                  :params    {:slug    "this-is-slug"
                                               :comment (gen/generate (s/gen :core/add-comment))}})]
     (is (= {:status 200
             :body   {}}
+           res))))
+
+(deftest feed--invalid-limit--return-200
+  (let [res (handler/feed {:auth-user (gen/generate (s/gen :core/user))
+                           :params    {:limit "invalid-limit"
+                                       :offset 0}})]
+    (is (= {:status 200
+            :body {:limit nil
+                   :offset 0}}
+           res))))
+
+(deftest feed--invalid-offset--return-200
+  (let [res (handler/feed {:auth-user (gen/generate (s/gen :core/user))
+                           :params    {:offset "invalid-offset"
+                                       :limit 10}})]
+    (is (= {:status 200
+            :body {:limit 10
+                   :offset nil}}
+           res))))
+
+(deftest feed--string-offset--return-200
+  (let [res (handler/feed {:auth-user (gen/generate (s/gen :core/user))
+                           :params    {:offset "5"
+                                       :limit 10}})]
+    (is (= {:status 200
+            :body {:limit 10
+                   :offset 5}}
+           res))))
+
+(deftest feed--string-limit--return-200
+  (let [res (handler/feed {:auth-user (gen/generate (s/gen :core/user))
+                           :params    {:offset 5
+                                       :limit "10"}})]
+    (is (= {:status 200
+            :body {:limit 10
+                   :offset 5}}
+           res))))
+
+(deftest feed--valid-input--return-200
+  (let [res (handler/feed {:auth-user (gen/generate (s/gen :core/user))
+                           :params    {:offset 5
+                                       :limit 10}})]
+    (is (= {:status 200
+            :body {:limit 10
+                   :offset 5}}
+           res))))
+
+(deftest feed--no-limit-and-offset--return-200
+  (let [res (handler/feed {:auth-user (gen/generate (s/gen :core/user))
+                           :params    {}})]
+    (is (= {:status 200
+            :body {:limit nil
+                   :offset nil}}
            res))))

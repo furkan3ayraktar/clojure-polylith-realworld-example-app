@@ -11,3 +11,5 @@
 (defn favorite-article! [auth-user slug])
 
 (defn unfavorite-article! [auth-user slug])
+
+(defn feed [auth-user limit offset])
