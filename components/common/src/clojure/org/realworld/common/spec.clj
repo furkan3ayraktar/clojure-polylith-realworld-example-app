@@ -54,9 +54,9 @@
                                        :user/email
                                        :user/password]))
 
-(s/def :core/update-user (s/keys :req-un [:user/email
-                                          :user/username]
-                                 :opt-un [:user/password
+(s/def :core/update-user (s/keys :opt-un [:user/email
+                                          :user/username
+                                          :user/password
                                           :user/image
                                           :user/bio]))
 

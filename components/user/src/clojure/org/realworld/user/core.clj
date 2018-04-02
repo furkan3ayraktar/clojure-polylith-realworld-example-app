@@ -53,20 +53,24 @@
     [false {:errors {:token ["Cannot find a user with associated token."]}}]))
 
 (defn update-user! [auth-user {:keys [username email password image bio]}]
-  (if (and (not= email (:email auth-user))
+  (if (and (not (nil? email))
+           (not= email (:email auth-user))
            (not (nil? (store/find-by-email email))))
     [false {:errors {:email ["A user exists with given email."]}}]
-    (if (and (not= username (:username auth-user))
+    (if (and (not (nil? username))
+             (not= username (:username auth-user))
              (not (nil? (store/find-by-username username))))
       [false {:errors {:username ["A user exists with given username."]}}]
-      (let [password-map (when password {:password (encrypt-password password)})
-            user-input   (merge {:email    email
-                                 :username username
-                                 :token    (generate-token email)
-                                 :image    image
-                                 :bio      bio}
-                                password-map)
+      (let [optional-map (filter #(-> % val nil? not)
+                                 {:password (when password (encrypt-password password))
+                                  :email    (when email email)
+                                  :username (when username username)})
+            email-to-use (if email email (:email auth-user))
+            user-input   (merge {:token (generate-token email-to-use)
+                                 :image image
+                                 :bio   bio}
+                                optional-map)
             _            (store/update-user! (:id auth-user) user-input)]
-        (if-let [updated-user (store/find-by-email email)]
+        (if-let [updated-user (store/find-by-email email-to-use)]
           [true (user->visible-user updated-user)]
           [false {:errors {:other ["Cannot update user."]}}])))))
