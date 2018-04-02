@@ -38,7 +38,7 @@
     [false {:errors {:email ["A user exists with given email."]}}]
     (if-let [_ (store/find-by-username username)]
       [false {:errors {:username ["A user exists with given username."]}}]
-      (let [user-input {:email email
+      (let [user-input {:email    email
                         :username username
                         :password (encrypt-password password)
                         :token    (generate-token email)}
@@ -60,13 +60,13 @@
              (not (nil? (store/find-by-username username))))
       [false {:errors {:username ["A user exists with given username."]}}]
       (let [password-map (when password {:password (encrypt-password password)})
-            user-input (merge {:email email
-                               :username username
-                               :token (generate-token email)
-                               :image image
-                               :bio bio}
-                              password-map)
-            _          (store/update-user! (:id auth-user) user-input)]
+            user-input   (merge {:email    email
+                                 :username username
+                                 :token    (generate-token email)
+                                 :image    image
+                                 :bio      bio}
+                                password-map)
+            _            (store/update-user! (:id auth-user) user-input)]
         (if-let [updated-user (store/find-by-email email)]
           [true (user->visible-user updated-user)]
           [false {:errors {:other ["Cannot update user."]}}])))))

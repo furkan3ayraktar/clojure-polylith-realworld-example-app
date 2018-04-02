@@ -37,9 +37,9 @@
                                              :image    "image"})
         [ok? res] (core/profile nil "username")]
     (is (true? ok?))
-    (is (= {:profile {:username "username"
-                      :bio "bio"
-                      :image "image"
+    (is (= {:profile {:username  "username"
+                      :bio       "bio"
+                      :image     "image"
                       :following false}}
            res))))
 
@@ -49,9 +49,9 @@
                                              :image    "image"})
         [ok? res] (core/profile auth-user "username")]
     (is (true? ok?))
-    (is (= {:profile {:username "username"
-                      :bio "bio"
-                      :image "image"
+    (is (= {:profile {:username  "username"
+                      :bio       "bio"
+                      :image     "image"
                       :following false}}
            res))))
 
@@ -62,9 +62,9 @@
         _ (jdbc/insert! (database/db) :userFollows {:userId 1 :followedUserId 2})
         [ok? res] (core/profile auth-user "username")]
     (is (true? ok?))
-    (is (= {:profile {:username "username"
-                      :bio "bio"
-                      :image "image"
+    (is (= {:profile {:username  "username"
+                      :bio       "bio"
+                      :image     "image"
                       :following true}}
            res))))
 
@@ -79,9 +79,9 @@
                                              :image    "image"})
         [ok? res] (core/follow! auth-user "username")]
     (is (true? ok?))
-    (is (= {:profile {:username "username"
-                      :bio "bio"
-                      :image "image"
+    (is (= {:profile {:username  "username"
+                      :bio       "bio"
+                      :image     "image"
                       :following true}}
            res))))
 
@@ -97,8 +97,8 @@
         _ (jdbc/insert! (database/db) :userFollows {:userId 1 :followedUserId 2})
         [ok? res] (core/unfollow! auth-user "username")]
     (is (true? ok?))
-    (is (= {:profile {:username "username"
-                      :bio "bio"
-                      :image "image"
+    (is (= {:profile {:username  "username"
+                      :bio       "bio"
+                      :image     "image"
                       :following false}}
            res))))

@@ -228,30 +228,30 @@
 
 (deftest feed--more-than-10-articles-found--return-10-articles
   (let [articles (mapv #(hash-map :slug (str "slug" %) :userId 1) (range 30))
-        _   (jdbc/insert-multi! (test-db) :article articles)
-        _   (jdbc/insert-multi! (test-db) :userFollows [{:userId 2 :followedUserId 1}])
-        res1 (store/feed 2 10 0)
-        res2 (store/feed 2 10 10)]
+        _        (jdbc/insert-multi! (test-db) :article articles)
+        _        (jdbc/insert-multi! (test-db) :userFollows [{:userId 2 :followedUserId 1}])
+        res1     (store/feed 2 10 0)
+        res2     (store/feed 2 10 10)]
     (is (= (take 10 (reverse articles))
            (mapv #(select-keys % [:slug :userId]) res1)))
     (is (= (take 10 (drop 10 (reverse articles)))
            (mapv #(select-keys % [:slug :userId]) res2)))))
 
 (deftest articles-by-tag--some-articles-found--return-articles
-  (let [_   (jdbc/insert-multi! (test-db) :article [{:slug "slug1"}
-                                                    {:slug "slug2"}
-                                                    {:slug "slug3"}
-                                                    {:slug "slug4"}
-                                                    {:slug "slug5"}
-                                                    {:slug "slug6"}])
-        _   (jdbc/insert-multi! (test-db) :tag [{:name "tag1"}
-                                                {:name "tag2"}])
-        _   (jdbc/insert-multi! (test-db) :articleTags [{:articleId 1 :tagId 1}
-                                                        {:articleId 1 :tagId 2}
-                                                        {:articleId 2 :tagId 2}
-                                                        {:articleId 3 :tagId 2}
-                                                        {:articleId 4 :tagId 1}
-                                                        {:articleId 6 :tagId 1}])
+  (let [_    (jdbc/insert-multi! (test-db) :article [{:slug "slug1"}
+                                                     {:slug "slug2"}
+                                                     {:slug "slug3"}
+                                                     {:slug "slug4"}
+                                                     {:slug "slug5"}
+                                                     {:slug "slug6"}])
+        _    (jdbc/insert-multi! (test-db) :tag [{:name "tag1"}
+                                                 {:name "tag2"}])
+        _    (jdbc/insert-multi! (test-db) :articleTags [{:articleId 1 :tagId 1}
+                                                         {:articleId 1 :tagId 2}
+                                                         {:articleId 2 :tagId 2}
+                                                         {:articleId 3 :tagId 2}
+                                                         {:articleId 4 :tagId 1}
+                                                         {:articleId 6 :tagId 1}])
         res1 (store/articles-by-tag 10 0 "tag1")
         res2 (store/articles-by-tag 10 0 "tag2")]
     (is (= ["slug6" "slug4" "slug1"]
@@ -260,14 +260,14 @@
            (mapv :slug res2)))))
 
 (deftest articles-by-author--some-articles-found--return-articles
-  (let [_   (jdbc/insert-multi! (test-db) :user [{:username "username1"}
-                                                 {:username "username2"}])
-        _   (jdbc/insert-multi! (test-db) :article [{:slug "slug1" :userId 1}
-                                                    {:slug "slug2" :userId 1}
-                                                    {:slug "slug3" :userId 2}
-                                                    {:slug "slug4" :userId 2}
-                                                    {:slug "slug5" :userId 1}
-                                                    {:slug "slug6" :userId 2}])
+  (let [_    (jdbc/insert-multi! (test-db) :user [{:username "username1"}
+                                                  {:username "username2"}])
+        _    (jdbc/insert-multi! (test-db) :article [{:slug "slug1" :userId 1}
+                                                     {:slug "slug2" :userId 1}
+                                                     {:slug "slug3" :userId 2}
+                                                     {:slug "slug4" :userId 2}
+                                                     {:slug "slug5" :userId 1}
+                                                     {:slug "slug6" :userId 2}])
         res1 (store/articles-by-author 10 0 "username1")
         res2 (store/articles-by-author 10 0 "username2")
         res3 (store/articles-by-author 10 0 "username3")]
@@ -278,18 +278,18 @@
     (is (empty? res3))))
 
 (deftest articles-by-author--some-articles-found--return-articles
-  (let [_   (jdbc/insert-multi! (test-db) :user [{:username "username1"}
-                                                 {:username "username2"}])
-        _   (jdbc/insert-multi! (test-db) :article [{:slug "slug1" :userId 1}
-                                                    {:slug "slug2" :userId 1}
-                                                    {:slug "slug3" :userId 2}
-                                                    {:slug "slug4" :userId 2}
-                                                    {:slug "slug5" :userId 1}
-                                                    {:slug "slug6" :userId 2}])
-        _   (jdbc/insert-multi! (test-db) :favoriteArticles [{:articleId 1 :userId 1}
-                                                             {:articleId 2 :userId 1}
-                                                             {:articleId 3 :userId 2}
-                                                             {:articleId 6 :userId 1}])
+  (let [_    (jdbc/insert-multi! (test-db) :user [{:username "username1"}
+                                                  {:username "username2"}])
+        _    (jdbc/insert-multi! (test-db) :article [{:slug "slug1" :userId 1}
+                                                     {:slug "slug2" :userId 1}
+                                                     {:slug "slug3" :userId 2}
+                                                     {:slug "slug4" :userId 2}
+                                                     {:slug "slug5" :userId 1}
+                                                     {:slug "slug6" :userId 2}])
+        _    (jdbc/insert-multi! (test-db) :favoriteArticles [{:articleId 1 :userId 1}
+                                                              {:articleId 2 :userId 1}
+                                                              {:articleId 3 :userId 2}
+                                                              {:articleId 6 :userId 1}])
         res1 (store/articles-by-favorited 10 0 "username1")
         res2 (store/articles-by-favorited 10 0 "username2")
         res3 (store/articles-by-favorited 10 0 "username3")]

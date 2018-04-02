@@ -55,7 +55,7 @@
     (is (= {:errors {:username ["A user exists with given username."]}} res))))
 
 (deftest register!--valid-input--return-positive-result
-  (let [input  (gen/generate (s/gen :core/register))
+  (let [input (gen/generate (s/gen :core/register))
         [ok? res] (core/register! input)]
     (is (true? ok?))
     (is (s/valid? :core/visible-user res))
@@ -73,14 +73,14 @@
     (is (s/valid? :core/visible-user res))))
 
 (deftest update-user!--user-exists-with-given-email--return-negative-result
-  (let [_ (jdbc/insert! (test-db) :user {:email "test1@test.com"})
+  (let [_         (jdbc/insert! (test-db) :user {:email "test1@test.com"})
         auth-user (jdbc/insert! (test-db) :user {:email "test2@test.com" :token "token"})
         [ok? res] (core/update-user! auth-user {:email "test1@test.com"})]
     (is (false? ok?))
     (is (= {:errors {:email ["A user exists with given email."]}} res))))
 
 (deftest update-user!--user-exists-with-given-username--return-negative-result
-  (let [_ (jdbc/insert! (test-db) :user {:username "username"})
+  (let [_         (jdbc/insert! (test-db) :user {:username "username"})
         auth-user (jdbc/insert! (test-db) :user {:email "test2@test.com" :token "token"})
         [ok? res] (core/update-user! auth-user {:email "test@test.com" :username "username" :token "token"})]
     (is (false? ok?))

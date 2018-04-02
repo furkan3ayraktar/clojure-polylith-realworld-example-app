@@ -5,9 +5,9 @@
             [honeysql.core :as sql]))
 
 (defn find-by [key value]
-  (let [query {:select [:*]
-               :from [:user]
-               :where [:= key value]}
+  (let [query   {:select [:*]
+                 :from   [:user]
+                 :where  [:= key value]}
         results (jdbc/query (database/db) (sql/format query))]
     (first results)))
 
@@ -30,8 +30,8 @@
 
 (defn update-token! [email new-token]
   (let [query {:update :user
-               :set {:token new-token}
-               :where [:= :email email]}]
+               :set    {:token new-token}
+               :where  [:= :email email]}]
     (jdbc/execute! (database/db) (sql/format query))))
 
 (defn insert-user! [user-input]
@@ -39,6 +39,6 @@
 
 (defn update-user! [id user-input]
   (let [query {:update :user
-               :set user-input
-               :where [:= :id id]}]
+               :set    user-input
+               :where  [:= :id id]}]
     (jdbc/execute! (database/db) (sql/format query))))

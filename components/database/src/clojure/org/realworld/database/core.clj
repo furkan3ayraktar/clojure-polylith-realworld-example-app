@@ -8,8 +8,8 @@
 
 (defn db
   ([path]
-   {:classname "org.sqlite.JDBC"
+   {:classname   "org.sqlite.JDBC"
     :subprotocol "sqlite"
-    :subname path})
+    :subname     path})
   ([]
    (db (db-path))))

@@ -6,12 +6,12 @@
             [slugger.core :as slugger]))
 
 (defn article->visible-article [article auth-user]
-  (let [user-id (:userId article)
-        article-id (:id article)
+  (let [user-id         (:userId article)
+        article-id      (:id article)
         [_ author] (profile/profile auth-user user-id)
-        favorited? (if auth-user (store/favorited? (:id auth-user) article-id) false)
+        favorited?      (if auth-user (store/favorited? (:id auth-user) article-id) false)
         favorites-count (store/favorites-count article-id)
-        tags (store/article-tags article-id)]
+        tags            (store/article-tags article-id)]
     (assoc (dissoc article :userId)
       :favorited favorited?
       :favoritesCount favorites-count
@@ -20,7 +20,7 @@
 
 (defn- create-slug [title now]
   (when title
-    (let [slug          (slugger/->slug title)]
+    (let [slug (slugger/->slug title)]
       (if (store/find-by-slug slug)
         (str slug "-" (c/to-long now))
         slug))))
@@ -52,15 +52,15 @@
 (defn update-article! [auth-user slug {:keys [title description body]}]
   (if-let [article (store/find-by-slug slug)]
     (if (= (:id auth-user) (:userId article))
-      (let [now (t/now)
-            slug (create-slug title now)
+      (let [now           (t/now)
+            slug          (create-slug title now)
             article-input (into {} (filter #(-> % val nil? not)
-                                           {:slug slug
-                                            :title title
+                                           {:slug        slug
+                                            :title       title
                                             :description description
-                                            :body body
-                                            :updatedAt now}))
-            _ (store/update-article! (:id article) article-input)]
+                                            :body        body
+                                            :updatedAt   now}))
+            _             (store/update-article! (:id article) article-input)]
         (if-let [updated-article (store/find-by-slug (if slug slug (:slug article)))]
           [true {:article (article->visible-article updated-article auth-user)}]
           [false {:errors {:other ["Cannot insert article into db."]}}]))
@@ -89,20 +89,20 @@
     [false {:errors {:slug ["Cannot find an article with given slug."]}}]))
 
 (defn feed [auth-user limit offset]
-  (let [limit (or limit 20)
-        offset (or offset 0)
-        user-id (:id auth-user)
-        articles (store/feed user-id limit offset)
+  (let [limit            (or limit 20)
+        offset           (or offset 0)
+        user-id          (:id auth-user)
+        articles         (store/feed user-id limit offset)
         visible-articles (mapv #(article->visible-article % auth-user) articles)
-        res {:articles visible-articles
-             :articlesCount (count visible-articles)}]
+        res              {:articles      visible-articles
+                          :articlesCount (count visible-articles)}]
     [true res]))
 
 (defn articles [auth-user limit offset author tag favorited]
-  (let [limit (or limit 20)
-        offset (or offset 0)
-        articles (store/articles limit offset author tag favorited)
+  (let [limit            (or limit 20)
+        offset           (or offset 0)
+        articles         (store/articles limit offset author tag favorited)
         visible-articles (mapv #(article->visible-article % auth-user) articles)
-        res {:articles visible-articles
-             :articlesCount (count visible-articles)}]
+        res              {:articles      visible-articles
+                          :articlesCount (count visible-articles)}]
     [true res]))
