@@ -48,7 +48,7 @@
 
 (defn update-user [req]
   (let [auth-user (-> req :auth-user)
-        user (-> req :params :user)]
+        user      (-> req :params :user)]
     (if (s/valid? :core/update-user user)
       (let [[ok? res] (user/update-user! auth-user user)]
         (handler (if ok? 200 404) res))
@@ -56,7 +56,7 @@
 
 (defn profile [req]
   (let [auth-user (-> req :auth-user)
-        username (-> req :params :username)]
+        username  (-> req :params :username)]
     (if (s/valid? :core/username username)
       (let [[ok? res] (profile/profile auth-user username)]
         (handler (if ok? 200 404) res))
@@ -64,7 +64,7 @@
 
 (defn follow-profile [req]
   (let [auth-user (-> req :auth-user)
-        username (-> req :params :username)]
+        username  (-> req :params :username)]
     (if (s/valid? :core/username username)
       (let [[ok? res] (profile/follow! auth-user username)]
         (handler (if ok? 200 404) res))
@@ -72,18 +72,30 @@
 
 (defn unfollow-profile [req]
   (let [auth-user (-> req :auth-user)
-        username (-> req :params :username)]
+        username  (-> req :params :username)]
     (if (s/valid? :core/username username)
       (let [[ok? res] (profile/unfollow! auth-user username)]
         (handler (if ok? 200 404) res))
       (handler 422 {:errors {:username ["Invalid username."]}}))))
 
 (defn articles [req]
-  (handler 200))
+  (let [auth-user (-> req :auth-user)
+        limit     (parse-query-param (-> req :params :limit))
+        offset    (parse-query-param (-> req :params :offset))
+        author    (-> req :params :author)
+        tag       (-> req :params :tag)
+        favorited (-> req :params :favorited)
+        [ok? res] (article/articles auth-user
+                                    (if (pos-int? limit) limit nil)
+                                    (if (nat-int? offset) offset nil)
+                                    (if (string? author) author nil)
+                                    (if (string? tag) tag nil)
+                                    (if (string? favorited) favorited nil))]
+    (handler (if ok? 200 404) res)))
 
 (defn article [req]
   (let [auth-user (-> req :auth-user)
-        slug (-> req :params :slug)]
+        slug      (-> req :params :slug)]
     (if (s/valid? :core/slug slug)
       (let [[ok? res] (article/article auth-user slug)]
         (handler (if ok? 200 404) res))
@@ -91,7 +103,7 @@
 
 (defn comments [req]
   (let [auth-user (-> req :auth-user)
-        slug (-> req :params :slug)]
+        slug      (-> req :params :slug)]
     (if (s/valid? :core/slug slug)
       (let [[ok? res] (comments/article-comments auth-user slug)]
         (handler (if ok? 200 404) res))
@@ -103,8 +115,8 @@
 
 (defn feed [req]
   (let [auth-user (-> req :auth-user)
-        limit (parse-query-param (-> req :params :limit))
-        offset (parse-query-param (-> req :params :offset))
+        limit     (parse-query-param (-> req :params :limit))
+        offset    (parse-query-param (-> req :params :offset))
         [ok? res] (article/feed auth-user
                                 (if (pos-int? limit) limit nil)
                                 (if (nat-int? offset) offset nil))]
@@ -112,7 +124,7 @@
 
 (defn create-article [req]
   (let [auth-user (-> req :auth-user)
-        article (-> req :params :article)]
+        article   (-> req :params :article)]
     (if (s/valid? :core/create-article article)
       (let [[ok? res] (article/create-article! auth-user article)]
         (handler (if ok? 200 404) res))
@@ -120,8 +132,8 @@
 
 (defn update-article [req]
   (let [auth-user (-> req :auth-user)
-        slug (-> req :params :slug)
-        article (-> req :params :article)]
+        slug      (-> req :params :slug)
+        article   (-> req :params :article)]
     (if (and (s/valid? :core/update-article article)
              (s/valid? :core/slug slug))
       (let [[ok? res] (article/update-article! auth-user slug article)]
@@ -130,7 +142,7 @@
 
 (defn delete-article [req]
   (let [auth-user (-> req :auth-user)
-        slug (-> req :params :slug)]
+        slug      (-> req :params :slug)]
     (if (s/valid? :core/slug slug)
       (let [[ok? res] (article/delete-article! auth-user slug)]
         (handler (if ok? 200 404) res))
@@ -138,8 +150,8 @@
 
 (defn add-comment [req]
   (let [auth-user (-> req :auth-user)
-        slug (-> req :params :slug)
-        comment (-> req :params :comment)]
+        slug      (-> req :params :slug)
+        comment   (-> req :params :comment)]
     (if (and (s/valid? :core/slug slug)
              (s/valid? :core/add-comment comment))
       (let [[ok? res] (comments/add-comment! auth-user slug comment)]
@@ -148,7 +160,7 @@
 
 (defn delete-comment [req]
   (let [auth-user (-> req :auth-user)
-        id (parse-query-param (-> req :params :id))]
+        id        (parse-query-param (-> req :params :id))]
     (if (s/valid? :comment/id id)
       (let [[ok? res] (comments/delete-comment! auth-user id)]
         (handler (if ok? 200 404) res))
@@ -156,7 +168,7 @@
 
 (defn favorite-article [req]
   (let [auth-user (-> req :auth-user)
-        slug (-> req :params :slug)]
+        slug      (-> req :params :slug)]
     (if (s/valid? :core/slug slug)
       (let [[ok? res] (article/favorite-article! auth-user slug)]
         (handler (if ok? 200 404) res))
@@ -164,7 +176,7 @@
 
 (defn unfavorite-article [req]
   (let [auth-user (-> req :auth-user)
-        slug (-> req :params :slug)]
+        slug      (-> req :params :slug)]
     (if (s/valid? :core/slug slug)
       (let [[ok? res] (article/unfavorite-article! auth-user slug)]
         (handler (if ok? 200 404) res))

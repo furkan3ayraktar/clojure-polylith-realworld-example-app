@@ -24,6 +24,9 @@
                 article/favorite-article!   (fn [_ _] [true {}])
                 article/unfavorite-article! (fn [_ _] [true {}])
                 article/feed                (fn [_ limit offset] [true {:limit limit :offset offset}])
+                article/articles            (fn [_ limit offset author tag favorited]
+                                              [true {:limit limit :offset offset
+                                                     :author author :tag tag :favorited favorited}])
                 tags/all-tags               (fn [] [true {:tags []}])
                 comments/article-comments   (fn [_ _] [true {:comments []}])
                 comments/add-comment!       (fn [_ _ _] [true {}])
@@ -317,4 +320,129 @@
     (is (= {:status 200
             :body {:limit nil
                    :offset nil}}
+           res))))
+
+(deftest articles--invalid-limit--return-200
+  (let [res (handler/articles {:auth-user (gen/generate (s/gen :core/user))
+                               :params    {:limit "invalid-limit"
+                                           :offset 0}})]
+    (is (= {:status 200
+            :body {:limit nil
+                   :offset 0
+                   :tag nil
+                   :author nil
+                   :favorited nil}}
+           res))))
+
+(deftest articles--invalid-offset--return-200
+  (let [res (handler/articles {:auth-user (gen/generate (s/gen :core/user))
+                               :params    {:offset "invalid-offset"
+                                           :limit 10}})]
+    (is (= {:status 200
+            :body {:limit 10
+                   :offset nil
+                   :tag nil
+                   :author nil
+                   :favorited nil}}
+           res))))
+
+(deftest articles--string-offset--return-200
+  (let [res (handler/articles {:auth-user (gen/generate (s/gen :core/user))
+                               :params    {:offset "5"
+                                           :limit 10}})]
+    (is (= {:status 200
+            :body {:limit 10
+                   :offset 5
+                   :tag nil
+                   :author nil
+                   :favorited nil}}
+           res))))
+
+(deftest articles--string-limit--return-200
+  (let [res (handler/articles {:auth-user (gen/generate (s/gen :core/user))
+                               :params    {:offset 5
+                                           :limit "10"}})]
+    (is (= {:status 200
+            :body {:limit 10
+                   :offset 5
+                   :tag nil
+                   :author nil
+                   :favorited nil}}
+           res))))
+
+(deftest articles--invalid-tag--return-200
+  (let [res (handler/articles {:auth-user (gen/generate (s/gen :core/user))
+                               :params    {:offset 5
+                                           :limit 10
+                                           :tag 10}})]
+    (is (= {:status 200
+            :body {:limit 10
+                   :offset 5
+                   :tag nil
+                   :author nil
+                   :favorited nil}}
+           res))))
+
+(deftest articles--invalid-author--return-200
+  (let [res (handler/articles {:auth-user (gen/generate (s/gen :core/user))
+                               :params    {:offset 5
+                                           :limit 10
+                                           :author 10}})]
+    (is (= {:status 200
+            :body {:limit 10
+                   :offset 5
+                   :tag nil
+                   :author nil
+                   :favorited nil}}
+           res))))
+
+(deftest articles--invalid-favorited--return-200
+  (let [res (handler/articles {:auth-user (gen/generate (s/gen :core/user))
+                               :params    {:offset 5
+                                           :limit 10
+                                           :favorited 10}})]
+    (is (= {:status 200
+            :body {:limit 10
+                   :offset 5
+                   :tag nil
+                   :author nil
+                   :favorited nil}}
+           res))))
+
+(deftest articles--valid-filters--return-200
+  (let [res (handler/articles {:auth-user (gen/generate (s/gen :core/user))
+                               :params    {:offset 5
+                                           :limit 10
+                                           :author "author"
+                                           :tag "tag"
+                                           :favorited "favorited"}})]
+    (is (= {:status 200
+            :body {:limit 10
+                   :offset 5
+                   :tag "tag"
+                   :author "author"
+                   :favorited "favorited"}}
+           res))))
+
+(deftest articles--valid-input--return-200
+  (let [res (handler/articles {:auth-user (gen/generate (s/gen :core/user))
+                               :params    {:offset 5
+                                           :limit 10}})]
+    (is (= {:status 200
+            :body {:limit 10
+                   :offset 5
+                   :tag nil
+                   :author nil
+                   :favorited nil}}
+           res))))
+
+(deftest articles--no-limit-and-offset--return-200
+  (let [res (handler/articles {:auth-user (gen/generate (s/gen :core/user))
+                               :params    {}})]
+    (is (= {:status 200
+            :body {:limit nil
+                   :offset nil
+                   :tag nil
+                   :author nil
+                   :favorited nil}}
            res))))

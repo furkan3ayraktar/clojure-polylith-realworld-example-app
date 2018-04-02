@@ -97,3 +97,12 @@
         res {:articles visible-articles
              :articlesCount (count visible-articles)}]
     [true res]))
+
+(defn articles [auth-user limit offset author tag favorited]
+  (let [limit (or limit 20)
+        offset (or offset 0)
+        articles (store/articles limit offset author tag favorited)
+        visible-articles (mapv #(article->visible-article % auth-user) articles)
+        res {:articles visible-articles
+             :articlesCount (count visible-articles)}]
+    [true res]))

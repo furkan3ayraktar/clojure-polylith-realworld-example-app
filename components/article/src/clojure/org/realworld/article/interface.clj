@@ -21,3 +21,6 @@
 
 (defn feed [auth-user limit offset]
   (core/feed auth-user limit offset))
+
+(defn articles [auth-user limit offset author tag favorited]
+  (core/articles auth-user limit offset author tag favorited))
