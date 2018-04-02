@@ -12,7 +12,8 @@
         (let [[ok? user] (user/user-by-token token)]
           (if ok?
             (handler (assoc req :auth-user user))
-            (handler req)))))))
+            (handler req)))
+        (handler req)))))
 
 (defn wrap-authorization [handler]
   (fn [req]
