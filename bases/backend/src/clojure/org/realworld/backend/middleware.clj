@@ -11,7 +11,7 @@
       (if-not (str/blank? token)
         (let [[ok? user] (user/user-by-token token)]
           (if ok?
-            (handler (assoc req :auth-user user))
+            (handler (assoc req :auth-user (:user user)))
             (handler req)))
         (handler req)))))
 
