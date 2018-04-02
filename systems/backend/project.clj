@@ -7,6 +7,7 @@
                    :env          {:allowed-origins "http://localhost:3000"
                                   :environment     "LOCAL"}}}
   :dependencies [[clj-jwt "0.1.1"]
+                 [clj-time "0.14.2"]
                  [com.taoensso/timbre "4.10.0"]
                  [compojure "1.6.0"]
                  [crypto-password "0.2.0"]
