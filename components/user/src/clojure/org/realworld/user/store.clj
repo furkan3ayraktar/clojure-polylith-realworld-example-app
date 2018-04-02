@@ -2,11 +2,13 @@
   (:require [clojure.java.jdbc :as jdbc]
             [clojure.org.realworld.database.interface :as database]
             [clojure.spec.alpha :as s]
-            [java-jdbc.sql :as sql]))
+            [honeysql.core :as sql]))
 
 (defn find-by [key value]
-  (let [results (jdbc/query (database/db)
-                            (sql/select * :user (sql/where {key value})))]
+  (let [query {:select [:*]
+               :from [:user]
+               :where [:= key value]}
+        results (jdbc/query (database/db) (sql/format query))]
     (first results)))
 
 (defn find-by-email [email]
@@ -27,16 +29,16 @@
   (find-by :token token))
 
 (defn update-token! [email new-token]
-  (jdbc/update! (database/db)
-                :user
-                {:token new-token}
-                (sql/where {:email email})))
+  (let [query {:update :user
+               :set {:token new-token}
+               :where [:= :email email]}]
+    (jdbc/execute! (database/db) (sql/format query))))
 
 (defn insert-user! [user-input]
   (jdbc/insert! (database/db) :user user-input))
 
 (defn update-user! [id user-input]
-  (jdbc/update! (database/db)
-                :user
-                user-input
-                (sql/where {:id id})))
+  (let [query {:update :user
+               :set user-input
+               :where [:= :id id]}]
+    (jdbc/execute! (database/db) (sql/format query))))

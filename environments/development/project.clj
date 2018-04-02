@@ -11,7 +11,7 @@
                  [compojure "1.6.0"]
                  [crypto-password "0.2.0"]
                  [environ "1.1.0"]
-                 [java-jdbc/dsl "0.1.3"]
+                 [honeysql "0.9.2"]
                  [org.clojure/clojure "1.9.0"]
                  [org.clojure/data.json "0.2.6"]
                  [org.clojure/java.jdbc "0.7.5"]

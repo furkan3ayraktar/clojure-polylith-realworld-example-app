@@ -101,7 +101,7 @@
 
 (deftest insert-tag!--tag-does-not-exist--insert-tag
   (let [_    (store/insert-tag! "tag1")
-        tags (store/tags-with-names "tag1")]
+        tags (store/tags-with-names ["tag1"])]
     (is (= [{:id   1
              :name "tag1"}]
            tags))))
@@ -208,3 +208,31 @@
         after-favorited?  (store/favorited? 1 2)]
     (is (false? before-favorited?))
     (is (false? after-favorited?))))
+
+(deftest feed--no-articles-found--return-empty-vector
+  (let [res (store/feed 1 10 0)]
+    (is (= [] res))))
+
+(deftest feed--some-articles-found--return-articles
+  (let [_   (jdbc/insert-multi! (test-db) :article [{:slug "slug1" :userId 1}
+                                                    {:slug "slug2" :userId 1}
+                                                    {:slug "slug3" :userId 1}
+                                                    {:slug "slug4" :userId 2}
+                                                    {:slug "slug5" :userId 2}
+                                                    {:slug "slug6" :userId 3}])
+        _   (jdbc/insert-multi! (test-db) :userFollows [{:userId 4 :followedUserId 1}
+                                                        {:userId 4 :followedUserId 3}])
+        res (store/feed 4 10 0)]
+    (is (= ["slug6" "slug3" "slug2" "slug1"]
+           (mapv :slug res)))))
+
+(deftest feed--more-than-10-articles-found--return-10-articles
+  (let [articles (mapv #(hash-map :slug (str "slug" %) :userId 1) (range 30))
+        _   (jdbc/insert-multi! (test-db) :article articles)
+        _   (jdbc/insert-multi! (test-db) :userFollows [{:userId 2 :followedUserId 1}])
+        res1 (store/feed 2 10 0)
+        res2 (store/feed 2 10 10)]
+    (is (= (take 10 (reverse articles))
+           (mapv #(select-keys % [:slug :userId]) res1)))
+    (is (= (take 10 (drop 10 (reverse articles)))
+           (mapv #(select-keys % [:slug :userId]) res2)))))
