@@ -61,13 +61,13 @@
              (not= username (:username auth-user))
              (not (nil? (store/find-by-username username))))
       [false {:errors {:username ["A user exists with given username."]}}]
-      (let [optional-map (filter #(-> % val nil? not)
+      (let [email-to-use (if email email (:email auth-user))
+            optional-map (filter #(-> % val nil? not)
                                  {:password (when password (encrypt-password password))
                                   :email    (when email email)
-                                  :username (when username username)})
-            email-to-use (if email email (:email auth-user))
-            user-input   (merge {:token (generate-token email-to-use)
-                                 :image image
+                                  :username (when username username)
+                                  :token (when (or email password) (generate-token email-to-use))})
+            user-input   (merge {:image image
                                  :bio   bio}
                                 optional-map)
             _            (store/update-user! (:id auth-user) user-input)]
