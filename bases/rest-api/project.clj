@@ -1,5 +1,5 @@
-(defproject clojure.org.realworld/backend "0.1"
-  :description "backend base"
+(defproject clojure.org.realworld/rest-api "0.1"
+  :description "rest-api base"
   :dependencies [[clojure.org.realworld/interfaces "1.0"]
                  [com.taoensso/timbre "4.10.0"]
                  [compojure "1.6.0"]

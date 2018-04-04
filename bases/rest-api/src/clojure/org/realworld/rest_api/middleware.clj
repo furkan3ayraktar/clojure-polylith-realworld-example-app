@@ -1,4 +1,4 @@
-(ns clojure.org.realworld.backend.middleware
+(ns clojure.org.realworld.rest-api.middleware
   (:require [clojure.string :as str]
             [clojure.org.realworld.log.interface :as log]
             [clojure.org.realworld.user.interface :as user]

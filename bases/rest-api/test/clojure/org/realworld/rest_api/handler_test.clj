@@ -1,7 +1,7 @@
-(ns clojure.org.realworld.backend.handler-test
+(ns clojure.org.realworld.rest-api.handler-test
   (:require [clojure.test :refer :all]
             [clojure.org.realworld.article.interface :as article]
-            [clojure.org.realworld.backend.handler :as handler]
+            [clojure.org.realworld.rest-api.handler :as handler]
             [clojure.org.realworld.comment.interface :as comments]
             [clojure.org.realworld.profile.interface :as profile]
             [clojure.org.realworld.tag.interface :as tag]

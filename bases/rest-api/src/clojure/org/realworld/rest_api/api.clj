@@ -1,6 +1,6 @@
-(ns clojure.org.realworld.backend.api
-  (:require [clojure.org.realworld.backend.handler :as h]
-            [clojure.org.realworld.backend.middleware :as m]
+(ns clojure.org.realworld.rest-api.api
+  (:require [clojure.org.realworld.rest-api.handler :as h]
+            [clojure.org.realworld.rest-api.middleware :as m]
             [clojure.org.realworld.log.interface :as log]
             [compojure.core :refer [routes wrap-routes defroutes GET POST PUT DELETE ANY OPTIONS]]
             [ring.logger.timbre :as logger]

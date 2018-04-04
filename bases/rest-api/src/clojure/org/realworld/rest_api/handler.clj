@@ -1,4 +1,4 @@
-(ns clojure.org.realworld.backend.handler
+(ns clojure.org.realworld.rest-api.handler
   (:require [clojure.org.realworld.article.interface :as article]
             [clojure.org.realworld.comment.interface :as comments]
             [clojure.org.realworld.spec.interface]
