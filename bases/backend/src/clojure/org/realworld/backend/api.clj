@@ -1,4 +1,4 @@
-(ns clojure.org.realworld.backend.core
+(ns clojure.org.realworld.backend.api
   (:require [clojure.org.realworld.backend.handler :as h]
             [clojure.org.realworld.backend.middleware :as m]
             [clojure.org.realworld.log.interface :as log]

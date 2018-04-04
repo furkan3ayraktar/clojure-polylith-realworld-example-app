@@ -21,7 +21,7 @@
                  [ring/ring-json "0.5.0-beta1"]
                  [ring-logger-timbre "0.7.6"]
                  [slugger "1.0.1"]]
-  :ring {:init    clojure.org.realworld.backend.core/init
-         :destroy clojure.org.realworld.backend.core/destroy
-         :handler clojure.org.realworld.backend.core/app
+  :ring {:init    clojure.org.realworld.backend.api/init
+         :destroy clojure.org.realworld.backend.api/destroy
+         :handler clojure.org.realworld.backend.api/app
          :port    6003})
