@@ -1,6 +1,6 @@
 (ns clojure.org.realworld.article.core-test
   (:require [clojure.java.jdbc :as jdbc]
-            [clojure.org.realworld.common.interface]
+            [clojure.org.realworld.spec.interface]
             [clojure.org.realworld.database.interface :as database]
             [clojure.org.realworld.article.core :as core]
             [clojure.spec.alpha :as s]

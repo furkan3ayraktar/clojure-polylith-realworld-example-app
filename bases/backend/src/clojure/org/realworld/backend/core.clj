@@ -1,15 +1,14 @@
 (ns clojure.org.realworld.backend.core
   (:require [clojure.org.realworld.backend.handler :as h]
             [clojure.org.realworld.backend.middleware :as m]
-            [clojure.org.realworld.common.interface :as common]
+            [clojure.org.realworld.log.interface :as log]
             [compojure.core :refer [routes wrap-routes defroutes GET POST PUT DELETE ANY OPTIONS]]
             [ring.logger.timbre :as logger]
             [ring.middleware.json :as js]
             [ring.middleware.keyword-params :as kp]
             [ring.middleware.multipart-params :as mp]
             [ring.middleware.nested-params :as np]
-            [ring.middleware.params :as pr]
-            [taoensso.timbre :as log]))
+            [ring.middleware.params :as pr]))
 
 (defroutes public-routes
   (OPTIONS "/**"                              [] h/options)
@@ -61,7 +60,7 @@
 
 (defn init []
   (try
-    (common/init-logging)
+    (log/init)
     (log/info "Initialized server.")
     (catch Exception e
       (log/error e "Could not start server."))))

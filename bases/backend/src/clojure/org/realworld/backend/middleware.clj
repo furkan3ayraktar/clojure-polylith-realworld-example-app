@@ -1,8 +1,8 @@
 (ns clojure.org.realworld.backend.middleware
   (:require [clojure.string :as str]
+            [clojure.org.realworld.log.interface :as log]
             [clojure.org.realworld.user.interface :as user]
-            [environ.core :refer [env]]
-            [taoensso.timbre :as log]))
+            [environ.core :refer [env]]))
 
 (defn wrap-auth-user [handler]
   (fn [req]

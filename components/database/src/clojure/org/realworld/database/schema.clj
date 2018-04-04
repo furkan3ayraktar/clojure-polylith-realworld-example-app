@@ -1,7 +1,7 @@
 (ns clojure.org.realworld.database.schema
   (:require [clojure.java.jdbc :refer :all]
-            [environ.core :refer [env]]
-            [taoensso.timbre :as log]))
+            [clojure.org.realworld.log.interface :as log]
+            [environ.core :refer [env]]))
 
 (defn create-user-table [db]
   (try

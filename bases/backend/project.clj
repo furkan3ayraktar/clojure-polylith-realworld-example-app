@@ -6,7 +6,6 @@
                  [environ "1.1.0"]
                  [org.clojure/clojure "1.9.0"]
                  [org.clojure/data.json "0.2.6"]
-                 [org.clojure/test.check "0.9.0"]
                  [ring/ring-jetty-adapter "1.6.3"]
                  [ring/ring-json "0.5.0-beta1"]
                  [ring-logger-timbre "0.7.6"]]
