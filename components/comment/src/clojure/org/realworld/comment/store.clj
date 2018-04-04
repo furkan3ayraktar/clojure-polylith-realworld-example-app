@@ -1,4 +1,4 @@
-(ns clojure.org.realworld.comments.store
+(ns clojure.org.realworld.comment.store
   (:require [clojure.java.jdbc :as jdbc]
             [clojure.org.realworld.database.interface :as database]
             [honeysql.core :as sql]))

@@ -1,3 +1,3 @@
-# comments component
+# comment component
 
 add documentation here...

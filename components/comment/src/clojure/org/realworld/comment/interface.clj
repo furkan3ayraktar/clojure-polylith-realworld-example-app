@@ -1,5 +1,5 @@
-(ns clojure.org.realworld.comments.interface
-  (:require [clojure.org.realworld.comments.core :as core]))
+(ns clojure.org.realworld.comment.interface
+  (:require [clojure.org.realworld.comment.core :as core]))
 
 (defn article-comments [auth-user slug]
   (core/article-comments auth-user slug))

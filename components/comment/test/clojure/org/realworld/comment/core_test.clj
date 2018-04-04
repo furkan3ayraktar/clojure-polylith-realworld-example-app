@@ -1,6 +1,6 @@
-(ns clojure.org.realworld.comments.core-test
+(ns clojure.org.realworld.comment.core-test
   (:require [clojure.java.jdbc :as jdbc]
-            [clojure.org.realworld.comments.core :as core]
+            [clojure.org.realworld.comment.core :as core]
             [clojure.org.realworld.database.interface :as database]
             [clojure.spec.alpha :as s]
             [clojure.spec.gen.alpha :as gen]

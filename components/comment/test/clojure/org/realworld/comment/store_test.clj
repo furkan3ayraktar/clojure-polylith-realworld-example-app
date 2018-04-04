@@ -1,7 +1,7 @@
-(ns clojure.org.realworld.comments.store-test
+(ns clojure.org.realworld.comment.store-test
   (:require [clj-time.core :as t]
             [clojure.java.jdbc :as jdbc]
-            [clojure.org.realworld.comments.store :as store]
+            [clojure.org.realworld.comment.store :as store]
             [clojure.org.realworld.database.interface :as database]
             [clojure.test :refer :all]))
 

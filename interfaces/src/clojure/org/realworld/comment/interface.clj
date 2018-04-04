@@ -1,4 +1,4 @@
-(ns clojure.org.realworld.comments.interface)
+(ns clojure.org.realworld.comment.interface)
 
 (defn article-comments [auth-user slug])
 

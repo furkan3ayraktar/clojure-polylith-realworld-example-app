@@ -1,7 +1,7 @@
-(ns clojure.org.realworld.comments.core
+(ns clojure.org.realworld.comment.core
   (:require [clj-time.core :as t]
             [clojure.org.realworld.article.interface :as article]
-            [clojure.org.realworld.comments.store :as store]
+            [clojure.org.realworld.comment.store :as store]
             [clojure.org.realworld.profile.interface :as profile]))
 
 (defn comment->visible-comment [auth-user comment]
