@@ -1,5 +1,5 @@
-(defproject clojure.org.realworld/backend "0.1"
-  :description "backend system"
+(defproject clojure.org.realworld/realworld-backend "0.1"
+  :description "realworld-backend system"
   :profiles {:dev {:plugins      [[lein-environ "1.1.0"]
                                   [lein-ring "0.9.7"]]
                    :dependencies [[ring/ring-mock "0.3.0"]]
