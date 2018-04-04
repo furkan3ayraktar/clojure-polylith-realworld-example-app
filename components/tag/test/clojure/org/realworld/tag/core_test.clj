@@ -1,7 +1,7 @@
-(ns clojure.org.realworld.tags.core-test
+(ns clojure.org.realworld.tag.core-test
   (:require [clojure.test :refer :all]
             [clojure.org.realworld.database.interface :as database]
-            [clojure.org.realworld.tags.core :as core]
+            [clojure.org.realworld.tag.core :as core]
             [clojure.java.jdbc :as jdbc]))
 
 (defn test-db

@@ -1,4 +1,4 @@
-(ns clojure.org.realworld.tags.core
+(ns clojure.org.realworld.tag.core
   (:require [clojure.java.jdbc :as jdbc]
             [clojure.org.realworld.database.interface :as database]
             [honeysql.core :as sql]))

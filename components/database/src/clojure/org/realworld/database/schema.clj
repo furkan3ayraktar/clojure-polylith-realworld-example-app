@@ -62,7 +62,7 @@
                                        [:tagId :integer "references tag(id)"]]
                                       {:entities identity}))
     (catch Exception e
-      (log/error e "An error occurred creating article-tags table."))))
+      (log/error e "An error occurred creating article-tag table."))))
 
 (defn create-favorite-articles-table [db]
   (try

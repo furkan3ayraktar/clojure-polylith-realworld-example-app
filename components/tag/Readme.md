@@ -1,3 +1,3 @@
-# tags component
+# tag component
 
 add documentation here...

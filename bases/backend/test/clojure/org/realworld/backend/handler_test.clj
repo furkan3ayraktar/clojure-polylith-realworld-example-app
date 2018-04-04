@@ -4,7 +4,7 @@
             [clojure.org.realworld.backend.handler :as handler]
             [clojure.org.realworld.comments.interface :as comments]
             [clojure.org.realworld.profile.interface :as profile]
-            [clojure.org.realworld.tags.interface :as tags]
+            [clojure.org.realworld.tag.interface :as tag]
             [clojure.org.realworld.user.interface :as user]
             [clojure.spec.alpha :as s]
             [clojure.spec.gen.alpha :as gen]))
@@ -27,7 +27,7 @@
                 article/articles            (fn [_ limit offset author tag favorited]
                                               [true {:limit  limit :offset offset
                                                      :author author :tag tag :favorited favorited}])
-                tags/all-tags               (fn [] [true {:tags []}])
+                tag/all-tags                (fn [] [true {:tags []}])
                 comments/article-comments   (fn [_ _] [true {:comments []}])
                 comments/add-comment!       (fn [_ _ _] [true {}])
                 comments/delete-comment!    (fn [_ _] [true {}])]

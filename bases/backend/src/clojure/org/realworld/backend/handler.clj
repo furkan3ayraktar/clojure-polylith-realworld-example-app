@@ -3,7 +3,7 @@
             [clojure.org.realworld.comments.interface :as comments]
             [clojure.org.realworld.spec.interface]
             [clojure.org.realworld.profile.interface :as profile]
-            [clojure.org.realworld.tags.interface :as tags]
+            [clojure.org.realworld.tag.interface :as tag]
             [clojure.org.realworld.user.interface :as user]
             [clojure.spec.alpha :as s]))
 
@@ -110,7 +110,7 @@
       (handler 422 {:errors {:slug ["Invalid slug."]}}))))
 
 (defn tags [_]
-  (let [[ok? res] (tags/all-tags)]
+  (let [[ok? res] (tag/all-tags)]
     (handler (if ok? 200 404) res)))
 
 (defn feed [req]
