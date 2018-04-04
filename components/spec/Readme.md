@@ -1,3 +1,3 @@
 # spec component
 
-add documentation here...
+Component containing specs.

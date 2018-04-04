@@ -1,5 +1,5 @@
 (defproject clojure.org.realworld/user "0.1"
-  :description "A user component"
+  :description "user component"
   :dependencies [[clj-jwt "0.1.1"]
                  [clojure.org.realworld/interfaces "1.0"]
                  [crypto-password "0.2.0"]

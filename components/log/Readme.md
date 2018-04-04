@@ -1,3 +1,3 @@
 # log component
 
-add documentation here...
+Component handling functions related to logging.

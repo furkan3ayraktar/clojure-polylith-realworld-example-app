@@ -1,3 +1,3 @@
 # database component
 
-add documentation here...
+Component containing functions related to database.

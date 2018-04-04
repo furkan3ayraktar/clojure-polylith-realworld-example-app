@@ -1,3 +1,3 @@
 # backend base
 
-add documentation here...
+Base containing rest api endpoints and handlers.

@@ -1,3 +1,3 @@
 # article component
 
-add documentation here...
+Component handling functions related to article domain.

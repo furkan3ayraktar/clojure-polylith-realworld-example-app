@@ -1,3 +1,3 @@
 # tag component
 
-add documentation here...
+Component handling functions related to tag domain.

@@ -1,5 +1,5 @@
 (defproject clojure.org.realworld/article "0.1"
-  :description "A article component"
+  :description "article component"
   :dependencies [[clj-time "0.14.2"]
                  [clojure.org.realworld/interfaces "1.0"]
                  [honeysql "0.9.2"]

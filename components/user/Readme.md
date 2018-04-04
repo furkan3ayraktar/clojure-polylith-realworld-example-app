@@ -1,3 +1,3 @@
 # user component
 
-add documentation here...
+Component handling functions related to user domain.

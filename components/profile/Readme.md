@@ -1,3 +1,3 @@
 # profile component
 
-add documentation here...
+Component handling functions related to profile domain.

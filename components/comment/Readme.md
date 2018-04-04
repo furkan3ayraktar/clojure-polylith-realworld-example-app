@@ -1,3 +1,3 @@
 # comment component
 
-add documentation here...
+Component handling functions related to comment domain.
