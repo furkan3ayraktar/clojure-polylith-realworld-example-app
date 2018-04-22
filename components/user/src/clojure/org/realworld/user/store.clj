@@ -1,6 +1,7 @@
 (ns clojure.org.realworld.user.store
   (:require [clojure.java.jdbc :as jdbc]
             [clojure.org.realworld.database.interface :as database]
+            [clojure.org.realworld.user.spec :as user-spec]
             [clojure.spec.alpha :as s]
             [honeysql.core :as sql]))
 
@@ -21,7 +22,7 @@
   (find-by :id id))
 
 (defn find-by-username-or-id [username-or-id]
-  (if (s/valid? :user/id username-or-id)
+  (if (s/valid? user-spec/id username-or-id)
     (find-by-id username-or-id)
     (find-by-username username-or-id)))
 

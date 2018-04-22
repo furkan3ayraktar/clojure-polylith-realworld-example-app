@@ -3,6 +3,7 @@
             [clojure.org.realworld.spec.interface]
             [clojure.org.realworld.database.interface :as database]
             [clojure.org.realworld.user.core :as core]
+            [clojure.org.realworld.user.spec :as spec]
             [clojure.spec.alpha :as s]
             [clojure.spec.gen.alpha :as gen]
             [clojure.test :refer :all]))
@@ -40,7 +41,7 @@
                                          :password (core/encrypt-password "password")})
         [ok? res] (core/login {:email "test@test.com" :password "password"})]
     (is (true? ok?))
-    (is (true? (s/valid? :core/visible-user res)))))
+    (is (true? (s/valid? spec/visible-user res)))))
 
 (deftest register!--user-exists-with-given-email--return-negative-result
   (let [_ (jdbc/insert! (test-db) :user {:email "test@test.com"})
@@ -55,10 +56,10 @@
     (is (= {:errors {:username ["A user exists with given username."]}} res))))
 
 (deftest register!--valid-input--return-positive-result
-  (let [input (gen/generate (s/gen :core/register))
+  (let [input (gen/generate (s/gen spec/register))
         [ok? res] (core/register! input)]
     (is (true? ok?))
-    (is (s/valid? :core/visible-user res))
+    (is (s/valid? spec/visible-user res))
     (is (not (nil? (-> res :user :token))))))
 
 (deftest user-by-token--user-not-found--return-negative-result
@@ -70,7 +71,7 @@
   (let [_ (jdbc/insert! (test-db) :user {:email "test@test.com" :token "token" :username "username"})
         [ok? res] (core/user-by-token "token")]
     (is (true? ok?))
-    (is (s/valid? :core/visible-user res))))
+    (is (s/valid? spec/visible-user res))))
 
 (deftest update-user!--user-exists-with-given-email--return-negative-result
   (let [_         (jdbc/insert! (test-db) :user {:email "test1@test.com"})
@@ -87,12 +88,12 @@
     (is (= {:errors {:username ["A user exists with given username."]}} res))))
 
 (deftest update-user!--valid-input--return-positive-result
-  (let [initial-inputs (gen/sample (s/gen :core/register) 20)
+  (let [initial-inputs (gen/sample (s/gen spec/register) 20)
         users          (map #(-> (core/register! %) second :user) initial-inputs)
-        inputs         (gen/sample (s/gen :core/update-user) 20)
+        inputs         (gen/sample (s/gen spec/update-user) 20)
         results        (map-indexed #(core/update-user! (nth users %1) %2) inputs)]
     (is (every? true? (map first results)))
-    (is (every? #(s/valid? :core/visible-user (second %)) results))
+    (is (every? #(s/valid? spec/visible-user (second %)) results))
     (is (= (map #(dissoc % :password) inputs)
            (map-indexed #(select-keys (-> %2 second :user)
                                       (keys (nth inputs %1)))

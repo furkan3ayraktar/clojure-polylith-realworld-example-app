@@ -4,8 +4,10 @@
             [clojure.org.realworld.rest-api.handler :as handler]
             [clojure.org.realworld.comment.interface :as comments]
             [clojure.org.realworld.profile.interface :as profile]
+            [clojure.org.realworld.spec.interface :as spec]
             [clojure.org.realworld.tag.interface :as tag]
             [clojure.org.realworld.user.interface :as user]
+            [clojure.org.realworld.user.spec :as user-spec]
             [clojure.spec.alpha :as s]
             [clojure.spec.gen.alpha :as gen]))
 
@@ -42,7 +44,7 @@
            res))))
 
 (deftest login--valid-input--return-200
-  (let [res (handler/login {:params {:user (gen/generate (s/gen :core/login))}})]
+  (let [res (handler/login {:params {:user (gen/generate (s/gen user-spec/login))}})]
     (is (= {:status 200
             :body   {}}
            res))))
@@ -54,13 +56,13 @@
            res))))
 
 (deftest register--valid-input--return-200
-  (let [res (handler/register {:params {:user (gen/generate (s/gen :core/register))}})]
+  (let [res (handler/register {:params {:user (gen/generate (s/gen user-spec/register))}})]
     (is (= {:status 200
             :body   {}}
            res))))
 
 (deftest current-user--valid-input--return-200
-  (let [auth-user (gen/generate (s/gen :core/user))
+  (let [auth-user (gen/generate (s/gen user-spec/user))
         res       (handler/current-user {:auth-user auth-user})]
     (is (= {:status 200
             :body   {:user auth-user}}
@@ -73,8 +75,8 @@
            res))))
 
 (deftest update-user--valid-input--return-200
-  (let [res (handler/update-user {:auth-user (gen/generate (s/gen :core/user))
-                                  :params    {:user (gen/generate (s/gen :core/update-user))}})]
+  (let [res (handler/update-user {:auth-user (gen/generate (s/gen user-spec/user))
+                                  :params    {:user (gen/generate (s/gen user-spec/update-user))}})]
     (is (= {:status 200
             :body   {}}
            res))))
@@ -86,8 +88,8 @@
            res))))
 
 (deftest profile--valid-input--return-200
-  (let [res (handler/profile {:auth-user (gen/generate (s/gen :core/user))
-                              :params    {:username (gen/generate (s/gen :core/username))}})]
+  (let [res (handler/profile {:auth-user (gen/generate (s/gen user-spec/user))
+                              :params    {:username (gen/generate (s/gen spec/username?))}})]
     (is (= {:status 200
             :body   {}}
            res))))
@@ -99,8 +101,8 @@
            res))))
 
 (deftest follow--valid-input--return-200
-  (let [res (handler/follow-profile {:auth-user (gen/generate (s/gen :core/user))
-                                     :params    {:username (gen/generate (s/gen :core/username))}})]
+  (let [res (handler/follow-profile {:auth-user (gen/generate (s/gen user-spec/user))
+                                     :params    {:username (gen/generate (s/gen spec/username?))}})]
     (is (= {:status 200
             :body   {}}
            res))))
@@ -112,8 +114,8 @@
            res))))
 
 (deftest unfollow--valid-input--return-200
-  (let [res (handler/unfollow-profile {:auth-user (gen/generate (s/gen :core/user))
-                                       :params    {:username (gen/generate (s/gen :core/username))}})]
+  (let [res (handler/unfollow-profile {:auth-user (gen/generate (s/gen user-spec/user))
+                                       :params    {:username (gen/generate (s/gen spec/username?))}})]
     (is (= {:status 200
             :body   {}}
            res))))
@@ -137,7 +139,7 @@
            res))))
 
 (deftest create-article--valid-input--return-200
-  (let [res (handler/create-article {:auth-user (gen/generate (s/gen :core/user))
+  (let [res (handler/create-article {:auth-user (gen/generate (s/gen user-spec/user))
                                      :params    {:article (gen/generate (s/gen :core/create-article))}})]
     (is (= {:status 200
             :body   {}}
@@ -156,7 +158,7 @@
            res))))
 
 (deftest update-article--valid-input--return-200
-  (let [res (handler/update-article {:auth-user (gen/generate (s/gen :core/user))
+  (let [res (handler/update-article {:auth-user (gen/generate (s/gen user-spec/user))
                                      :params    {:slug    "this-is-slug"
                                                  :article (gen/generate (s/gen :core/update-article))}})]
     (is (= {:status 200
@@ -170,7 +172,7 @@
            res))))
 
 (deftest delete-article--valid-input--return-200
-  (let [res (handler/delete-article {:auth-user (gen/generate (s/gen :core/user))
+  (let [res (handler/delete-article {:auth-user (gen/generate (s/gen user-spec/user))
                                      :params    {:slug "this-is-slug"}})]
     (is (= {:status 200
             :body   {}}
@@ -183,7 +185,7 @@
            res))))
 
 (deftest favorite-article--valid-input--return-200
-  (let [res (handler/favorite-article {:auth-user (gen/generate (s/gen :core/user))
+  (let [res (handler/favorite-article {:auth-user (gen/generate (s/gen user-spec/user))
                                        :params    {:slug "this-is-slug"}})]
     (is (= {:status 200
             :body   {}}
@@ -196,7 +198,7 @@
            res))))
 
 (deftest unfavorite-article--valid-input--return-200
-  (let [res (handler/unfavorite-article {:auth-user (gen/generate (s/gen :core/user))
+  (let [res (handler/unfavorite-article {:auth-user (gen/generate (s/gen user-spec/user))
                                          :params    {:slug "this-is-slug"}})]
     (is (= {:status 200
             :body   {}}
@@ -215,7 +217,7 @@
            res))))
 
 (deftest comments--valid-input--return-200
-  (let [res (handler/comments {:auth-user (gen/generate (s/gen :core/user))
+  (let [res (handler/comments {:auth-user (gen/generate (s/gen user-spec/user))
                                :params    {:slug "this-is-slug"}})]
     (is (= {:status 200
             :body   {:comments []}}
@@ -234,35 +236,35 @@
            res))))
 
 (deftest delete-comment--valid-string-input--return-200
-  (let [res (handler/delete-comment {:auth-user (gen/generate (s/gen :core/user))
+  (let [res (handler/delete-comment {:auth-user (gen/generate (s/gen user-spec/user))
                                      :params    {:id "1"}})]
     (is (= {:status 200
             :body   {}}
            res))))
 
 (deftest delete-comment--valid-int-input--return-200
-  (let [res (handler/delete-comment {:auth-user (gen/generate (s/gen :core/user))
+  (let [res (handler/delete-comment {:auth-user (gen/generate (s/gen user-spec/user))
                                      :params    {:id 1}})]
     (is (= {:status 200
             :body   {}}
            res))))
 
 (deftest add-comment--invalid-slug--return-422
-  (let [res (handler/add-comment {:auth-user (gen/generate (s/gen :core/user))
+  (let [res (handler/add-comment {:auth-user (gen/generate (s/gen user-spec/user))
                                   :params    {:comment (gen/generate (s/gen :core/add-comment))}})]
     (is (= {:status 422
             :body   {:errors {:body ["Invalid request body."]}}}
            res))))
 
 (deftest add-comment--invalid-comment--return-422
-  (let [res (handler/add-comment {:auth-user (gen/generate (s/gen :core/user))
+  (let [res (handler/add-comment {:auth-user (gen/generate (s/gen user-spec/user))
                                   :params    {:slug "this-is-slug"}})]
     (is (= {:status 422
             :body   {:errors {:body ["Invalid request body."]}}}
            res))))
 
 (deftest add-comment--valid-input--return-200
-  (let [res (handler/add-comment {:auth-user (gen/generate (s/gen :core/user))
+  (let [res (handler/add-comment {:auth-user (gen/generate (s/gen user-spec/user))
                                   :params    {:slug    "this-is-slug"
                                               :comment (gen/generate (s/gen :core/add-comment))}})]
     (is (= {:status 200
@@ -270,7 +272,7 @@
            res))))
 
 (deftest feed--invalid-limit--return-200
-  (let [res (handler/feed {:auth-user (gen/generate (s/gen :core/user))
+  (let [res (handler/feed {:auth-user (gen/generate (s/gen user-spec/user))
                            :params    {:limit  "invalid-limit"
                                        :offset 0}})]
     (is (= {:status 200
@@ -279,7 +281,7 @@
            res))))
 
 (deftest feed--invalid-offset--return-200
-  (let [res (handler/feed {:auth-user (gen/generate (s/gen :core/user))
+  (let [res (handler/feed {:auth-user (gen/generate (s/gen user-spec/user))
                            :params    {:offset "invalid-offset"
                                        :limit  10}})]
     (is (= {:status 200
@@ -288,7 +290,7 @@
            res))))
 
 (deftest feed--string-offset--return-200
-  (let [res (handler/feed {:auth-user (gen/generate (s/gen :core/user))
+  (let [res (handler/feed {:auth-user (gen/generate (s/gen user-spec/user))
                            :params    {:offset "5"
                                        :limit  10}})]
     (is (= {:status 200
@@ -297,7 +299,7 @@
            res))))
 
 (deftest feed--string-limit--return-200
-  (let [res (handler/feed {:auth-user (gen/generate (s/gen :core/user))
+  (let [res (handler/feed {:auth-user (gen/generate (s/gen user-spec/user))
                            :params    {:offset 5
                                        :limit  "10"}})]
     (is (= {:status 200
@@ -306,7 +308,7 @@
            res))))
 
 (deftest feed--valid-input--return-200
-  (let [res (handler/feed {:auth-user (gen/generate (s/gen :core/user))
+  (let [res (handler/feed {:auth-user (gen/generate (s/gen user-spec/user))
                            :params    {:offset 5
                                        :limit  10}})]
     (is (= {:status 200
@@ -315,7 +317,7 @@
            res))))
 
 (deftest feed--no-limit-and-offset--return-200
-  (let [res (handler/feed {:auth-user (gen/generate (s/gen :core/user))
+  (let [res (handler/feed {:auth-user (gen/generate (s/gen user-spec/user))
                            :params    {}})]
     (is (= {:status 200
             :body   {:limit  nil
@@ -323,7 +325,7 @@
            res))))
 
 (deftest articles--invalid-limit--return-200
-  (let [res (handler/articles {:auth-user (gen/generate (s/gen :core/user))
+  (let [res (handler/articles {:auth-user (gen/generate (s/gen user-spec/user))
                                :params    {:limit  "invalid-limit"
                                            :offset 0}})]
     (is (= {:status 200
@@ -335,7 +337,7 @@
            res))))
 
 (deftest articles--invalid-offset--return-200
-  (let [res (handler/articles {:auth-user (gen/generate (s/gen :core/user))
+  (let [res (handler/articles {:auth-user (gen/generate (s/gen user-spec/user))
                                :params    {:offset "invalid-offset"
                                            :limit  10}})]
     (is (= {:status 200
@@ -347,7 +349,7 @@
            res))))
 
 (deftest articles--string-offset--return-200
-  (let [res (handler/articles {:auth-user (gen/generate (s/gen :core/user))
+  (let [res (handler/articles {:auth-user (gen/generate (s/gen user-spec/user))
                                :params    {:offset "5"
                                            :limit  10}})]
     (is (= {:status 200
@@ -359,7 +361,7 @@
            res))))
 
 (deftest articles--string-limit--return-200
-  (let [res (handler/articles {:auth-user (gen/generate (s/gen :core/user))
+  (let [res (handler/articles {:auth-user (gen/generate (s/gen user-spec/user))
                                :params    {:offset 5
                                            :limit  "10"}})]
     (is (= {:status 200
@@ -371,7 +373,7 @@
            res))))
 
 (deftest articles--invalid-tag--return-200
-  (let [res (handler/articles {:auth-user (gen/generate (s/gen :core/user))
+  (let [res (handler/articles {:auth-user (gen/generate (s/gen user-spec/user))
                                :params    {:offset 5
                                            :limit  10
                                            :tag    10}})]
@@ -384,7 +386,7 @@
            res))))
 
 (deftest articles--invalid-author--return-200
-  (let [res (handler/articles {:auth-user (gen/generate (s/gen :core/user))
+  (let [res (handler/articles {:auth-user (gen/generate (s/gen user-spec/user))
                                :params    {:offset 5
                                            :limit  10
                                            :author 10}})]
@@ -397,7 +399,7 @@
            res))))
 
 (deftest articles--invalid-favorited--return-200
-  (let [res (handler/articles {:auth-user (gen/generate (s/gen :core/user))
+  (let [res (handler/articles {:auth-user (gen/generate (s/gen user-spec/user))
                                :params    {:offset    5
                                            :limit     10
                                            :favorited 10}})]
@@ -410,7 +412,7 @@
            res))))
 
 (deftest articles--valid-filters--return-200
-  (let [res (handler/articles {:auth-user (gen/generate (s/gen :core/user))
+  (let [res (handler/articles {:auth-user (gen/generate (s/gen user-spec/user))
                                :params    {:offset    5
                                            :limit     10
                                            :author    "author"
@@ -425,7 +427,7 @@
            res))))
 
 (deftest articles--valid-input--return-200
-  (let [res (handler/articles {:auth-user (gen/generate (s/gen :core/user))
+  (let [res (handler/articles {:auth-user (gen/generate (s/gen user-spec/user))
                                :params    {:offset 5
                                            :limit  10}})]
     (is (= {:status 200
@@ -437,7 +439,7 @@
            res))))
 
 (deftest articles--no-limit-and-offset--return-200
-  (let [res (handler/articles {:auth-user (gen/generate (s/gen :core/user))
+  (let [res (handler/articles {:auth-user (gen/generate (s/gen user-spec/user))
                                :params    {}})]
     (is (= {:status 200
             :body   {:limit     nil

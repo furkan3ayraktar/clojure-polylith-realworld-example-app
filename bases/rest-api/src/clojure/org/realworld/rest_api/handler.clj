@@ -1,10 +1,11 @@
 (ns clojure.org.realworld.rest-api.handler
   (:require [clojure.org.realworld.article.interface :as article]
             [clojure.org.realworld.comment.interface :as comments]
-            [clojure.org.realworld.spec.interface]
+            [clojure.org.realworld.spec.interface :as spec]
             [clojure.org.realworld.profile.interface :as profile]
             [clojure.org.realworld.tag.interface :as tag]
             [clojure.org.realworld.user.interface :as user]
+            [clojure.org.realworld.user.spec :as user-spec]
             [clojure.spec.alpha :as s]))
 
 (defn- parse-query-param [param]
@@ -30,14 +31,14 @@
 
 (defn login [req]
   (let [user (-> req :params :user)]
-    (if (s/valid? :core/login user)
+    (if (s/valid? user-spec/login user)
       (let [[ok? res] (user/login user)]
         (handler (if ok? 200 404) res))
       (handler 422 {:errors {:body ["Invalid request body."]}}))))
 
 (defn register [req]
   (let [user (-> req :params :user)]
-    (if (s/valid? :core/register user)
+    (if (s/valid? user-spec/register user)
       (let [[ok? res] (user/register! user)]
         (handler (if ok? 200 404) res))
       (handler 422 {:errors {:body ["Invalid request body."]}}))))
@@ -49,7 +50,7 @@
 (defn update-user [req]
   (let [auth-user (-> req :auth-user)
         user      (-> req :params :user)]
-    (if (s/valid? :core/update-user user)
+    (if (s/valid? user-spec/update-user user)
       (let [[ok? res] (user/update-user! auth-user user)]
         (handler (if ok? 200 404) res))
       (handler 422 {:errors {:body ["Invalid request body."]}}))))
@@ -57,7 +58,7 @@
 (defn profile [req]
   (let [auth-user (-> req :auth-user)
         username  (-> req :params :username)]
-    (if (s/valid? :core/username username)
+    (if (s/valid? spec/username? username)
       (let [[ok? res] (profile/profile auth-user username)]
         (handler (if ok? 200 404) res))
       (handler 422 {:errors {:username ["Invalid username."]}}))))
@@ -65,7 +66,7 @@
 (defn follow-profile [req]
   (let [auth-user (-> req :auth-user)
         username  (-> req :params :username)]
-    (if (s/valid? :core/username username)
+    (if (s/valid? spec/username? username)
       (let [[ok? res] (profile/follow! auth-user username)]
         (handler (if ok? 200 404) res))
       (handler 422 {:errors {:username ["Invalid username."]}}))))
@@ -73,7 +74,7 @@
 (defn unfollow-profile [req]
   (let [auth-user (-> req :auth-user)
         username  (-> req :params :username)]
-    (if (s/valid? :core/username username)
+    (if (s/valid? spec/username? username)
       (let [[ok? res] (profile/unfollow! auth-user username)]
         (handler (if ok? 200 404) res))
       (handler 422 {:errors {:username ["Invalid username."]}}))))
@@ -96,7 +97,7 @@
 (defn article [req]
   (let [auth-user (-> req :auth-user)
         slug      (-> req :params :slug)]
-    (if (s/valid? :core/slug slug)
+    (if (s/valid? spec/slug? slug)
       (let [[ok? res] (article/article auth-user slug)]
         (handler (if ok? 200 404) res))
       (handler 422 {:errors {:slug ["Invalid slug."]}}))))
@@ -104,7 +105,7 @@
 (defn comments [req]
   (let [auth-user (-> req :auth-user)
         slug      (-> req :params :slug)]
-    (if (s/valid? :core/slug slug)
+    (if (s/valid? spec/slug? slug)
       (let [[ok? res] (comments/article-comments auth-user slug)]
         (handler (if ok? 200 404) res))
       (handler 422 {:errors {:slug ["Invalid slug."]}}))))
@@ -135,7 +136,7 @@
         slug      (-> req :params :slug)
         article   (-> req :params :article)]
     (if (and (s/valid? :core/update-article article)
-             (s/valid? :core/slug slug))
+             (s/valid? spec/slug? slug))
       (let [[ok? res] (article/update-article! auth-user slug article)]
         (handler (if ok? 200 404) res))
       (handler 422 {:errors {:body ["Invalid request body."]}}))))
@@ -143,7 +144,7 @@
 (defn delete-article [req]
   (let [auth-user (-> req :auth-user)
         slug      (-> req :params :slug)]
-    (if (s/valid? :core/slug slug)
+    (if (s/valid? spec/slug? slug)
       (let [[ok? res] (article/delete-article! auth-user slug)]
         (handler (if ok? 200 404) res))
       (handler 422 {:errors {:slug ["Invalid slug."]}}))))
@@ -152,7 +153,7 @@
   (let [auth-user (-> req :auth-user)
         slug      (-> req :params :slug)
         comment   (-> req :params :comment)]
-    (if (and (s/valid? :core/slug slug)
+    (if (and (s/valid? spec/slug? slug)
              (s/valid? :core/add-comment comment))
       (let [[ok? res] (comments/add-comment! auth-user slug comment)]
         (handler (if ok? 200 404) res))
@@ -169,7 +170,7 @@
 (defn favorite-article [req]
   (let [auth-user (-> req :auth-user)
         slug      (-> req :params :slug)]
-    (if (s/valid? :core/slug slug)
+    (if (s/valid? spec/slug? slug)
       (let [[ok? res] (article/favorite-article! auth-user slug)]
         (handler (if ok? 200 404) res))
       (handler 422 {:errors {:slug ["Invalid slug."]}}))))
@@ -177,7 +178,7 @@
 (defn unfavorite-article [req]
   (let [auth-user (-> req :auth-user)
         slug      (-> req :params :slug)]
-    (if (s/valid? :core/slug slug)
+    (if (s/valid? spec/slug? slug)
       (let [[ok? res] (article/unfavorite-article! auth-user slug)]
         (handler (if ok? 200 404) res))
       (handler 422 {:errors {:slug ["Invalid slug."]}}))))
