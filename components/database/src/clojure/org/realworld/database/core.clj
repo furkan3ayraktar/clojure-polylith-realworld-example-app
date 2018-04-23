@@ -1,5 +1,6 @@
 (ns clojure.org.realworld.database.core
-  (:require [environ.core :refer [env]]))
+  (:require [clojure.java.io :as io]
+            [environ.core :refer [env]]))
 
 (defn- db-path []
   (if (contains? env :database)
@@ -13,3 +14,7 @@
     :subname     path})
   ([]
    (db (db-path))))
+
+(defn db-exists? []
+  (let [db-file (io/file "database.db")]
+    (.exists db-file)))

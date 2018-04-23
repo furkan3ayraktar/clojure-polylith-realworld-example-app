@@ -1,4 +1,5 @@
 (ns clojure.org.realworld.rest-api.api
+  (:require [clojure.org.realworld.database.interface :as database])
   (:require [clojure.org.realworld.rest-api.handler :as h]
             [clojure.org.realworld.rest-api.middleware :as m]
             [clojure.org.realworld.log.interface :as log]
@@ -61,6 +62,15 @@
 (defn init []
   (try
     (log/init)
+    (let [db (database/db)]
+      (if (database/valid-schema? db)
+        (log/info "Database schema is valid.")
+        (if (database/db-exists?)
+          (log/warn "Please fix database schema and restart")
+          (do
+            (log/info "Generating database.")
+            (database/generate-db db)
+            (log/info "Database generated.")))))
     (log/info "Initialized server.")
     (catch Exception e
       (log/error e "Could not start server."))))
