@@ -2,8 +2,7 @@
   (:require [clojure.java.jdbc :as jdbc]
             [clojure.org.realworld.database.interface :as database]
             [clojure.string :as str]
-            [honeysql.core :as sql]
-            [honeysql.helpers :as helpers]))
+            [honeysql.core :as sql]))
 
 (defn find-by-slug [slug]
   (let [query   {:select [:*]

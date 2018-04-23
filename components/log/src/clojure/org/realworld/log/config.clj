@@ -72,6 +72,9 @@
                        (catch java.io.IOException _)))))})
 
 (defn init []
-  (when-not (= "LOCAL" (env :environment))
-    (timbre/set-config! {:level     :info
-                         :appenders {:rolling-file-adapter (rolling-appender {:path "/var/log/tomcat8/backend.log"})}})))
+  (if (= "LOCAL" (env :environment))
+    (timbre/info "Initialized logging. Using console to print logs.")
+    (do
+      (timbre/set-config! {:level     :info
+                           :appenders {:rolling-file-adapter (rolling-appender {:path "/var/log/tomcat8/backend.log"})}})
+      (timbre/info "Initialized logging. Using /var/log/tomcat8/backend.log path for rolling file adapter."))))
