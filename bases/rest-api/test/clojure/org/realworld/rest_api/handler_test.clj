@@ -1,8 +1,10 @@
 (ns clojure.org.realworld.rest-api.handler-test
   (:require [clojure.test :refer :all]
             [clojure.org.realworld.article.interface :as article]
+            [clojure.org.realworld.article.spec :as article-spec]
             [clojure.org.realworld.rest-api.handler :as handler]
-            [clojure.org.realworld.comment.interface :as comments]
+            [clojure.org.realworld.comment.interface :as comment-comp]
+            [clojure.org.realworld.comment.spec :as comment-spec]
             [clojure.org.realworld.profile.interface :as profile]
             [clojure.org.realworld.spec.interface :as spec]
             [clojure.org.realworld.tag.interface :as tag]
@@ -12,27 +14,27 @@
             [clojure.spec.gen.alpha :as gen]))
 
 (defn prepare-for-tests [f]
-  (with-redefs [user/login                  (fn [_] [true {}])
-                user/register!              (fn [_] [true {}])
-                user/user-by-token          (fn [_] [true {}])
-                user/update-user!           (fn [_ _] [true {}])
-                profile/profile             (fn [_ _] [true {}])
-                profile/follow!             (fn [_ _] [true {}])
-                profile/unfollow!           (fn [_ _] [true {}])
-                article/article             (fn [_ _] [true {}])
-                article/create-article!     (fn [_ _] [true {}])
-                article/update-article!     (fn [_ _ _] [true {}])
-                article/delete-article!     (fn [_ _] [true {}])
-                article/favorite-article!   (fn [_ _] [true {}])
-                article/unfavorite-article! (fn [_ _] [true {}])
-                article/feed                (fn [_ limit offset] [true {:limit limit :offset offset}])
-                article/articles            (fn [_ limit offset author tag favorited]
-                                              [true {:limit  limit :offset offset
-                                                     :author author :tag tag :favorited favorited}])
-                tag/all-tags                (fn [] [true {:tags []}])
-                comments/article-comments   (fn [_ _] [true {:comments []}])
-                comments/add-comment!       (fn [_ _ _] [true {}])
-                comments/delete-comment!    (fn [_ _] [true {}])]
+  (with-redefs [user/login                    (fn [_] [true {}])
+                user/register!                (fn [_] [true {}])
+                user/user-by-token            (fn [_] [true {}])
+                user/update-user!             (fn [_ _] [true {}])
+                profile/profile               (fn [_ _] [true {}])
+                profile/follow!               (fn [_ _] [true {}])
+                profile/unfollow!             (fn [_ _] [true {}])
+                article/article               (fn [_ _] [true {}])
+                article/create-article!       (fn [_ _] [true {}])
+                article/update-article!       (fn [_ _ _] [true {}])
+                article/delete-article!       (fn [_ _] [true {}])
+                article/favorite-article!     (fn [_ _] [true {}])
+                article/unfavorite-article!   (fn [_ _] [true {}])
+                article/feed                  (fn [_ limit offset] [true {:limit limit :offset offset}])
+                article/articles              (fn [_ limit offset author tag favorited]
+                                               [true {:limit  limit :offset offset
+                                                      :author author :tag tag :favorited favorited}])
+                tag/all-tags                  (fn [] [true {:tags []}])
+                comment-comp/article-comments (fn [_ _] [true {:comments []}])
+                comment-comp/add-comment!     (fn [_ _ _] [true {}])
+                comment-comp/delete-comment!  (fn [_ _] [true {}])]
     (f)))
 
 (use-fixtures :each prepare-for-tests)
@@ -140,7 +142,7 @@
 
 (deftest create-article--valid-input--return-200
   (let [res (handler/create-article {:auth-user (gen/generate (s/gen user-spec/user))
-                                     :params    {:article (gen/generate (s/gen :core/create-article))}})]
+                                     :params    {:article (gen/generate (s/gen article-spec/create-article))}})]
     (is (= {:status 200
             :body   {}}
            res))))
@@ -152,7 +154,7 @@
            res))))
 
 (deftest update-article--invalid-slug--return-422
-  (let [res (handler/update-article {:params {:article (gen/generate (s/gen :core/update-article))}})]
+  (let [res (handler/update-article {:params {:article (gen/generate (s/gen article-spec/update-article))}})]
     (is (= {:status 422
             :body   {:errors {:body ["Invalid request body."]}}}
            res))))
@@ -160,7 +162,7 @@
 (deftest update-article--valid-input--return-200
   (let [res (handler/update-article {:auth-user (gen/generate (s/gen user-spec/user))
                                      :params    {:slug    "this-is-slug"
-                                                 :article (gen/generate (s/gen :core/update-article))}})]
+                                                 :article (gen/generate (s/gen article-spec/update-article))}})]
     (is (= {:status 200
             :body   {}}
            res))))
@@ -251,7 +253,7 @@
 
 (deftest add-comment--invalid-slug--return-422
   (let [res (handler/add-comment {:auth-user (gen/generate (s/gen user-spec/user))
-                                  :params    {:comment (gen/generate (s/gen :core/add-comment))}})]
+                                  :params    {:comment (gen/generate (s/gen comment-spec/add-comment))}})]
     (is (= {:status 422
             :body   {:errors {:body ["Invalid request body."]}}}
            res))))
@@ -266,7 +268,7 @@
 (deftest add-comment--valid-input--return-200
   (let [res (handler/add-comment {:auth-user (gen/generate (s/gen user-spec/user))
                                   :params    {:slug    "this-is-slug"
-                                              :comment (gen/generate (s/gen :core/add-comment))}})]
+                                              :comment (gen/generate (s/gen comment-spec/add-comment))}})]
     (is (= {:status 200
             :body   {}}
            res))))

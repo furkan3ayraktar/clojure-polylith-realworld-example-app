@@ -1,6 +1,5 @@
 (ns clojure.org.realworld.profile.core-test
   (:require [clojure.java.jdbc :as jdbc]
-            [clojure.org.realworld.spec.interface]
             [clojure.org.realworld.database.interface :as database]
             [clojure.org.realworld.profile.core :as core]
             [clojure.org.realworld.user.spec :as user-spec]

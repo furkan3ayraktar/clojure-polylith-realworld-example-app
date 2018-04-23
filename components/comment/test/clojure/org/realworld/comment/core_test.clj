@@ -1,6 +1,7 @@
 (ns clojure.org.realworld.comment.core-test
   (:require [clojure.java.jdbc :as jdbc]
             [clojure.org.realworld.comment.core :as core]
+            [clojure.org.realworld.comment.spec :as spec]
             [clojure.org.realworld.database.interface :as database]
             [clojure.org.realworld.user.spec :as user-spec]
             [clojure.spec.alpha :as s]
@@ -61,10 +62,10 @@
 
 (deftest add-comment!--test
   (let [_       (jdbc/insert! (test-db) :article {:slug "slug"})
-        inputs  (gen/sample (s/gen :core/add-comment) 20)
+        inputs  (gen/sample (s/gen spec/add-comment) 20)
         results (map #(core/add-comment! auth-user "slug" %) inputs)]
     (is (every? true? (map first results)))
-    (is (every? #(s/valid? :core/visible-comment (second %)) results))))
+    (is (every? #(s/valid? spec/visible-comment (second %)) results))))
 
 (deftest delete-comment!--comment-not-found--return-negative-response
   (let [[ok? res] (core/delete-comment! auth-user 1)]
@@ -73,7 +74,7 @@
 
 (deftest delete-comment!--comment-is-not-owned-by-user--return-negative-response
   (let [_       (jdbc/insert! (test-db) :article {:slug "slug"})
-        initial (gen/generate (s/gen :core/add-comment))
+        initial (gen/generate (s/gen spec/add-comment))
         [_ comment] (core/add-comment! auth-user "slug" initial)
         [ok? res] (core/delete-comment! (assoc auth-user :id 2)
                                         (-> comment :comment :id))]
@@ -82,7 +83,7 @@
 
 (deftest delete-comment!--input-is-ok--delete-comment-and-return-positive-response
   (let [_              (jdbc/insert! (test-db) :article {:slug "slug"})
-        initial-inputs (gen/sample (s/gen :core/add-comment) 20)
+        initial-inputs (gen/sample (s/gen spec/add-comment) 20)
         create-res     (map #(core/add-comment! auth-user "slug" %) initial-inputs)
         update-res     (map #(core/delete-comment! auth-user (-> % second :comment :id)) create-res)]
     (is (every? #(= [true nil] %) update-res))))

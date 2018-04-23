@@ -1,8 +1,8 @@
 (ns clojure.org.realworld.article.core-test
   (:require [clojure.java.jdbc :as jdbc]
-            [clojure.org.realworld.spec.interface]
             [clojure.org.realworld.database.interface :as database]
             [clojure.org.realworld.article.core :as core]
+            [clojure.org.realworld.article.spec :as spec]
             [clojure.org.realworld.user.spec :as user-spec]
             [clojure.spec.alpha :as s]
             [clojure.spec.gen.alpha :as gen]
@@ -40,15 +40,15 @@
 (deftest create-article--test
   (let [auth-user (assoc (gen/generate (s/gen user-spec/user)) :id 1)
         _         (jdbc/insert! (test-db) :user auth-user)
-        inputs    (gen/sample (s/gen :core/create-article) 20)
+        inputs    (gen/sample (s/gen spec/create-article) 20)
         results   (map #(core/create-article! auth-user %) inputs)]
     (is (every? true? (map first results)))
-    (is (every? #(s/valid? :core/visible-article (second %)) results))))
+    (is (every? #(s/valid? spec/visible-article (second %)) results))))
 
 (deftest update-article--article-not-found--return-negative-response
   (let [auth-user (assoc (gen/generate (s/gen user-spec/user)) :id 1)
         _         (jdbc/insert! (test-db) :user auth-user)
-        input     (gen/generate (s/gen :core/update-article))
+        input     (gen/generate (s/gen spec/update-article))
         [ok? res] (core/update-article! auth-user "slug" input)]
     (is (false? ok?))
     (is (= {:errors {:slug ["Cannot find an article with given slug."]}} res))))
@@ -56,9 +56,9 @@
 (deftest update-article--article-is-not-owned-by-user--return-negative-response
   (let [auth-user (assoc (gen/generate (s/gen user-spec/user)) :id 1)
         _         (jdbc/insert! (test-db) :user auth-user)
-        initial   (gen/generate (s/gen :core/create-article))
+        initial   (gen/generate (s/gen spec/create-article))
         [_ article] (core/create-article! auth-user initial)
-        input     (gen/generate (s/gen :core/update-article))
+        input     (gen/generate (s/gen spec/update-article))
         [ok? res] (core/update-article! (assoc auth-user :id 2)
                                         (-> article :article :slug)
                                         input)]
@@ -68,15 +68,15 @@
 (deftest update-article--input-is-ok--update-article-and-return-positive-response
   (let [auth-user      (assoc (gen/generate (s/gen user-spec/user)) :id 1)
         _              (jdbc/insert! (test-db) :user auth-user)
-        initial-inputs (gen/sample (s/gen :core/create-article) 20)
+        initial-inputs (gen/sample (s/gen spec/create-article) 20)
         create-res     (map #(core/create-article! auth-user %) initial-inputs)
-        inputs         (gen/sample (s/gen :core/update-article) 20)
+        inputs         (gen/sample (s/gen spec/update-article) 20)
         update-res     (map-indexed #(core/update-article! auth-user
                                                            (-> (nth create-res %1) second :article :slug)
                                                            %2)
                                     inputs)]
     (is (every? true? (map first update-res)))
-    (is (every? #(s/valid? :core/visible-article (second %)) update-res))))
+    (is (every? #(s/valid? spec/visible-article (second %)) update-res))))
 
 (deftest delete-article--article-not-found--return-negative-response
   (let [auth-user (assoc (gen/generate (s/gen user-spec/user)) :id 1)
@@ -88,7 +88,7 @@
 (deftest delete-article--article-is-not-owned-by-user--return-negative-response
   (let [auth-user (assoc (gen/generate (s/gen user-spec/user)) :id 1)
         _         (jdbc/insert! (test-db) :user auth-user)
-        initial   (gen/generate (s/gen :core/create-article))
+        initial   (gen/generate (s/gen spec/create-article))
         [_ article] (core/create-article! auth-user initial)
         [ok? res] (core/delete-article! (assoc auth-user :id 2)
                                         (-> article :article :slug))]
@@ -98,7 +98,7 @@
 (deftest delete-article--input-is-ok--delete-article-and-return-positive-response
   (let [auth-user      (assoc (gen/generate (s/gen user-spec/user)) :id 1)
         _              (jdbc/insert! (test-db) :user auth-user)
-        initial-inputs (gen/sample (s/gen :core/create-article) 20)
+        initial-inputs (gen/sample (s/gen spec/create-article) 20)
         create-res     (map #(core/create-article! auth-user %) initial-inputs)
         update-res     (map #(core/delete-article! auth-user (-> % second :article :slug)) create-res)]
     (is (every? #(= [true nil] %) update-res))))
@@ -113,7 +113,7 @@
 (deftest favorite-article!--profile-found--return-positive-result
   (let [auth-user (assoc (gen/generate (s/gen user-spec/user)) :id 1)
         _         (jdbc/insert! (test-db) :user auth-user)
-        [_ article] (core/create-article! auth-user (gen/generate (s/gen :core/create-article)))
+        [_ article] (core/create-article! auth-user (gen/generate (s/gen spec/create-article)))
         [ok? res] (core/favorite-article! auth-user (-> article :article :slug))]
     (is (true? ok?))
     (is (= 1 (-> res :article :favoritesCount)))
@@ -129,7 +129,7 @@
 (deftest unfavorite-article!--logged-in-and-profile-found--return-positive-result
   (let [auth-user (assoc (gen/generate (s/gen user-spec/user)) :id 1)
         _         (jdbc/insert! (test-db) :user auth-user)
-        [_ article] (core/create-article! auth-user (gen/generate (s/gen :core/create-article)))
+        [_ article] (core/create-article! auth-user (gen/generate (s/gen spec/create-article)))
         _         (core/favorite-article! auth-user (-> article :article :slug))
         [ok? res] (core/unfavorite-article! auth-user (-> article :article :slug))]
     (is (true? ok?))
@@ -150,7 +150,7 @@
         other-user (assoc (gen/generate (s/gen user-spec/user)) :id 2)
         _          (jdbc/insert-multi! (test-db) :user [auth-user other-user])
         _          (jdbc/insert! (test-db) :userFollows {:userId 1 :followedUserId 2})
-        articles   (gen/sample (s/gen :core/create-article) 20)
+        articles   (gen/sample (s/gen spec/create-article) 20)
         _          (doseq [a articles]
                      (core/create-article! other-user a))
         [ok? res] (core/feed auth-user 10 0)]
@@ -167,7 +167,7 @@
         _            (jdbc/insert-multi! (test-db) :user [auth-user other-user])
         _            (jdbc/insert-multi! (test-db) :userFollows [{:userId 1 :followedUserId 2}
                                                                  {:userId 1 :followedUserId 3}])
-        articles     (gen/sample (s/gen :core/create-article) 20)
+        articles     (gen/sample (s/gen spec/create-article) 20)
         _            (doseq [a (take 10 articles)]
                        (core/create-article! other-user a))
         _            (doseq [a (take 10 (drop 10 articles))]
@@ -184,7 +184,7 @@
         other-user (assoc (gen/generate (s/gen user-spec/user)) :id 2)
         _          (jdbc/insert-multi! (test-db) :user [auth-user other-user])
         _          (jdbc/insert! (test-db) :userFollows {:userId 1 :followedUserId 2})
-        articles   (gen/sample (s/gen :core/create-article) 20)
+        articles   (gen/sample (s/gen spec/create-article) 20)
         _          (doseq [a articles]
                      (core/create-article! other-user a))
         [ok? res] (core/feed auth-user nil nil)]
@@ -199,7 +199,7 @@
         other-user (assoc (gen/generate (s/gen user-spec/user)) :id 2)
         _          (jdbc/insert-multi! (test-db) :user [auth-user other-user])
         _          (jdbc/insert! (test-db) :userFollows {:userId 1 :followedUserId 2})
-        articles   (gen/sample (s/gen :core/create-article) 20)
+        articles   (gen/sample (s/gen spec/create-article) 20)
         _          (doseq [a articles]
                      (core/create-article! other-user a))
         [ok? res] (core/feed auth-user nil 5)]
@@ -222,7 +222,7 @@
   (let [auth-user  (assoc (gen/generate (s/gen user-spec/user)) :id 1)
         other-user (assoc (gen/generate (s/gen user-spec/user)) :id 2)
         _          (jdbc/insert-multi! (test-db) :user [auth-user other-user])
-        articles   (gen/sample (s/gen :core/create-article) 20)
+        articles   (gen/sample (s/gen spec/create-article) 20)
         _          (doseq [a articles]
                      (core/create-article! other-user a))
         [ok? res] (core/articles auth-user 10 0 nil nil nil)]
