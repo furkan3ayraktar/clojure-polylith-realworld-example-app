@@ -23,7 +23,7 @@ For more information on how to this works with other frontends/backends, head ov
 - [Database](#database)
 - [Running Tests](#running-tests)
 - [Continuous Integration](#continuous-integration)
-- [How to create this workspace from scratch](how-to.md)
+- [How to create this workspace from scratch](#how-to-create-this-workspace-from-scratch)
 
 ### Getting started
 
@@ -59,7 +59,7 @@ Bases are the main building blocks of the Polylith Architecrture. There is only 
 Polylith plugin also helps to test and build incrementally. If you run `` lein polylith test-and-build `` command on the root folder of project, it will detect changes made since the last build and only run tests for the recent changes. Check out Polylith Plugin repository for further information or simply write `` lein polylith help `` to see available commands.
 
 ##### System
-There is only one system in realworld workspace, which is called `` realworld-backend ``. Systems in Polylith architecture are a way to glue all the components you want to deliver within a bundle. Since we only need to deliver one bundle for realworld backend, we have only one system.
+There is only one system in realworld workspace, which is called `` realworld-backend ``. Systems in Polylith architecture are a way to glue a base and all of the components you want to deliver within a bundle. Since we only need to deliver one bundle for realworld backend, we have only one system.
 
 If you look at the folder `` systems/realworld-backend ``, you will see a standard leiningen project structure. The magic here is under `` src `` and `` resources `` folders. Under these folders, you will see links to the actual components' source and resources folders. You can also locate links to the base `` rest-api `` under these folders. A system only has it's `` project.clj `` to define system specific configuration and external dependencies. All the code and resources in a system come from the components and base that creates the system.
 
@@ -85,7 +85,7 @@ These routes are defined with compojure with this piece of code:
   (GET     "/api/articles"                    [] h/articles)
   (GET     "/api/articles/:slug"              [] h/article)
   (GET     "/api/articles/:slug/comments"     [] h/comments)
-  (GET     "/api/tag"                        [] h/tags))
+  (GET     "/api/tag"                         [] h/tags))
 
 (defroutes private-routes
   (GET     "/api/user"                        [] h/current-user)
@@ -140,12 +140,12 @@ In the workspace, there are 8 different components. The structure and dependenci
 
 ![components](.media/readme/03_components.png)
 
-In Polylith Architecture, components talk to each other via their public interfaces. Let's take a deeper look at one of the interfaces, like profile. Public interface of `` profile `` component is structured as this:
+In Polylith Architecture, components talk to each other via their public interfaces. Let's take a deeper look at one of the interfaces, like `` profile ``. Public interface of `` profile `` component is structured as this:
 ```clojure
 (ns clojure.org.realworld.profile.interface)
 
-(def profile)
-(defn fetch-profile [auth-user username])
+(def profile) ;; Interface for spec definition
+(defn fetch-profile [auth-user username]) ;; Function interface
 (defn follow! [auth-user username])
 (defn unfollow! [auth-user username])
 ```
@@ -168,7 +168,7 @@ One example of using this interface can be found under `` handler.clj `` namespa
       
 ;;...
 ```
-`` handler.clj `` uses function signature `` profile/follow! `` from profile components interface. If we continue to follow looking at this functionality, the actual definition of `` follow! `` function under `` core.clj `` namespace of profile component. 
+`` handler.clj `` uses function signature `` profile/follow! `` from `` profile `` components interface. If we continue to follow looking at this functionality, the actual definition of `` follow! `` function under `` core.clj `` namespace of `` profile `` component. 
 ```clojure
 (defn follow! [auth-user username]
   (if-let [user (user/find-by-username-or-id username)]
@@ -177,7 +177,7 @@ One example of using this interface can be found under `` handler.clj `` namespa
       [true (create-profile user true)])
     [false {:errors {:username ["Cannot find a profile with given username."]}}]))
 ```
-Here we see another function call to `` user `` component from `` profile `` component. We can take a look at users public interface. 
+Here we see another function call to `` user `` component from `` profile `` component. We can take a look at `` user ``s public interface. 
 ```clojure
 (ns clojure.org.realworld.user.interface)
 
@@ -191,11 +191,11 @@ Here we see another function call to `` user `` component from `` profile `` com
 (defn update-user! [auth-user user-input])
 (defn find-by-username-or-id [username-or-id])
 ```
-`` profile `` uses `` find-by-username-or-id `` function from `` user `` component. This is how different components talk to each other within the workspace. The main rule is, one component can only call other components public functions defined in `` interface.clj ``.
+`` profile `` uses `` find-by-username-or-id `` function from `` user `` component. This is how different components talk to each other within the workspace. You are forced to call other components' public functions defined in `` interface.clj `` from any component or base.
 
-Article, comment, profile, tag, and user components define functionality to endpoints required for realworld backend. The other components, database, spec and log, are created to isolate some other common code in the workspace. Spec component contains some basic spec definitions that are used in different components. Similarly, log component creates a wrapper around logging library, [timbre](https://github.com/ptaoussanis/timbre). This is included in the workspace to demonstrate how to create wrapper components around external libraries. This gives you an opportunity to declare your own public interface for an external library and if you decide to use another external library, you can just replace the implementation of the component without effecting other components.
+`` article ``, `` comment ``, `` profile ``, `` tag ``, and `` user `` components define functionality to endpoints required for realworld backend. The other components, `` database ``, `` spec `` and `` log ``, are created to isolate some other common code in the workspace. `` spec `` component contains some basic spec definitions that are used in different components. Similarly, `` log `` component creates a wrapper around logging library, [timbre](https://github.com/ptaoussanis/timbre). This is included in the workspace to demonstrate how to create wrapper components around external libraries. This gives you an opportunity to declare your own public interface for an external library and if you decide to use another external library, you can just switch to another component implementing the same interface without effecting other components.
 
-Database component is another type of common functionality component. It contains schema definitions for the sqlite database and functions to apply that schema. If you check Ring initializer function in `` api.clj `` namespace of `` rest-api `` base, you'll see this:
+`` database `` component is another type of common functionality component. It contains schema definitions for the sqlite database and functions to apply that schema. If you check Ring initializer function in `` api.clj `` namespace of `` rest-api `` base, you'll see this:
 ```clojure
 (defn init []
   (try
@@ -213,7 +213,7 @@ Database component is another type of common functionality component. It contain
     (catch Exception e
       (log/error e "Could not start server."))))
 ```
-Here, we use helper functions from database components `` interface.clj `` to check if an sqlite database exists in the current path and if it exists, to check the validity of schema. Public interface of database component looks like this:
+Here, we use helper functions from `` database `` components `` interface.clj `` to check if an sqlite database exists in the current path and if it exists, to check the validity of schema. Public interface of `` database `` component looks like this:
 ```clojure
 (ns clojure.org.realworld.database.interface)
 
@@ -248,3 +248,6 @@ Alternatively, to run all tests in your development environment, run following c
 This repository has a [CircleCI](https://circleci.com) configuration to demonstrate how to use Polylith plugin to incrementally run tests and build artifacts. Some commented out parts in the config show an example way to deploy the application to the AWS.
 
 TODO: explain in detail
+
+### How to create this workspace from scratch
+You can find necessary steps to create this workspace with Polylith plugin [here](how-to.md).

@@ -19,7 +19,7 @@
   (GET     "/api/articles"                    [] h/articles)
   (GET     "/api/articles/:slug"              [] h/article)
   (GET     "/api/articles/:slug/comments"     [] h/comments)
-  (GET     "/api/tag"                        [] h/tags))
+  (GET     "/api/tag"                         [] h/tags))
 
 (defroutes private-routes
   (GET     "/api/user"                        [] h/current-user)
