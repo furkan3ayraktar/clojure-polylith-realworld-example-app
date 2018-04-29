@@ -1,5 +1,9 @@
 (ns clojure.org.realworld.article.interface)
 
+(def create-article)
+
+(def update-article)
+
 (defn article [auth-user slug])
 
 (defn create-article! [auth-user article-input])

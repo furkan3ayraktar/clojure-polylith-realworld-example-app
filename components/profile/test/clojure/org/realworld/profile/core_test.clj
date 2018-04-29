@@ -2,7 +2,7 @@
   (:require [clojure.java.jdbc :as jdbc]
             [clojure.org.realworld.database.interface :as database]
             [clojure.org.realworld.profile.core :as core]
-            [clojure.org.realworld.user.spec :as user-spec]
+            [clojure.org.realworld.user.interface :as user]
             [clojure.spec.gen.alpha :as gen]
             [clojure.spec.alpha :as s]
             [clojure.test :refer :all]))
@@ -14,7 +14,7 @@
   ([_] (test-db)))
 
 (def ^:private auth-user
-  (assoc (gen/generate (s/gen user-spec/user)) :id 1))
+  (assoc (gen/generate (s/gen user/user)) :id 1))
 
 (defn prepare-for-tests [f]
   (with-redefs [database/db test-db]
@@ -26,16 +26,16 @@
 
 (use-fixtures :each prepare-for-tests)
 
-(deftest profile--profile-not-found--return-negative-result
-  (let [[ok? res] (core/profile auth-user "username")]
+(deftest fetch-profile--profile-not-found--return-negative-result
+  (let [[ok? res] (core/fetch-profile auth-user "username")]
     (is (false? ok?))
     (is (= {:errors {:username ["Cannot find a profile with given username."]}} res))))
 
-(deftest profile--not-logged-in--return-positive-result-with-false-following
+(deftest fetch-profile--not-logged-in--return-positive-result-with-false-following
   (let [_ (jdbc/insert! (database/db) :user {:username "username"
                                              :bio      "bio"
                                              :image    "image"})
-        [ok? res] (core/profile nil "username")]
+        [ok? res] (core/fetch-profile nil "username")]
     (is (true? ok?))
     (is (= {:profile {:username  "username"
                       :bio       "bio"
@@ -43,11 +43,11 @@
                       :following false}}
            res))))
 
-(deftest profile--logged-in-not-following--return-positive-result-with-false-following
+(deftest fetch-profile--logged-in-not-following--return-positive-result-with-false-following
   (let [_ (jdbc/insert! (database/db) :user {:username "username"
                                              :bio      "bio"
                                              :image    "image"})
-        [ok? res] (core/profile auth-user "username")]
+        [ok? res] (core/fetch-profile auth-user "username")]
     (is (true? ok?))
     (is (= {:profile {:username  "username"
                       :bio       "bio"
@@ -55,12 +55,12 @@
                       :following false}}
            res))))
 
-(deftest profile--logged-in-following--return-positive-result-with-true-following
+(deftest fetch-profile--logged-in-following--return-positive-result-with-true-following
   (let [_ (jdbc/insert! (database/db) :user {:username "username"
                                              :bio      "bio"
                                              :image    "image"})
         _ (jdbc/insert! (database/db) :userFollows {:userId 1 :followedUserId 2})
-        [ok? res] (core/profile auth-user "username")]
+        [ok? res] (core/fetch-profile auth-user "username")]
     (is (true? ok?))
     (is (= {:profile {:username  "username"
                       :bio       "bio"

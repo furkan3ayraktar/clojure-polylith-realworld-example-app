@@ -23,14 +23,14 @@
 (use-fixtures :each prepare-for-tests)
 
 (deftest login--user-not-found--return-negative-result
-  (let [[ok? res] (core/login {:email "test@test.com" :password "password"})]
+  (let [[ok? res] (core/login! {:email "test@test.com" :password "password"})]
     (is (false? ok?))
     (is (= {:errors {:email ["Invalid email."]}} res))))
 
 (deftest login--invalid-password--return-negative-result
   (let [_ (jdbc/insert! (test-db) :user {:email    "test@test.com"
                                          :password (core/encrypt-password "password")})
-        [ok? res] (core/login {:email "test@test.com" :password "invalid-password"})]
+        [ok? res] (core/login! {:email "test@test.com" :password "invalid-password"})]
     (is (false? ok?))
     (is (= {:errors {:password ["Invalid password."]}} res))))
 
@@ -38,7 +38,7 @@
   (let [_ (jdbc/insert! (test-db) :user {:email    "test@test.com"
                                          :username "username"
                                          :password (core/encrypt-password "password")})
-        [ok? res] (core/login {:email "test@test.com" :password "password"})]
+        [ok? res] (core/login! {:email "test@test.com" :password "password"})]
     (is (true? ok?))
     (is (true? (s/valid? spec/visible-user res)))))
 

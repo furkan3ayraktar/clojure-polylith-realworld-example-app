@@ -23,7 +23,7 @@
 (defn user->visible-user [user]
   {:user (dissoc user :password)})
 
-(defn login [{:keys [email password]}]
+(defn login! [{:keys [email password]}]
   (if-let [user (store/find-by-email email)]
     (if (crypto/check password (:password user))
       (let [new-token (generate-token email)

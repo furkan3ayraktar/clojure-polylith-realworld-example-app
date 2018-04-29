@@ -1,5 +1,10 @@
 (ns clojure.org.realworld.article.interface
-  (:require [clojure.org.realworld.article.core :as core]))
+  (:require [clojure.org.realworld.article.core :as core]
+            [clojure.org.realworld.article.spec :as spec]))
+
+(def create-article spec/create-article)
+
+(def update-article spec/create-article)
 
 (defn article [auth-user slug]
   (core/article auth-user slug))

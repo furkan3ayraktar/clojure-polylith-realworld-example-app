@@ -6,7 +6,7 @@
 
 (defn comment->visible-comment [auth-user comment]
   (let [user-id (:userId comment)
-        [_ author] (profile/profile auth-user user-id)]
+        [_ author] (profile/fetch-profile auth-user user-id)]
     (-> comment
         (dissoc :userId :articleId)
         (assoc :author (:profile author)))))

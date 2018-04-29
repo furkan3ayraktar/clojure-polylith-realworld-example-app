@@ -1,13 +1,10 @@
 (ns clojure.org.realworld.rest-api.handler
   (:require [clojure.org.realworld.article.interface :as article]
-            [clojure.org.realworld.article.spec :as article-spec]
             [clojure.org.realworld.comment.interface :as comment-comp]
-            [clojure.org.realworld.comment.spec :as comment-spec]
             [clojure.org.realworld.spec.interface :as spec]
             [clojure.org.realworld.profile.interface :as profile]
             [clojure.org.realworld.tag.interface :as tag]
             [clojure.org.realworld.user.interface :as user]
-            [clojure.org.realworld.user.spec :as user-spec]
             [clojure.spec.alpha :as s]))
 
 (defn- parse-query-param [param]
@@ -33,14 +30,14 @@
 
 (defn login [req]
   (let [user (-> req :params :user)]
-    (if (s/valid? user-spec/login user)
-      (let [[ok? res] (user/login user)]
+    (if (s/valid? user/login user)
+      (let [[ok? res] (user/login! user)]
         (handler (if ok? 200 404) res))
       (handler 422 {:errors {:body ["Invalid request body."]}}))))
 
 (defn register [req]
   (let [user (-> req :params :user)]
-    (if (s/valid? user-spec/register user)
+    (if (s/valid? user/register user)
       (let [[ok? res] (user/register! user)]
         (handler (if ok? 200 404) res))
       (handler 422 {:errors {:body ["Invalid request body."]}}))))
@@ -52,7 +49,7 @@
 (defn update-user [req]
   (let [auth-user (-> req :auth-user)
         user      (-> req :params :user)]
-    (if (s/valid? user-spec/update-user user)
+    (if (s/valid? user/update-user user)
       (let [[ok? res] (user/update-user! auth-user user)]
         (handler (if ok? 200 404) res))
       (handler 422 {:errors {:body ["Invalid request body."]}}))))
@@ -61,7 +58,7 @@
   (let [auth-user (-> req :auth-user)
         username  (-> req :params :username)]
     (if (s/valid? spec/username? username)
-      (let [[ok? res] (profile/profile auth-user username)]
+      (let [[ok? res] (profile/fetch-profile auth-user username)]
         (handler (if ok? 200 404) res))
       (handler 422 {:errors {:username ["Invalid username."]}}))))
 
@@ -128,7 +125,7 @@
 (defn create-article [req]
   (let [auth-user (-> req :auth-user)
         article   (-> req :params :article)]
-    (if (s/valid? article-spec/create-article article)
+    (if (s/valid? article/create-article article)
       (let [[ok? res] (article/create-article! auth-user article)]
         (handler (if ok? 200 404) res))
       (handler 422 {:errors {:body ["Invalid request body."]}}))))
@@ -137,7 +134,7 @@
   (let [auth-user (-> req :auth-user)
         slug      (-> req :params :slug)
         article   (-> req :params :article)]
-    (if (and (s/valid? article-spec/update-article article)
+    (if (and (s/valid? article/update-article article)
              (s/valid? spec/slug? slug))
       (let [[ok? res] (article/update-article! auth-user slug article)]
         (handler (if ok? 200 404) res))
@@ -156,7 +153,7 @@
         slug      (-> req :params :slug)
         comment   (-> req :params :comment)]
     (if (and (s/valid? spec/slug? slug)
-             (s/valid? comment-spec/add-comment comment))
+             (s/valid? comment-comp/add-comment comment))
       (let [[ok? res] (comment-comp/add-comment! auth-user slug comment)]
         (handler (if ok? 200 404) res))
       (handler 422 {:errors {:body ["Invalid request body."]}}))))
@@ -164,7 +161,7 @@
 (defn delete-comment [req]
   (let [auth-user (-> req :auth-user)
         id        (parse-query-param (-> req :params :id))]
-    (if (s/valid? comment-spec/id id)
+    (if (s/valid? comment-comp/id id)
       (let [[ok? res] (comment-comp/delete-comment! auth-user id)]
         (handler (if ok? 200 404) res))
       (handler 422 {:errors {:id ["Invalid comment id."]}}))))

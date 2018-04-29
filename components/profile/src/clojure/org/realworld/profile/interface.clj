@@ -1,8 +1,11 @@
 (ns clojure.org.realworld.profile.interface
-  (:require [clojure.org.realworld.profile.core :as core]))
+  (:require [clojure.org.realworld.profile.core :as core]
+            [clojure.org.realworld.profile.spec :as spec]))
 
-(defn profile [auth-user username]
-  (core/profile auth-user username))
+(def profile spec/profile)
+
+(defn fetch-profile [auth-user username]
+  (core/fetch-profile auth-user username))
 
 (defn follow! [auth-user username]
   (core/follow! auth-user username))

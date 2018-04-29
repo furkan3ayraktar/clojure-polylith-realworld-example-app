@@ -7,7 +7,7 @@
                   :following following?)]
     {:profile profile}))
 
-(defn profile [auth-user username-or-id]
+(defn fetch-profile [auth-user username-or-id]
   (let [user (user/find-by-username-or-id username-or-id)]
     (if (nil? user)
       [false {:errors {:username ["Cannot find a profile with given username."]}}]

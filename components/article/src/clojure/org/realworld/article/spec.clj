@@ -1,6 +1,6 @@
 (ns clojure.org.realworld.article.spec
   (:require [clojure.org.realworld.spec.interface :as spec]
-            [clojure.org.realworld.profile.spec :as profile-spec]
+            [clojure.org.realworld.profile.interface :as profile]
             [spec-tools.data-spec :as ds]))
 
 (def create-article
@@ -27,7 +27,7 @@
                    :createdAt        string?
                    :favorited        boolean?
                    :favoritesCount   nat-int?
-                   :author           profile-spec/profile
+                   :author           profile/profile
                    (ds/opt :tagList) [spec/non-empty-string?]}}))
 
 (def visible-article

@@ -1,6 +1,6 @@
 (ns clojure.org.realworld.comment.spec
   (:require [clojure.org.realworld.spec.interface :as spec]
-            [clojure.org.realworld.profile.spec :as profile-spec]
+            [clojure.org.realworld.profile.interface :as profile]
             [spec-tools.core :as st]
             [spec-tools.data-spec :as ds]))
 
@@ -19,7 +19,7 @@
                    :updatedAt string?
                    :createdAt string?
                    :body      spec/non-empty-string?
-                   :author    profile-spec/profile}}))
+                   :author    profile/profile}}))
 
 (def visible-comment
   (ds/spec {:name :core/visible-comment

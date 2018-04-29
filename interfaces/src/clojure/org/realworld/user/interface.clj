@@ -1,6 +1,14 @@
 (ns clojure.org.realworld.user.interface)
 
-(defn login [login-input])
+(def login)
+
+(def register)
+
+(def update-user)
+
+(def user)
+
+(defn login! [login-input])
 
 (defn register! [register-input])
 

@@ -1,6 +1,8 @@
 (ns clojure.org.realworld.profile.interface)
 
-(defn profile [auth-user username])
+(def profile)
+
+(defn fetch-profile [auth-user username])
 
 (defn follow! [auth-user username])
 

@@ -8,7 +8,7 @@
 (defn article->visible-article [article auth-user]
   (let [user-id         (:userId article)
         article-id      (:id article)
-        [_ author]      (profile/profile auth-user user-id)
+        [_ author]      (profile/fetch-profile auth-user user-id)
         favorited?      (if auth-user (store/favorited? (:id auth-user) article-id) false)
         favorites-count (store/favorites-count article-id)
         tags            (store/article-tags article-id)]
