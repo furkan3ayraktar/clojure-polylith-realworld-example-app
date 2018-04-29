@@ -119,6 +119,9 @@ jobs:
       enabled: true
     working_directory: ~/realworld-backend
     steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "e3:f1:38:86:f7:c2:0e:f3:ae:96:29:ff:2e:13:a3:16"
       - attach_workspace:
           at: ~/realworld-backend
       - run:
