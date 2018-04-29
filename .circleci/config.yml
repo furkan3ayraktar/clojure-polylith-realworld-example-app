@@ -1,1 +1,143 @@
-TODO:
+version: 2.0
+
+jobs:
+  compile:
+    docker:
+      - image: circleci/clojure:lein-2.7.1
+    working_directory: ~/realworld-backend
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/realworld-backend
+      - restore_cache:
+          key: realworld-backend-cache
+      - run:
+          name: Compile changed projects with using time.circleci.edn
+          command: lein polylith compile circleci
+      - save_cache:
+          key: realworld-backend-cache
+          paths:
+            - ~/.m2
+            - ~/.lein
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+  test:
+    docker:
+      - image: circleci/clojure:lein-2.7.1
+    working_directory: ~/realworld-backend
+    steps:
+      - attach_workspace:
+          at: ~/realworld-backend
+      - restore_cache:
+          key: realworld-backend-cache
+      - run:
+          name: Test changed projects with using time.circleci.edn
+          command: lein polylith test circleci
+      - save_cache:
+          key: realworld-backend-cache
+          paths:
+            - ~/.m2
+            - ~/.lein
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+
+  build:
+    docker:
+      - image: circleci/clojure:lein-2.7.1
+    working_directory: ~/realworld-backend
+    steps:
+      - attach_workspace:
+          at: ~/realworld-backend
+      - restore_cache:
+          key: realworld-backend-cache
+      - run:
+          name: Build changed projects with using time.circleci.edn
+          command: lein polylith build circleci
+      - save_cache:
+          key: realworld-backend-cache
+          paths:
+            - ~/.m2
+            - ~/.lein
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+
+  artifacts:
+    machine:
+      enabled: true
+    working_directory: ~/realworld-backend
+    steps:
+      - attach_workspace:
+          at: ~/realworld-backend
+      - run:
+          name: Find built systems and move artifacts
+          command: |
+            mkdir -p artifacts
+
+            built_systems=`lein polylith changes s circleci`
+            for system in $built_systems; do
+              artifact="systems/""$system""/target/""$system"".war"
+              cp $artifact artifacts/.
+            done
+      - store_artifacts:
+          path: artifacts
+          destination: artifacts
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+
+  success:
+    docker:
+      - image: circleci/clojure:lein-2.7.1
+    working_directory: ~/realworld-backend
+    steps:
+      - attach_workspace:
+          at: ~/realworld-backend
+      - restore_cache:
+          key: realworld-backend-cache
+      - run:
+          name: Set new :last-successful-build time to time.circleci.edn
+          command: lein polylith success circleci
+      - save_cache:
+          key: realworld-backend-cache
+          paths:
+            - ~/.m2
+            - ~/.lein
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - compile
+      - test:
+          requires:
+            - prepare
+      - build:
+          requires:
+            - test
+      - artifacts:
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - master
+                - develop
+      - success:
+          requires:
+            - artifacts
+          filters:
+            branches:
+              only:
+                - master
+                - develop
