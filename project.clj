@@ -1,5 +1,5 @@
 (defproject clojure.org.realworld/development "1.0"
   :description "The workspace"
-  :plugins [[polylith/lein-polylith "0.0.39-alpha"]]
+  :plugins [[polylith/lein-polylith "0.0.40-alpha"]]
   :polylith {:top-namespace   "clojure.org.realworld"
              :clojure-version "1.9.0"})

@@ -114,6 +114,27 @@ jobs:
           paths:
             - .
 
+  commit:
+    machine:
+      enabled: true
+    working_directory: ~/realworld-backend
+    steps:
+      - attach_workspace:
+          at: ~/realworld-backend
+      - run:
+          name: Commit time.circleci.edn to git
+          command: |
+            git config credential.helper 'cache --timeout=120'
+            git config user.email "me@furkanbayraktar.com"
+            git config user.name "CircleCI"
+            git add .
+            git commit -m "Updated time.circleci.edn"
+            git push
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+
 workflows:
   version: 2
   test-build-success:
@@ -136,6 +157,14 @@ workflows:
       - success:
           requires:
             - artifacts
+          filters:
+            branches:
+              only:
+                - master
+                - develop
+      - commit:
+          requires:
+            - success
           filters:
             branches:
               only:
