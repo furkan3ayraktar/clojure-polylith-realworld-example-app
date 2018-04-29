@@ -168,6 +168,9 @@ One example of using this interface can be found under `` handler.clj `` namespa
       
 ;;...
 ```
+
+![system](.media/readme/04_interfaces.png)
+
 `` handler.clj `` uses function signature `` profile/follow! `` from `` profile `` components interface. If we continue to follow looking at this functionality, the actual definition of `` follow! `` function under `` core.clj `` namespace of `` profile `` component. 
 ```clojure
 (defn follow! [auth-user username]
