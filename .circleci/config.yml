@@ -116,12 +116,12 @@ jobs:
 
 workflows:
   version: 2
-  build-and-deploy:
+  test-build-success:
     jobs:
       - compile
       - test:
           requires:
-            - prepare
+            - compile
       - build:
           requires:
             - test
