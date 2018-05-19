@@ -6,9 +6,6 @@ jobs:
       - image: circleci/clojure:lein-2.7.1
     working_directory: ~/realworld-backend
     steps:
-      - add_ssh_keys:
-          fingerprints:
-            - "e3:f1:38:86:f7:c2:0e:f3:ae:96:29:ff:2e:13:a3:16"
       - checkout
       - attach_workspace:
           at: ~/realworld-backend
@@ -22,6 +19,7 @@ jobs:
           paths:
             - ~/.m2
             - ~/.lein
+            - ./.polylith
       - persist_to_workspace:
           root: .
           paths:
@@ -37,12 +35,13 @@ jobs:
           key: realworld-backend-cache
       - run:
           name: Test changed projects with using time.circleci.edn
-          command: lein polylith test circleci
+          command: lein polylith test circleci -compile
       - save_cache:
           key: realworld-backend-cache
           paths:
             - ~/.m2
             - ~/.lein
+            - ./.polylith
       - persist_to_workspace:
           root: .
           paths:
@@ -59,12 +58,13 @@ jobs:
           key: realworld-backend-cache
       - run:
           name: Build changed projects with using time.circleci.edn
-          command: lein polylith build circleci
+          command: lein polylith build circleci -compile -test -success
       - save_cache:
           key: realworld-backend-cache
           paths:
             - ~/.m2
             - ~/.lein
+            - ./.polylith
       - persist_to_workspace:
           root: .
           paths:
@@ -112,30 +112,7 @@ jobs:
           paths:
             - ~/.m2
             - ~/.lein
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .
-
-  commit:
-    machine:
-      enabled: true
-    working_directory: ~/realworld-backend
-    steps:
-      - add_ssh_keys:
-          fingerprints:
-            - "e3:f1:38:86:f7:c2:0e:f3:ae:96:29:ff:2e:13:a3:16"
-      - attach_workspace:
-          at: ~/realworld-backend
-      - run:
-          name: Commit time.circleci.edn to git
-          command: |
-            git config credential.helper 'cache --timeout=120'
-            git config user.email "me@furkanbayraktar.com"
-            git config user.name "CircleCI"
-            git add .
-            git commit -m "Updated time.circleci.edn"
-            git push
+            - ./.polylith
       - persist_to_workspace:
           root: .
           paths:
@@ -163,14 +140,6 @@ workflows:
       - success:
           requires:
             - artifacts
-          filters:
-            branches:
-              only:
-                - master
-                - develop
-      - commit:
-          requires:
-            - success
           filters:
             branches:
               only:
