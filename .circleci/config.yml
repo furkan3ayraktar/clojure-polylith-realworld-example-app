@@ -10,6 +10,10 @@ jobs:
       - restore_cache:
           keys:
             - realworld-backend-{{ checksum "project.clj" }}-{{ checksum "environments/development/project.clj" }}
+            - realworld-backend-
+            - polylith-cache-
+      - restore_cache:
+          keys:
             - polylith-cache-
       - run:
           name: Print workspace info
@@ -25,7 +29,9 @@ jobs:
       - persist_to_workspace:
           root: /home/circleci
           paths:
-            - .
+            - .m2
+            - .lein
+            - realworld-backend
   test:
     docker:
       - image: circleci/clojure:lein-2.7.1
@@ -39,7 +45,9 @@ jobs:
       - persist_to_workspace:
           root: /home/circleci
           paths:
-            - .
+            - .m2
+            - .lein
+            - realworld-backend
 
   build:
     docker:
@@ -54,7 +62,9 @@ jobs:
       - persist_to_workspace:
           root: /home/circleci
           paths:
-            - .
+            - .m2
+            - .lein
+            - realworld-backend
 
   artifacts:
     machine:
@@ -82,7 +92,9 @@ jobs:
       - persist_to_workspace:
           root: /home/circleci
           paths:
-            - .
+            - .m2
+            - .lein
+            - realworld-backend
 
   success:
     docker:
