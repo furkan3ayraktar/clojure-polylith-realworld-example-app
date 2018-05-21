@@ -10,7 +10,9 @@ jobs:
       - attach_workspace:
           at: ~/realworld-backend
       - restore_cache:
-          key: realworld-backend-{{ checksum "project.clj" }}-{{ checksum "environments/development/project.clj" }}
+          keys:
+            - realworld-backend-{{ checksum "project.clj" }}-{{ checksum "environments/development/project.clj" }}
+            - polylith-cache-
       - run:
           name: Print workspace info
           command: lein polylith info
@@ -18,10 +20,11 @@ jobs:
           name: Compile changed projects
           command: lein polylith compile
       - save_cache:
-          key: realworld-backend-cache
+          key: realworld-backend-{{ checksum "project.clj" }}-{{ checksum "environments/development/project.clj" }}
           paths:
             - ~/.m2
             - ~/.lein
+      - save_cache:
       - persist_to_workspace:
           root: .
           paths:
@@ -32,17 +35,14 @@ jobs:
     working_directory: ~/realworld-backend
     steps:
       - attach_workspace:
-          at: ~/realworld-backend-{{ checksum "project.clj" }}-{{ checksum "environments/development/project.clj" }}
+          at: ~/realworld-backend
       - restore_cache:
-          key: realworld-backend-cache
+          keys:
+            - realworld-backend-{{ checksum "project.clj" }}-{{ checksum "environments/development/project.clj" }}
+            - polylith-cache-
       - run:
           name: Test changed projects
           command: lein polylith test -compile
-      - save_cache:
-          key: realworld-backend-cache
-          paths:
-            - ~/.m2
-            - ~/.lein
       - persist_to_workspace:
           root: .
           paths:
@@ -56,15 +56,12 @@ jobs:
       - attach_workspace:
           at: ~/realworld-backend
       - restore_cache:
-          key: realworld-backend-{{ checksum "project.clj" }}-{{ checksum "environments/development/project.clj" }}
+          keys:
+            - realworld-backend-{{ checksum "project.clj" }}-{{ checksum "environments/development/project.clj" }}
+            - polylith-cache-
       - run:
           name: Build changed projects
           command: lein polylith build -compile -test -success
-      - save_cache:
-          key: realworld-backend-cache
-          paths:
-            - ~/.m2
-            - ~/.lein
       - persist_to_workspace:
           root: .
           paths:
@@ -77,6 +74,10 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/realworld-backend
+      - restore_cache:
+          keys:
+            - realworld-backend-{{ checksum "project.clj" }}-{{ checksum "environments/development/project.clj" }}
+            - polylith-cache-
       - run:
           name: Find built systems, print to console and move to artifacts
           command: |
@@ -106,19 +107,16 @@ jobs:
       - attach_workspace:
           at: ~/realworld-backend
       - restore_cache:
-          key: realworld-backend-{{ checksum "project.clj" }}-{{ checksum "environments/development/project.clj" }}
+          keys:
+            - realworld-backend-{{ checksum "project.clj" }}-{{ checksum "environments/development/project.clj" }}
+            - polylith-cache-
       - run:
           name: Set new :last-successful-build
           command: lein polylith success
       - save_cache:
-          key: realworld-backend-cache
+          key: polylith-cache-{{ checksum ".polylith/time.local.edn" }}
           paths:
-            - ~/.m2
-            - ~/.lein
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .
+            - ~/realworld-backend/.polylith
 
 workflows:
   version: 2
