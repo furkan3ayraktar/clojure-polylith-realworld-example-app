@@ -10,7 +10,7 @@ jobs:
       - attach_workspace:
           at: ~/realworld-backend
       - restore_cache:
-          key: realworld-backend-cache
+          key: realworld-backend-{{ checksum "project.clj" }}-{{ checksum "environments/development/project.clj" }}
       - run:
           name: Print workspace info
           command: lein polylith info
@@ -22,7 +22,6 @@ jobs:
           paths:
             - ~/.m2
             - ~/.lein
-            - ./.polylith
       - persist_to_workspace:
           root: .
           paths:
@@ -33,7 +32,7 @@ jobs:
     working_directory: ~/realworld-backend
     steps:
       - attach_workspace:
-          at: ~/realworld-backend
+          at: ~/realworld-backend-{{ checksum "project.clj" }}-{{ checksum "environments/development/project.clj" }}
       - restore_cache:
           key: realworld-backend-cache
       - run:
@@ -44,7 +43,6 @@ jobs:
           paths:
             - ~/.m2
             - ~/.lein
-            - ./.polylith
       - persist_to_workspace:
           root: .
           paths:
@@ -58,7 +56,7 @@ jobs:
       - attach_workspace:
           at: ~/realworld-backend
       - restore_cache:
-          key: realworld-backend-cache
+          key: realworld-backend-{{ checksum "project.clj" }}-{{ checksum "environments/development/project.clj" }}
       - run:
           name: Build changed projects
           command: lein polylith build -compile -test -success
@@ -67,7 +65,6 @@ jobs:
           paths:
             - ~/.m2
             - ~/.lein
-            - ./.polylith
       - persist_to_workspace:
           root: .
           paths:
@@ -87,7 +84,7 @@ jobs:
 
             built_systems=`lein polylith changes s`
 
-            echo built_systems
+            echo $built_systems
 
             for system in $built_systems; do
               artifact="systems/""$system""/target/""$system"".war"
@@ -109,7 +106,7 @@ jobs:
       - attach_workspace:
           at: ~/realworld-backend
       - restore_cache:
-          key: realworld-backend-cache
+          key: realworld-backend-{{ checksum "project.clj" }}-{{ checksum "environments/development/project.clj" }}
       - run:
           name: Set new :last-successful-build
           command: lein polylith success
@@ -118,7 +115,6 @@ jobs:
           paths:
             - ~/.m2
             - ~/.lein
-            - ./.polylith
       - persist_to_workspace:
           root: .
           paths:
