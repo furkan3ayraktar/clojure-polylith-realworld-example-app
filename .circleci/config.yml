@@ -7,8 +7,6 @@ jobs:
     working_directory: ~/realworld-backend
     steps:
       - checkout
-      - attach_workspace:
-          at: ~
       - restore_cache:
           keys:
             - realworld-backend-{{ checksum "project.clj" }}-{{ checksum "environments/development/project.clj" }}
