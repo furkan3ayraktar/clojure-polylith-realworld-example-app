@@ -24,7 +24,6 @@ jobs:
           paths:
             - ~/.m2
             - ~/.lein
-      - save_cache:
       - persist_to_workspace:
           root: .
           paths:
