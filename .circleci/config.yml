@@ -4,7 +4,7 @@ jobs:
   compile:
     docker:
       - image: circleci/clojure:lein-2.7.1
-    working_directory: ~/realworld-backend
+    working_directory: /home/circleci/realworld-backend
     steps:
       - checkout
       - restore_cache:
@@ -20,49 +20,49 @@ jobs:
       - save_cache:
           key: realworld-backend-{{ checksum "project.clj" }}-{{ checksum "environments/development/project.clj" }}
           paths:
-            - ~/.m2
-            - ~/.lein
+            - /home/circleci/.m2
+            - /home/circleci/.lein
       - persist_to_workspace:
-          root: ~
+          root: /home/circleci
           paths:
-            - ~
+            - .
   test:
     docker:
       - image: circleci/clojure:lein-2.7.1
-    working_directory: ~/realworld-backend
+    working_directory: /home/circleci/realworld-backend
     steps:
       - attach_workspace:
-          at: ~
+          at: /home/circleci
       - run:
           name: Test changed projects
           command: lein polylith test -compile
       - persist_to_workspace:
-          root: ~
+          root: /home/circleci
           paths:
-            - ~
+            - .
 
   build:
     docker:
       - image: circleci/clojure:lein-2.7.1
-    working_directory: ~/realworld-backend
+    working_directory: /home/circleci/realworld-backend
     steps:
       - attach_workspace:
-          at: ~
+          at: /home/circleci
       - run:
           name: Build changed projects
           command: lein polylith build -compile -test -success
       - persist_to_workspace:
-          root: ~
+          root: /home/circleci
           paths:
-            - ~
+            - .
 
   artifacts:
     machine:
       enabled: true
-    working_directory: ~/realworld-backend
+    working_directory: /home/circleci/realworld-backend
     steps:
       - attach_workspace:
-          at: ~
+          at: /home/circleci
       - run:
           name: Find built systems, print to console and move to artifacts
           command: |
@@ -80,24 +80,24 @@ jobs:
           path: artifacts
           destination: artifacts
       - persist_to_workspace:
-          root: ~
+          root: /home/circleci
           paths:
-            - ~
+            - .
 
   success:
     docker:
       - image: circleci/clojure:lein-2.7.1
-    working_directory: ~/realworld-backend
+    working_directory: /home/circleci/realworld-backend
     steps:
       - attach_workspace:
-          at: ~
+          at: /home/circleci
       - run:
           name: Set new :last-successful-build
           command: lein polylith success
       - save_cache:
           key: polylith-cache-{{ checksum ".polylith/time.local.edn" }}
           paths:
-            - ~/realworld-backend/.polylith
+            - /home/circleci/realworld-backend/.polylith
 
 workflows:
   version: 2
