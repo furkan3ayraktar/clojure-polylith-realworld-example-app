@@ -12,8 +12,11 @@ jobs:
       - restore_cache:
           key: realworld-backend-cache
       - run:
-          name: Compile changed projects with using time.circleci.edn
-          command: lein polylith compile circleci
+          name: Print workspace info
+          command: lein polylith info
+      - run:
+          name: Compile changed projects
+          command: lein polylith compile
       - save_cache:
           key: realworld-backend-cache
           paths:
@@ -34,8 +37,8 @@ jobs:
       - restore_cache:
           key: realworld-backend-cache
       - run:
-          name: Test changed projects with using time.circleci.edn
-          command: lein polylith test circleci -compile
+          name: Test changed projects
+          command: lein polylith test -compile
       - save_cache:
           key: realworld-backend-cache
           paths:
@@ -57,8 +60,8 @@ jobs:
       - restore_cache:
           key: realworld-backend-cache
       - run:
-          name: Build changed projects with using time.circleci.edn
-          command: lein polylith build circleci -compile -test -success
+          name: Build changed projects
+          command: lein polylith build -compile -test -success
       - save_cache:
           key: realworld-backend-cache
           paths:
@@ -78,11 +81,14 @@ jobs:
       - attach_workspace:
           at: ~/realworld-backend
       - run:
-          name: Find built systems and move artifacts
+          name: Find built systems, print to console and move to artifacts
           command: |
             mkdir -p artifacts
 
-            built_systems=`lein polylith changes s circleci`
+            built_systems=`lein polylith changes s`
+
+            echo built_systems
+
             for system in $built_systems; do
               artifact="systems/""$system""/target/""$system"".war"
               cp $artifact artifacts/.
@@ -105,8 +111,8 @@ jobs:
       - restore_cache:
           key: realworld-backend-cache
       - run:
-          name: Set new :last-successful-build time to time.circleci.edn
-          command: lein polylith success circleci
+          name: Set new :last-successful-build
+          command: lein polylith success
       - save_cache:
           key: realworld-backend-cache
           paths:
