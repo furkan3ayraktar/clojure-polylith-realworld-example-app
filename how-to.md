@@ -43,10 +43,10 @@ You can open development environment with your favorite IDE. It will be somethin
 ![dev-environment](.media/how-to/02_dev_environment.png)
 
 ###### Create a system with a base
-Systems are the projects where all the components are glued together on top of a base. You can create a system together with a base with the Polylith plugin. When you build the project, it will create an artifact from each system in your workspace.
+Systems are the projects where all the components are glued together on top of a base. You can create a system together with a base with the Polylith plugin.
 - `` lein polylith create system realworld-backend rest-api ``
   - This command will create a system named `` realworld-backend `` and a base named `` rest-api ``.
-  - If you check src folder under `` systems/realworld-backend `` you will see links to `` bases/rest-api `` 
+  - If you check src folder under `` systems/realworld-backend `` you will see a link to `` bases/rest-api `` 
   - Newly created base will be visible in the development project, as well as other related files from system
 
 ![system-and-base](.media/how-to/03_system_and_base.png)
@@ -86,6 +86,7 @@ Systems are the projects where all the components are glued together on top of a
 ###### Test and build
 - To run tests and build artifacts, run the following command on project root:
   - `` lein polylith build ``
+  - When you build the project, it will create an artifact from each system in your workspace.
 
 ![build](.media/how-to/07_build.png)
 

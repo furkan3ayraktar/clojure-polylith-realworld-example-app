@@ -10,7 +10,7 @@ This codebase was created to demonstrate a fully fledged fullstack application b
 
 We've gone to great lengths to adhere to the **Clojure** community styleguides & best practices.
 
-For more information on how to this works with other frontends/backends, head over to the [RealWorld](https://github.com/gothinkster/realworld) repo.
+For more information on how this works with other frontends/backends, head over to the [RealWorld](https://github.com/gothinkster/realworld) repo.
 
 #### Build Status
 [![CircleCI](https://circleci.com/gh/furkan3ayraktar/clojure-polylith-realworld-example-app/tree/develop.svg?style=svg&circle-token=927fe6a1ea0db6ea74775199135b5feb92292818)](https://circleci.com/gh/furkan3ayraktar/clojure-polylith-realworld-example-app/tree/develop)
@@ -24,6 +24,7 @@ For more information on how to this works with other frontends/backends, head ov
   - [Components](#components)
 - [Environment Variables](#environment-variables)
 - [Database](#database)
+- [Printing Changes](#printing-changes)
 - [Running Tests](#running-tests)
 - [Continuous Integration](#continuous-integration)
 - [How to create this workspace from scratch](#how-to-create-this-workspace-from-scratch)
@@ -59,12 +60,12 @@ The application uses [Ring](https://github.com/weavejester/lein-ring) and [Polyl
 
 Bases are the main building blocks of the Polylith Architecrture. There is only one base and one system in this project to make it simple. Each base and component in the system has its isolated source code, tests, and dependencies. Components in the system communicates to each other through 'interfaces'. These sources are linked and bundled under the system named 'realworld-backend'. Development environment makes it easy to develop with links to each base and component. You can run a REPL within the environment, start the Ring server for debugging or refactor between components easily with using your favorite IDE (mine is Intellij IDEA with [Cursive](https://cursive-ide.com) plugin).
 
-Polylith plugin also helps to test and build incrementally. If you run `` lein polylith build `` command on the root folder of project, it will detect changes made since the last build and only run tests for the recent changes. Check out Polylith Plugin repository for further information or simply write `` lein polylith help `` to see available commands.
+Polylith plugin also helps to test and build incrementally. If you run `` lein polylith build `` command on the root folder of project, it will detect changes made since the last build and only run tests for the recent changes. [Check out Polylith Plugin](https://github.com/tengstrand/lein-polylith) repository for further information or simply write `` lein polylith help `` to see available commands.
 
 ##### System
 There is only one system in realworld workspace, which is called `` realworld-backend ``. Systems in Polylith architecture are a way to glue a base and all of the components you want to deliver within a bundle. Since we only need to deliver one bundle for realworld backend, we have only one system.
 
-If you look at the folder `` systems/realworld-backend ``, you will see a standard leiningen project structure. The magic here is under `` src `` and `` resources `` folders. Under these folders, you will see links to the actual components' source and resources folders. You can also locate links to the base `` rest-api `` under these folders. A system only has it's `` project.clj `` to define system specific configuration and external dependencies. All the code and resources in a system come from the components and base that creates the system.
+If you look at the folder `` systems/realworld-backend ``, you will see a standard leiningen project structure. The magic here is under `` src `` and `` resources `` folders. Under these folders, you will see links to the actual components' and bases' source and resources folders. A system only has it's `` project.clj `` to define system specific configuration and external dependencies. All the code and resources in a system come from the components and base that creates the system.
 
 ![system](.media/readme/01_system.png)
 
@@ -147,8 +148,11 @@ In Polylith Architecture, components talk to each other via their public interfa
 ```clojure
 (ns clojure.org.realworld.profile.interface)
 
-(def profile) ;; Interface for spec definition
-(defn fetch-profile [auth-user username]) ;; Function interface
+;; Interface for spec definition
+(def profile)
+
+;; Function interfaces
+(defn fetch-profile [auth-user username])
 (defn follow! [auth-user username])
 (defn unfollow! [auth-user username])
 ```
@@ -183,21 +187,55 @@ One example of using this interface can be found under `` handler.clj `` namespa
       [true (create-profile user true)])
     [false {:errors {:username ["Cannot find a profile with given username."]}}]))
 ```
-Here we see another function call to `` user `` component from `` profile `` component. We can take a look at `` user ``s public interface. 
+Here we see another function call to `` user `` component from `` profile `` component. We can take a look at `` user ``s public interface: 
 ```clojure
 (ns clojure.org.realworld.user.interface)
 
+;; Interfaces for spec definition
 (def login)
 (def register)
 (def update-user)
 (def user)
+
+;; Function interfaces
 (defn login! [login-input])
 (defn register! [register-input])
 (defn user-by-token [token])
 (defn update-user! [auth-user user-input])
 (defn find-by-username-or-id [username-or-id])
 ```
-`` profile `` uses `` find-by-username-or-id `` function from `` user `` component. This is how different components talk to each other within the workspace. You are forced to call other components' public functions defined in `` interface.clj `` from any component or base.
+`` profile `` uses `` find-by-username-or-id `` function from `` user `` component. This is how different components talk to each other within the workspace. You are forced to call other components' public functions defined in `` interface.clj `` from any component or base. We can also take a look at interface implementation of `` user `` component:
+
+```clojure
+(ns clojure.org.realworld.user.interface
+  (:require [clojure.org.realworld.user.core :as core]
+            [clojure.org.realworld.user.spec :as spec]
+            [clojure.org.realworld.user.store :as store]))
+
+;; Interfaces for spec definition
+(def login spec/login)
+(def register spec/register)
+(def update-user spec/update-user)
+(def user spec/user)
+
+;; Function interfaces
+(defn login! [login-input]
+  (core/login! login-input))
+
+(defn register! [register-input]
+  (core/register! register-input))
+
+(defn user-by-token [token]
+  (core/user-by-token token))
+
+(defn update-user! [auth-user user-input]
+  (core/update-user! auth-user user-input))
+
+(defn find-by-username-or-id [username-or-id]
+  (store/find-by-username-or-id username-or-id))
+```
+
+Here we see where it directs each interface to an actual implementation inside the component. By having public interface and an implementation of that interface, it is easy to compile/test/build (as well as develop) components in isolation. Public interfaces used while validating (compiling) each component in isolation, implementations used in when it's packaged into a system (or during development). This separation gives it ability to detect/test/build only changed parts of the workspace. It also gives developer a better development experience on local, with support of IDE refactoring through development environment.  
 
 `` article ``, `` comment ``, `` profile ``, `` tag ``, and `` user `` components define functionality to endpoints required for realworld backend. The other components, `` database ``, `` spec `` and `` log ``, are created to isolate some other common code in the workspace. `` spec `` component contains some basic spec definitions that are used in different components. Similarly, `` log `` component creates a wrapper around logging library, [timbre](https://github.com/ptaoussanis/timbre). This is included in the workspace to demonstrate how to create wrapper components around external libraries. This gives you an opportunity to declare your own public interface for an external library and if you decide to use another external library, you can just switch to another component implementing the same interface without effecting other components.
 
@@ -242,6 +280,15 @@ Here, we use helper functions from `` database `` components `` interface.clj ``
 
 ### Database
 It uses a SQLite database to make it easy to run. It can be changed easily by other sql databases by editing database connection and changing to proper jdbc dependency. There is an existing database under development environment, ready to use. If you want to start from scratch, you can delete database.db and start the server again. It will generate a database with correct schema on start. The system also checks if the schema is valid or not, and prints out proper logs for each case.
+
+### Printing Changes
+Run following command in the root folder to see what is changed since the last successful build:
+`` lein polylith info ``
+- This command will print an output like this
+
+![polylith-info](.media/readme/05_polylith_info.png)
+
+Here you can see that changed components are marked with a * symbol. You'll also notice that some of the components are marked with (*) symbol. It means that those components are not changed but some other components that they are depending are changed. These components' tests will be run when you run the tests to make sure they still work without a problem.
 
 ### Running tests
 Run following command in the root folder:
