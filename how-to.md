@@ -18,7 +18,8 @@ Polylith plugin is a leiningen plugin. You need to install it globally in order 
 - If you don't have already, create `` profiles.clj ``
   - `` vi profiles.clj ``
 - Add Polylith plugin to use profile.
-  - `` {:user {:plugins [[polylith/lein-polylith "0.0.42-alpha"]]}} `` 
+  - `` {:user {:plugins [[polylith/lein-polylith "0.0.44-alpha"]]}} ``
+    - If you want to receive latest versions, you can write "LATEST" instead of "0.0.44-alpha".
 - Save the file with `` :wq ``
 
 ###### Create a workspace
@@ -84,17 +85,41 @@ Systems are the projects where all the components are glued together on top of a
 
 ###### Test and build
 - To run tests and build artifacts, run the following command on project root:
-  - `` lein polylith test-and-build ``
+  - `` lein polylith build ``
 
-![test-and-build](.media/how-to/07_test-and-build.png)
+![build](.media/how-to/07_build.png)
 
 - This command will run all the tests in all components and bases, validate the interface dependencies between them and build an artifact for each system.
-- It will also update :last-successful-build in the file `` .polylith/time.local.edn ``. If you try building it again, you'll see that none of the tests will run and no artifacts will be built. This is because Polylith plugin checks the `` :last-successful-build ``, detects changes since that time and finds parts in the workspace that needs a rebuild.
+- It will also update :last-successful-build in the file `` .polylith/time.edn ``. If you try building it again, you'll see that none of the tests will run and no artifacts will be built. This is because Polylith plugin checks the `` :last-successful-build ``, detects changes since that time and finds parts in the workspace that needs a rebuild.
 - You can force plugin to build since a specific time by passing a unix time as another argument, or 0 to build everything.
+- If you run same command on a CI system (having a CI bash variable), it will use `` .polylith/git.edn `` file to detect changes. Instead of files' modified date, it will use git to detect changes since the last successful git commit.
 
 ###### Make a change and build affected parts
 - Change a namespace in one of the components
-- Run `` lein polylith test-and-build ``
+- Run `` lein polylith build ``
 - It will only test the changed component and build the system since it is affected.
 
 ![incremental-builds](.media/how-to/08_incremental_builds.png)
+
+###### Running command separately
+- If you want to run compile, test, build and success commands separately, you can use specific commands. Each command takes arguments to skip previous steps.
+  - `` lein polylith build -compile -test -success `` will only build and skip compile, test, and success steps.
+  - Similarly, `` lein polylith test `` will both compile and test changes. If you run `` lein polylith test -compile ``, it will skip compilation and only test.
+
+#### Sample IDE run configurations for polylith commands
+
+###### Build
+
+![build-config](.media/how-to/09_build_config.png)
+
+###### Build All
+
+![build-all-config](.media/how-to/10_build_all_config.png)
+
+###### Test
+
+![test-config](.media/how-to/11_test_config.png)
+
+###### Test All
+
+![test-all-config](.media/how-to/12_test_all_config.png)

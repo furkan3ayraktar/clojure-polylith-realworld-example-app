@@ -59,7 +59,7 @@ The application uses [Ring](https://github.com/weavejester/lein-ring) and [Polyl
 
 Bases are the main building blocks of the Polylith Architecrture. There is only one base and one system in this project to make it simple. Each base and component in the system has its isolated source code, tests, and dependencies. Components in the system communicates to each other through 'interfaces'. These sources are linked and bundled under the system named 'realworld-backend'. Development environment makes it easy to develop with links to each base and component. You can run a REPL within the environment, start the Ring server for debugging or refactor between components easily with using your favorite IDE (mine is Intellij IDEA with [Cursive](https://cursive-ide.com) plugin).
 
-Polylith plugin also helps to test and build incrementally. If you run `` lein polylith test-and-build `` command on the root folder of project, it will detect changes made since the last build and only run tests for the recent changes. Check out Polylith Plugin repository for further information or simply write `` lein polylith help `` to see available commands.
+Polylith plugin also helps to test and build incrementally. If you run `` lein polylith build `` command on the root folder of project, it will detect changes made since the last build and only run tests for the recent changes. Check out Polylith Plugin repository for further information or simply write `` lein polylith help `` to see available commands.
 
 ##### System
 There is only one system in realworld workspace, which is called `` realworld-backend ``. Systems in Polylith architecture are a way to glue a base and all of the components you want to deliver within a bundle. Since we only need to deliver one bundle for realworld backend, we have only one system.
@@ -246,14 +246,35 @@ It uses a SQLite database to make it easy to run. It can be changed easily by ot
 ### Running tests
 Run following command in the root folder:
 `` lein polylith test ``
+- This will compile all the components that are changed and run tests for changed components and other components that are effected from changed components.
 
 Alternatively, to run all tests in your development environment, run following command under environments/development:
 `` lein test ``
 
 ### Continuous integration
-This repository has a [CircleCI](https://circleci.com) configuration to demonstrate how to use Polylith plugin to incrementally run tests and build artifacts. Some commented out parts in the config show an example way to deploy the application to the AWS.
+This repository has a [CircleCI](https://circleci.com) configuration to demonstrate how to use Polylith plugin to incrementally run tests and build artifacts. You can find CircleCI configuration file at `` .circleci/config.yml ``.
 
-TODO: explain in detail
+The CircleCI workflow for this project consists of 5 steps to show different commands from Polylith plugin clearly. You can also achieve same functionality with less number of steps once you learned the commands. The current steps are:
+
+- compile
+  - Here it restores caches from previous builds and compile the changed components and bases.
+  - There are two important steps here:
+    - Restoring polylith cache
+      - It keeps `` .polylith/git.edn `` in CircleCI cache to see save git commit SHA1 for the last successful build. When it restores Polylith cache in this step, it brings back that file.
+    - Compiling only changed components and bases.
+      - Based on the git diff since last successful build it gets from cache, calculates changes and compiles them with `` lein polylith compile `` command. 
+- test
+  - Runs tests for all components and bases that got effected by the recent changes with the command `` lein polylith test -compile ``
+- build
+  - Builds artifacts for all changed systems with `` lein polylith build -compile -test -success `` command.
+- artifacts
+  - Stores all changed systems as artifacts in CircleCI.
+  - Finds changed systems by `` lein polylith changes s `` command.
+  - Moves .war files from target folders of each changed system to artifacts folder. 
+- success
+  - Saves the current git commit SHA1 to `` .polylith/git.edn `` as last successful build with command `` lein polylith success ``
+  - Saves `` .polylith `` folder to CircleCI cache.
+  - Next build will use `` .polylith/git.edn `` to calculate changes since this build. 
 
 ### How to create this workspace from scratch
 You can find necessary steps to create this workspace with Polylith plugin [here](how-to.md).
