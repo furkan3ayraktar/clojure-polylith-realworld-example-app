@@ -7,5 +7,6 @@ database.db
 test.db
 **/*.iml
 **/pom.xml
-.polylith/time.local.edn
+.polylith/time.edn
+.polylith/git.edn
 artifacts/**

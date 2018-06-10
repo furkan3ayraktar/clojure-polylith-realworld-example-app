@@ -11,7 +11,6 @@ jobs:
           keys:
             - realworld-backend-{{ checksum "project.clj" }}-{{ checksum "environments/development/project.clj" }}
             - realworld-backend-
-            - polylith-cache-
       - restore_cache:
           keys:
             - polylith-cache-
@@ -32,6 +31,7 @@ jobs:
             - .m2
             - .lein
             - realworld-backend
+
   test:
     docker:
       - image: circleci/clojure:lein-2.7.1
@@ -42,10 +42,6 @@ jobs:
       - run:
           name: Test changed projects
           command: lein polylith test -compile
-      - persist_to_workspace:
-          root: /home/circleci
-          paths:
-            - realworld-backend
 
   build:
     docker:
@@ -101,7 +97,7 @@ jobs:
           name: Set new :last-successful-build
           command: lein polylith success
       - save_cache:
-          key: polylith-cache-{{ checksum ".polylith/time.local.edn" }}
+          key: polylith-cache-{{ checksum ".polylith/git.edn" }}
           paths:
             - /home/circleci/realworld-backend/.polylith
 
