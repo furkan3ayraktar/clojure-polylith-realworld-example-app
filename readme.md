@@ -309,11 +309,11 @@ The CircleCI workflow for this project consists of 5 steps to show different com
     - Restoring polylith cache
       - It keeps `` .polylith/git.edn `` in CircleCI cache to see save git commit SHA1 for the last successful build. When it restores Polylith cache in this step, it brings back that file.
     - Compiling only changed components and bases.
-      - Based on the git diff since last successful build it gets from cache, calculates changes and compiles them with `` lein polylith compile `` command. 
+      - Based on the git diff since last successful build it gets from cache, calculates changes and compiles them with `` lein polylith compile `` command.
 - test
-  - Runs tests for all components and bases that got effected by the recent changes with the command `` lein polylith test -compile ``
+  - Runs tests for all components and bases that got effected by the recent changes with the command `` lein polylith test -sync-deps -compile ``
 - build
-  - Builds artifacts for all changed systems with `` lein polylith build -compile -test -success `` command.
+  - Builds artifacts for all changed systems with `` lein polylith build -sync-deps -compile -test -success `` command.
 - artifacts
   - Stores all changed systems as artifacts in CircleCI.
   - Finds changed systems by `` lein polylith changes s `` command.
