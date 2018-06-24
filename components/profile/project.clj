@@ -1,6 +1,6 @@
-(defproject clojure.org.realworld/profile "0.1"
+(defproject clojure.realworld/profile "0.1"
   :description "profile component"
-  :dependencies [[clojure.org.realworld/interfaces "1.0"]
+  :dependencies [[clojure.realworld/interfaces "1.0"]
                  [honeysql "0.9.2"]
                  [metosin/spec-tools "0.6.1"]
                  [org.clojure/clojure "1.9.0"]

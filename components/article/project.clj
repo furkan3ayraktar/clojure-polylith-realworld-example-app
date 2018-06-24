@@ -1,7 +1,7 @@
-(defproject clojure.org.realworld/article "0.1"
+(defproject clojure.realworld/article "0.1"
   :description "article component"
   :dependencies [[clj-time "0.14.2"]
-                 [clojure.org.realworld/interfaces "1.0"]
+                 [clojure.realworld/interfaces "1.0"]
                  [honeysql "0.9.2"]
                  [metosin/spec-tools "0.6.1"]
                  [org.clojure/clojure "1.9.0"]

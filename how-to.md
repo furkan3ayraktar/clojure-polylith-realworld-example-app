@@ -18,14 +18,14 @@ Polylith plugin is a leiningen plugin. You need to install it globally in order 
 - If you don't have already, create `` profiles.clj ``
   - `` vi profiles.clj ``
 - Add Polylith plugin to use profile.
-  - `` {:user {:plugins [[polylith/lein-polylith "0.0.45-alpha"]]}} ``
-    - If you want to receive latest versions, you can write "LATEST" instead of "0.0.45-alpha".
+  - `` {:user {:plugins [[polylith/lein-polylith "0.1.0"]]}} ``
+    - If you want to receive latest versions, you can write "LATEST" instead of "0.1.0".
 - Save the file with `` :wq ``
 
 ###### Create a workspace
-- `` lein polylith create workspace realworld-app clojure.org.realworld `` 
+- `` lein polylith create workspace realworld-app clojure.realworld ``
   - This will create your workspace under a folder named `` realworld-app ``
-  - Your code will end up in a package named `` clojure.org.realworld ``
+  - Your code will end up in a package named `` clojure.realworld ``
   - Inside your workspace, you'll find the following structure:
     - `` bases ``
     - `` components ``

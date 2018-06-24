@@ -119,13 +119,13 @@ This middleware will check every request that it wraps and return an authorizati
 
 Finally, the `` handler.clj `` namespace is the place where we define our handlers. Since `` rest-api `` is the only place where our system exposes its functionality, its handler needs to call functions in different components via their `` interfaces ``. If you check out the `` :require `` statements on top of the namespace, you'll see this:
 ```clojure
-(ns clojure.org.realworld.rest-api.handler
-  (:require [clojure.org.realworld.article.interface :as article]
-            [clojure.org.realworld.comment.interface :as comment-comp]
-            [clojure.org.realworld.spec.interface :as spec]
-            [clojure.org.realworld.profile.interface :as profile]
-            [clojure.org.realworld.tag.interface :as tag]
-            [clojure.org.realworld.user.interface :as user]
+(ns clojure.realworld.rest-api.handler
+  (:require [clojure.realworld.article.interface :as article]
+            [clojure.realworld.comment.interface :as comment-comp]
+            [clojure.realworld.spec.interface :as spec]
+            [clojure.realworld.profile.interface :as profile]
+            [clojure.realworld.tag.interface :as tag]
+            [clojure.realworld.user.interface :as user]
             [clojure.spec.alpha :as s]))
 ```
 Following the rules of architecture, `` handler.clj `` does not depend on anything except the public interfaces of different components. An example handler for profile request can be written like this:
@@ -146,7 +146,7 @@ In the workspace, there are 8 different components. The structure and dependenci
 
 In Polylith Architecture, components talk to each other via their public interfaces. Let's take a deeper look at one of the interfaces, like `` profile ``. Public interface of `` profile `` component is structured as this:
 ```clojure
-(ns clojure.org.realworld.profile.interface)
+(ns clojure.realworld.profile.interface)
 
 ;; Interface for spec definition
 (def profile)
@@ -158,9 +158,9 @@ In Polylith Architecture, components talk to each other via their public interfa
 ```
 One example of using this interface can be found under `` handler.clj `` namespace of `` rest-api `` base.  
 ```clojure
-(ns clojure.org.realworld.rest-api.handler
+(ns clojure.realworld.rest-api.handler
   (:require ;;...
-            [clojure.org.realworld.profile.interface :as profile]
+            [clojure.realworld.profile.interface :as profile]
             ;;...))
             
 ;;...
@@ -189,7 +189,7 @@ One example of using this interface can be found under `` handler.clj `` namespa
 ```
 Here we see another function call to `` user `` component from `` profile `` component. We can take a look at `` user ``s public interface: 
 ```clojure
-(ns clojure.org.realworld.user.interface)
+(ns clojure.realworld.user.interface)
 
 ;; Interfaces for spec definition
 (def login)
@@ -207,10 +207,10 @@ Here we see another function call to `` user `` component from `` profile `` com
 `` profile `` uses `` find-by-username-or-id `` function from `` user `` component. This is how different components talk to each other within the workspace. You are forced to call other components' public functions defined in `` interface.clj `` from any component or base. We can also take a look at interface implementation of `` user `` component:
 
 ```clojure
-(ns clojure.org.realworld.user.interface
-  (:require [clojure.org.realworld.user.core :as core]
-            [clojure.org.realworld.user.spec :as spec]
-            [clojure.org.realworld.user.store :as store]))
+(ns clojure.realworld.user.interface
+  (:require [clojure.realworld.user.core :as core]
+            [clojure.realworld.user.spec :as spec]
+            [clojure.realworld.user.store :as store]))
 
 ;; Interfaces for spec definition
 (def login spec/login)
@@ -259,7 +259,7 @@ Here we see where it directs each interface to an actual implementation inside t
 ```
 Here, we use helper functions from `` database `` components `` interface.clj `` to check if an sqlite database exists in the current path and if it exists, to check the validity of schema. Public interface of `` database `` component looks like this:
 ```clojure
-(ns clojure.org.realworld.database.interface)
+(ns clojure.realworld.database.interface)
 
 (defn db ([path]) ([]))
 (defn db-exists? [])

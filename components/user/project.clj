@@ -1,7 +1,7 @@
-(defproject clojure.org.realworld/user "0.1"
+(defproject clojure.realworld/user "0.1"
   :description "user component"
   :dependencies [[clj-jwt "0.1.1"]
-                 [clojure.org.realworld/interfaces "1.0"]
+                 [clojure.realworld/interfaces "1.0"]
                  [crypto-password "0.2.0"]
                  [environ "1.1.0"]
                  [honeysql "0.9.2"]

@@ -1,6 +1,6 @@
-(defproject clojure.org.realworld/rest-api "0.1"
+(defproject clojure.realworld/rest-api "0.1"
   :description "rest-api base"
-  :dependencies [[clojure.org.realworld/interfaces "1.0"]
+  :dependencies [[clojure.realworld/interfaces "1.0"]
                  [com.taoensso/timbre "4.10.0"]
                  [compojure "1.6.0"]
                  [environ "1.1.0"]

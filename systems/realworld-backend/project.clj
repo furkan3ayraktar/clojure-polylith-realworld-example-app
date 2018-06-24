@@ -1,4 +1,4 @@
-(defproject clojure.org.realworld/realworld-backend "0.1"
+(defproject clojure.realworld/realworld-backend "0.1"
   :description "realworld-backend system"
   :profiles {:dev {:plugins      [[lein-environ "1.1.0"]
                                   [lein-ring "0.9.7"]]
@@ -22,8 +22,8 @@
                  [ring/ring-json "0.5.0-beta1"]
                  [ring-logger-timbre "0.7.6"]
                  [slugger "1.0.1"]]
-  :ring {:init    clojure.org.realworld.rest-api.api/init
-         :destroy clojure.org.realworld.rest-api.api/destroy
-         :handler clojure.org.realworld.rest-api.api/app
+  :ring {:init    clojure.realworld.rest-api.api/init
+         :destroy clojure.realworld.rest-api.api/destroy
+         :handler clojure.realworld.rest-api.api/app
          :port    6003}
   :aot :all)

@@ -1,6 +1,6 @@
-(defproject clojure.org.realworld/database "0.1"
+(defproject clojure.realworld/database "0.1"
   :description "database component"
-  :dependencies [[clojure.org.realworld/interfaces "1.0"]
+  :dependencies [[clojure.realworld/interfaces "1.0"]
                  [environ "1.1.0"]
                  [honeysql "0.9.2"]
                  [org.clojure/clojure "1.9.0"]
