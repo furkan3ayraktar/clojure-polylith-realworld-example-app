@@ -91,7 +91,7 @@ Systems are the projects where all the components are glued together on top of a
 ![build](.media/how-to/07_build.png)
 
 - This command will run all the tests in all components and bases, validate the interface dependencies between them and build an artifact for each system.
-- It will also update :last-successful-build in the file `` .polylith/time.edn ``. If you try building it again, you'll see that none of the tests will run and no artifacts will be built. This is because Polylith plugin checks the `` :last-successful-build ``, detects changes since that time and finds parts in the workspace that needs a rebuild.
+- It will also update :last-success in the file `` .polylith/time.edn ``. If you try building it again, you'll see that none of the tests will run and no artifacts will be built. This is because Polylith plugin checks the `` :last-success ``, detects changes since that time and finds parts in the workspace that needs a rebuild.
 - You can force plugin to build since a specific time by passing a unix time as another argument, or 0 to build everything.
 - If you run same command on a CI system (having a CI bash variable), it will use `` .polylith/git.edn `` file to detect changes. Instead of files' modified date, it will use git to detect changes since the last successful git commit.
 
