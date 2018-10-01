@@ -41,7 +41,7 @@ jobs:
           at: /home/circleci
       - run:
           name: Test changed projects
-          command: lein polylith test -sync-deps -compile
+          command: lein polylith test -sync -compile
 
   build:
     docker:
@@ -52,7 +52,7 @@ jobs:
           at: /home/circleci
       - run:
           name: Build changed projects
-          command: lein polylith build -sync-deps -compile -test -success
+          command: lein polylith build -sync -compile -test -success
       - persist_to_workspace:
           root: /home/circleci
           paths:

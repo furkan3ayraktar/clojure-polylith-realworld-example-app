@@ -311,9 +311,9 @@ The CircleCI workflow for this project consists of 5 steps to show different com
     - Compiling only changed components and bases.
       - Based on the git diff since last successful build it gets from cache, calculates changes and compiles them with `` lein polylith compile `` command.
 - test
-  - Runs tests for all components and bases that got effected by the recent changes with the command `` lein polylith test -sync-deps -compile ``
+  - Runs tests for all components and bases that got effected by the recent changes with the command `` lein polylith test -sync -compile ``
 - build
-  - Builds artifacts for all changed systems with `` lein polylith build -sync-deps -compile -test -success `` command.
+  - Builds artifacts for all changed systems with `` lein polylith build -sync -compile -test -success `` command.
 - artifacts
   - Stores all changed systems as artifacts in CircleCI.
   - Finds changed systems by `` lein polylith changes s `` command.
