@@ -1,12 +1,8 @@
 (defproject clojure.realworld/development "1.0"
   :description "The main development environment"
-  :profiles
-  {:dev {:plugins [[lein-environ "1.1.0"]
-                   [lein-ring "0.9.7"]]
-         :dependencies [[ring/ring-mock "0.3.0"]]
-         :test-paths ["test"]
-         :env {:allowed-origins "http://localhost:3000"
-               :environment "LOCAL"}}}
+  :profiles {:dev {:plugins      [[lein-ring "0.9.7"]]
+                   :dependencies [[ring/ring-mock "0.3.0"]]
+                   :test-paths   ["test"]}}
   :dependencies [[clj-jwt "0.1.1"]
                  [clj-time "0.14.2"]
                  [com.taoensso/timbre "4.10.0"]
@@ -24,7 +20,7 @@
                  [ring/ring-jetty-adapter "1.6.3"]
                  [ring/ring-json "0.5.0-beta1"]
                  [slugger "1.0.1"]]
-  :ring {:init clojure.realworld.rest-api.api/init
+  :ring {:init    clojure.realworld.rest-api.api/init
          :destroy clojure.realworld.rest-api.api/destroy
          :handler clojure.realworld.rest-api.api/app
-         :port 6003})
+         :port    6003})

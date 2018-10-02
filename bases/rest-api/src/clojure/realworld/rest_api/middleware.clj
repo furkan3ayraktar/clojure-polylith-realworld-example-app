@@ -33,7 +33,8 @@
            :body   {:errors {:other [message]}}})))))
 
 (defn create-access-control-header [origin]
-  (let [origins        (str/split (env :allowed-origins) #",")
+  (let [allowed-origins (env :allowed-origins)
+        origins        (str/split allowed-origins #",")
         allowed-origin (some #{origin} origins)]
     {"Access-Control-Allow-Origin"      allowed-origin
      "Access-Control-Allow-Methods"     "POST, GET, PUT, OPTIONS, DELETE"

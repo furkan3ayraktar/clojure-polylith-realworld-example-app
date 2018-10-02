@@ -2,7 +2,6 @@
 **/target/**
 database.db
 .nrepl-port
-.lein-env
 .lein-failures
 test.db
 **/*.iml

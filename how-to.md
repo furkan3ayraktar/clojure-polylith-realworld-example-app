@@ -18,8 +18,8 @@ Polylith plugin is a leiningen plugin. You need to install it globally in order 
 - If you don't have already, create `` profiles.clj ``
   - `` vi profiles.clj ``
 - Add Polylith plugin to use profile.
-  - `` {:user {:plugins [[polylith/lein-polylith "0.1.0"]]}} ``
-    - If you want to receive latest versions, you can write "LATEST" instead of "0.1.0".
+  - `` {:user {:plugins [[polylith/lein-polylith "0.1.1"]]}} ``
+    - If you want to receive latest versions, you can write "LATEST" instead of "0.1.1".
 - Save the file with `` :wq ``
 
 ###### Create a workspace

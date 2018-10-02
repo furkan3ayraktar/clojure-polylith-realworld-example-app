@@ -65,8 +65,7 @@
             optional-map (filter #(-> % val nil? not)
                                  {:password (when password (encrypt-password password))
                                   :email    (when email email)
-                                  :username (when username username)
-                                  :token (when (or email password) (generate-token email-to-use))})
+                                  :username (when username username)})
             user-input   (merge {:image image
                                  :bio   bio}
                                 optional-map)

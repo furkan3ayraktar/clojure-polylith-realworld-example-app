@@ -269,6 +269,8 @@ Here, we use helper functions from `` database `` components `` interface.clj ``
 ```
 
 ### Environment Variables
+You can find environment variables under .lein-env file for local development.
+
 + `` :allowed-origins ``
   + Comma separated string of origins. Used to whitelist origins for CORS.
 + `` :environment ``

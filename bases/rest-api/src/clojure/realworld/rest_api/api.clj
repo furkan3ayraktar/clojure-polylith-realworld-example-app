@@ -19,7 +19,7 @@
   (GET     "/api/articles"                    [] h/articles)
   (GET     "/api/articles/:slug"              [] h/article)
   (GET     "/api/articles/:slug/comments"     [] h/comments)
-  (GET     "/api/tag"                         [] h/tags))
+  (GET     "/api/tags"                        [] h/tags))
 
 (defroutes private-routes
   (GET     "/api/user"                        [] h/current-user)
@@ -40,10 +40,10 @@
 
 (def ^:private app-routes
   (routes
-    (-> public-routes
-        (wrap-routes m/wrap-auth-user))
     (-> private-routes
         (wrap-routes m/wrap-authorization)
+        (wrap-routes m/wrap-auth-user))
+    (-> public-routes
         (wrap-routes m/wrap-auth-user))
     other-routes))
 
@@ -63,14 +63,16 @@
   (try
     (log/init)
     (let [db (database/db)]
-      (if (database/valid-schema? db)
-        (log/info "Database schema is valid.")
-        (if (database/db-exists?)
-          (log/warn "Please fix database schema and restart")
+      (if (database/db-exists?)
+        (if (database/valid-schema? db)
+          (log/info "Database schema is valid.")
           (do
-            (log/info "Generating database.")
-            (database/generate-db db)
-            (log/info "Database generated.")))))
+            (log/warn "Please fix database schema and restart")
+            (System/exit 1)))
+        (do
+          (log/info "Generating database.")
+          (database/generate-db db)
+          (log/info "Database generated."))))
     (log/info "Initialized server.")
     (catch Exception e
       (log/error e "Could not start server."))))

@@ -4,7 +4,7 @@
 
 (def create-article spec/create-article)
 
-(def update-article spec/create-article)
+(def update-article spec/update-article)
 
 (defn article [auth-user slug]
   (core/article auth-user slug))
