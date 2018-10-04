@@ -61,7 +61,7 @@ jobs:
       - run:
           name: Run api tests
           command: APIURL=http://localhost:6003/api ./run-api-tests.sh
-          working_directory: /home/circleci/realworld-backend/environments/development
+          working_directory: /home/circleci/realworld-backend/environments/development/api-tests
 
   build:
     docker:
