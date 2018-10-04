@@ -13,6 +13,7 @@
 
 (defroutes public-routes
   (OPTIONS "/**"                              [] h/options)
+  (GET     "/api/health"                      [] h/health)
   (POST    "/api/users/login"                 [] h/login)
   (POST    "/api/users"                       [] h/register)
   (GET     "/api/profiles/:username"          [] h/profile)

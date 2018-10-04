@@ -5,7 +5,8 @@
             [clojure.realworld.profile.interface :as profile]
             [clojure.realworld.tag.interface :as tag]
             [clojure.realworld.user.interface :as user]
-            [clojure.spec.alpha :as s]))
+            [clojure.spec.alpha :as s]
+            [environ.core :refer [env]]))
 
 (defn- parse-query-param [param]
   (if (string? param)
@@ -24,6 +25,9 @@
 
 (defn options [_]
   (handle 200))
+
+(defn health [_]
+  (handle 200 {:environment (env :environment)}))
 
 (defn other [_]
   (handle 404 {:errors {:other ["Route not found."]}}))

@@ -57,9 +57,7 @@ jobs:
           background: true
       - run:
           name: Wait for backend to initialize
-          command: |
-            wget --retry-connrefused --waitretry=10 --read-timeout=20 --timeout=15 -t 30 http://localhost:6003/
-            :
+          command: wget --retry-connrefused --waitretry=10 --read-timeout=20 --timeout=15 -t 30 http://localhost:6003/api/health
       - run:
           name: Run api tests
           command: APIURL=http://localhost:6003/api ./run-api-tests.sh
