@@ -43,6 +43,28 @@ jobs:
           name: Test changed projects
           command: lein polylith test -sync -compile
 
+  api-test:
+    docker:
+      - image: circleci/clojure:lein-2.7.1
+    working_directory: /home/circleci/realworld-backend
+    steps:
+      - attach_workspace:
+          at: /home/circleci
+      - run:
+          name: Run realworld backend
+          command: lein ring server-headless
+          working_directory: /home/circleci/realworld-backend/environments/development
+          background: true
+      - run:
+          name: Wait for backend to initialize
+          command: |
+            wget --retry-connrefused --waitretry=10 --read-timeout=20 --timeout=15 -t 30 http://localhost:6003/
+            :
+      - run:
+          name: Run api tests
+          command: APIURL=http://localhost:6003/api ./run-api-tests.sh
+          working_directory: /home/circleci/realworld-backend/environments/development
+
   build:
     docker:
       - image: circleci/clojure:lein-2.7.1
