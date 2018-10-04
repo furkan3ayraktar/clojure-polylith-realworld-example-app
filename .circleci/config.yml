@@ -46,6 +46,7 @@ jobs:
   api-test:
     docker:
       - image: circleci/clojure:lein-2.7.1
+      - image: circleci/node:8.12-browsers
     working_directory: /home/circleci/realworld-backend
     steps:
       - attach_workspace:
