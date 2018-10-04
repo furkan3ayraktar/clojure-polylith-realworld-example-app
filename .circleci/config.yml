@@ -131,9 +131,12 @@ workflows:
       - test:
           requires:
             - compile
-      - build:
+      - api-test:
           requires:
             - test
+      - build:
+          requires:
+            - api-test
       - artifacts:
           requires:
             - build
