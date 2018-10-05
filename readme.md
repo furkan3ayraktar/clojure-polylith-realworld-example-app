@@ -40,7 +40,11 @@ Just a few steps to have you up and running locally:
 And you're up!
 
 ### General Structure
-The application uses [Ring](https://github.com/weavejester/lein-ring) and [Polylith](https://github.com/tengstrand/lein-polylith) plugins heavily. Project is structured according to [Polylith Architecture](https://polylith.gitbook.io/polylith/) principles. If you are not familiar with Polylith Architecture, please refer to its documentation for further and deeper understanding. Main folders in the project are:
+The application uses [Ring](https://github.com/weavejester/lein-ring) and [Polylith](https://github.com/tengstrand/lein-polylith) plugins heavily.
+Project is structured according to Polylith Architecture principles.
+If you are not familiar with Polylith Architecture, please refer to its [documentation](https://polylith.gitbook.io/polylith) for further and deeper understanding.
+
+Main folders in the project are:
 + `` bases ``
   + `` rest-api `` 
 + `` components ``
