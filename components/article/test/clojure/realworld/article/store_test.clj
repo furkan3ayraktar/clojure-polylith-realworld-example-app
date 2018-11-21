@@ -78,6 +78,27 @@
         res (store/article-tags 1)]
     (is (= ["tag1" "tag2" "tag3"] res))))
 
+(deftest update-article-tags!--add-new-tags
+  (let [_   (jdbc/insert-multi! (test-db) :tag [{:name "tag1"}
+                                                {:name "tag2"}
+                                                {:name "tag3"}
+                                                {:name "tag4"}
+                                                {:name "tag5"}
+                                                {:name "tag6"}])
+        _   (store/add-tags-to-article! 1 ["tag1" "tag2" "tag3"])
+        _   (store/update-article-tags! 1 ["tag4" "tag5" "tag6"])
+        res (store/article-tags 1)]
+    (is (= ["tag4" "tag5" "tag6"] res))))
+
+(deftest update-article-tags!--delete-all-tags
+  (let [_   (jdbc/insert-multi! (test-db) :tag [{:name "tag1"}
+                                                {:name "tag2"}
+                                                {:name "tag3"}])
+        _   (store/add-tags-to-article! 1 ["tag1" "tag2" "tag3"])
+        _   (store/update-article-tags! 1 [])
+        res (store/article-tags 1)]
+    (is (empty? res))))
+
 (deftest article-tags--test
   (let [_   (jdbc/insert-multi! (test-db) :tag [{:name "tag1"}
                                                 {:name "tag2"}

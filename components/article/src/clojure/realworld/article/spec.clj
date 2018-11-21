@@ -14,7 +14,8 @@
   (ds/spec {:name :core/update-article
             :spec {(ds/opt :title)       spec/non-empty-string?
                    (ds/opt :description) spec/non-empty-string?
-                   (ds/opt :body)        spec/non-empty-string?}}))
+                   (ds/opt :body)        spec/non-empty-string?
+                   (ds/opt :tagList)     [spec/non-empty-string?]}}))
 
 (def article
   (ds/spec {:name :core/article

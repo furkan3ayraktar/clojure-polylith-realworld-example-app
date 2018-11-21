@@ -49,7 +49,7 @@
         [true {:article (article->visible-article article auth-user)}])
       [false {:errors {:other ["Cannot insert article into db."]}}])))
 
-(defn update-article! [auth-user slug {:keys [title description body]}]
+(defn update-article! [auth-user slug {:keys [title description body tagList]}]
   (if-let [article (store/find-by-slug slug)]
     (if (= (:id auth-user) (:userId article))
       (let [now           (t/now)
@@ -60,7 +60,12 @@
                                             :description description
                                             :body        body
                                             :updatedAt   now}))
-            _             (store/update-article! (:id article) article-input)]
+            article-id    (:id article)
+            _             (store/update-article! article-id article-input)
+            article-tags  (store/article-tags article-id)
+            _             (when (not= article-tags tagList)
+                            (store/update-tags! tagList)
+                            (store/update-article-tags! article-id tagList))]
         (if-let [updated-article (store/find-by-slug (if slug slug (:slug article)))]
           [true {:article (article->visible-article updated-article auth-user)}]
           [false {:errors {:other ["Cannot insert article into db."]}}]))

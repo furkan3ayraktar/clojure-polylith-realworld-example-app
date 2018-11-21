@@ -81,6 +81,19 @@
       (jdbc/execute! trans-conn (sql/format query-3)))
     nil))
 
+(defn update-article-tags! [article-id tag-names]
+  (let [query {:delete-from :articleTags
+               :where       [:= :articleId article-id]}]
+    (if-not (empty? tag-names)
+      (let [tags   (tags-with-names tag-names)
+            inputs (mapv #(hash-map :articleId article-id
+                                    :tagId (:id %))
+                         tags)]
+        (jdbc/with-db-transaction [trans-conn (database/db)]
+          (jdbc/execute! trans-conn (sql/format query))
+          (jdbc/insert-multi! trans-conn :articleTags inputs)))
+      (jdbc/execute! (database/db) (sql/format query)))))
+
 (defn favorite! [user-id article-id]
   (when-not (favorited? user-id article-id)
     (jdbc/insert! (database/db) :favoriteArticles {:articleId article-id
