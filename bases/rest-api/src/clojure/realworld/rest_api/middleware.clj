@@ -36,11 +36,10 @@
   (let [allowed-origins (env :allowed-origins)
         origins        (str/split allowed-origins #",")
         allowed-origin (some #{origin} origins)]
-    {"Access-Control-Allow-Origin"      allowed-origin
-     "Access-Control-Allow-Methods"     "POST, GET, PUT, OPTIONS, DELETE"
-     "Access-Control-Max-Age"           "3600"
-     "Access-Control-Allow-Headers"     "Content-Type, x-requested-with"
-     "Access-Control-Allow-Credentials" "true"}))
+    {"Access-Control-Allow-Origin"  allowed-origin
+     "Access-Control-Allow-Methods" "POST, GET, PUT, OPTIONS, DELETE"
+     "Access-Control-Max-Age"       "3600"
+     "Access-Control-Allow-Headers" "Authorization, Content-Type, x-requested-with"}))
 
 (defn wrap-cors [handler]
   (fn [req]
