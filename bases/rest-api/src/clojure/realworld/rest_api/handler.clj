@@ -11,7 +11,7 @@
 (defn- parse-query-param [param]
   (if (string? param)
     (try
-      (read-string param)
+      (clojure.edn/read-string param)
       (catch Exception _
         param))
     param))
