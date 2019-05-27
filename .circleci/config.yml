@@ -142,7 +142,6 @@ workflows:
             branches:
               only:
                 - master
-                - develop
       - success:
           requires:
             - artifacts
@@ -150,4 +149,3 @@ workflows:
             branches:
               only:
                 - master
-                - develop
