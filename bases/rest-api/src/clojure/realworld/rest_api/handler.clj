@@ -1,5 +1,6 @@
 (ns clojure.realworld.rest-api.handler
-  (:require [clojure.realworld.article.interface :as article]
+  (:require [clojure.edn :as edn]
+            [clojure.realworld.article.interface :as article]
             [clojure.realworld.comment.interface :as comment-comp]
             [clojure.realworld.spec.interface :as spec]
             [clojure.realworld.profile.interface :as profile]
@@ -11,7 +12,7 @@
 (defn- parse-query-param [param]
   (if (string? param)
     (try
-      (read-string param)
+      (edn/read-string param)
       (catch Exception _
         param))
     param))
