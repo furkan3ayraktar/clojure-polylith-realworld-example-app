@@ -1,1 +1,0 @@
-../../../../components/log/project.clj

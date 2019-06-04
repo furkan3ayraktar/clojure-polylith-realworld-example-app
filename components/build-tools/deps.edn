@@ -1,0 +1,11 @@
+{:paths [; Polylith Workspace Interfaces
+         "../../interfaces/src"
+
+         ; Component source
+         "src"]
+
+ :deps  {org.clojure/clojure       {:mvn/version "1.10.0"}
+         polylith/lein-polylith    {:mvn/version "0.2.2"}
+         com.cognitect/test-runner {:git/url "https://github.com/cognitect-labs/test-runner.git"
+                                    :sha     "209b64504cb3bd3b99ecfec7937b358a879f55c1"}
+         ring-server               {:mvn/version "0.5.0"}}}

@@ -1,1 +1,0 @@
-../../../components/spec/Readme.md
