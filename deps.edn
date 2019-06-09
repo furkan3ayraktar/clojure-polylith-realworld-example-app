@@ -13,6 +13,9 @@
 
  :aliases  {:polylith/interfaces            {:extra-paths ["interfaces/src"]}
 
+            :dev                            {:extra-deps {furkan3ayraktar/polylith {:git/url "https://github.com/furkan3ayraktar/polylith.git"
+                                                                                    :sha     "89a91b1c519b338eb5a15c90cb97559c09484e89"}}}
+
             ; Services
             :service/realworld-backend      {:extra-paths [; Bases
                                                            "bases/rest-api/resources"
@@ -72,12 +75,8 @@
                                              :extra-deps  {org.clojure/test.check {:mvn/version "0.10.0-alpha3"}}}
 
             ; Other environments
-            :env/build-tools                {:extra-paths ["components/build-tools/src"
-                                                           "components/build-tools/test"]
-                                             :extra-deps  {com.cognitect/test-runner {:git/url "https://github.com/cognitect-labs/test-runner.git"
-                                                                                      :sha     "209b64504cb3bd3b99ecfec7937b358a879f55c1"}
-                                                           polylith/lein-polylith    {:mvn/version "0.2.2"}
-                                                           ring-server               {:mvn/version "0.5.0"}}}
+            :env/build-tools                {:extra-paths ["components/build-tools/src"]
+                                             :extra-deps  {ring-server {:mvn/version "0.5.0"}}}
 
             :env.test/build-tools           {:extra-paths ["components/build-tools/test"]
                                              :extra-deps  {org.clojure/test.check {:mvn/version "0.10.0-alpha3"}}}}}

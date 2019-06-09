@@ -1,9 +1,0 @@
-{:paths [; Polylith Workspace Interfaces
-         "../../interfaces/src"
-
-         ; Component source
-         "resources"
-         "src"]
-
- :deps  {metosin/spec-tools  {:mvn/version "0.6.1"}
-         org.clojure/clojure {:mvn/version "1.10.0"}}}
