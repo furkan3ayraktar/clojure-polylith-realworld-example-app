@@ -1,5 +1,6 @@
 **/.idea/**
 **/target/**
+**/.cpcache/**
 database.db
 .nrepl-port
 .lein-failures

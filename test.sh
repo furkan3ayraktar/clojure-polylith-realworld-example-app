@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 set -e
 
-clj -A:env/build-tools -m clojure.realworld.build-tools.core interface-check
+clj -A:dev -m polylith.main compile
 
 if [[ $? -eq 0 ]]
 then
-  clj -A:env/build-tools:service/realworld-backend:service.test/realworld-backend -m clojure.realworld.build-tools.core run-tests realworld-backend
+  clj -A:dev -m polylith.main test realworld-backend
 fi

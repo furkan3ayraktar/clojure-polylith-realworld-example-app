@@ -48,7 +48,7 @@
 
                                              :extra-deps  {clj-jwt                 {:mvn/version "0.1.1"}
                                                            com.taoensso/timbre     {:mvn/version "4.10.0"}
-                                                           compojure               {:mvn/version "1.6.0"}
+                                                           compojure/compojure     {:mvn/version "1.6.0"}
                                                            crypto-password         {:mvn/version "0.2.0"}
                                                            environ                 {:mvn/version "1.1.0"}
                                                            honeysql                {:mvn/version "0.9.2"}
@@ -77,6 +77,7 @@
             ; Other environments
             :env/build-tools                {:extra-paths ["components/build-tools/src"]
                                              :extra-deps  {ring-server {:mvn/version "0.5.0"}}}
+
 
             :env.test/build-tools           {:extra-paths ["components/build-tools/test"]
                                              :extra-deps  {org.clojure/test.check {:mvn/version "0.10.0-alpha3"}}}}}
