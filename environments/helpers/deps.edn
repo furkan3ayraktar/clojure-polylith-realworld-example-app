@@ -1,0 +1,22 @@
+{:paths   ["../../bases/helpers/src"
+
+           "../../components/build-tools/src"]
+
+ :deps    {clj-time                     {:mvn/version "0.14.2"}
+           org.clojure/clojure          {:mvn/version "1.10.0"}
+           metosin/spec-tools           {:mvn/version "0.6.1"}
+           org.clojure/tools.deps.alpha {:mvn/version "0.8.695"}
+           tengstrand/polylith          {:git/url   "https://github.com/tengstrand/polylith.git"
+                                         :sha       "cdc566f478554f85168667105e7097aae310e74b"
+                                         :deps/root "environments/core"}}
+
+ :aliases {:test    {:extra-paths ["../../bases/helpers/test"
+
+                                   "../../components/build-tools/test"]
+                     :extra-deps  {org.clojure/test.check {:mvn/version "0.10.0-alpha3"}}}
+
+           :aot     {:extra-paths ["classes"]
+                     :main-opts   ["-e" "(compile,'clojure.realworld.helpers.core)"]}
+
+           :uberjar {:extra-deps {uberdeps {:mvn/version "0.1.10"}}
+                     :main-opts  ["-m" "uberdeps.uberjar"]}}}

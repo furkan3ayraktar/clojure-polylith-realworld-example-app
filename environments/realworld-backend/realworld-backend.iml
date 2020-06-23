@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module cursive.leiningen.project.DepsProjectsManager.isLeinModule="true" cursive.leiningen.project.LeiningenProjectsManager.displayName="realworld-backend" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/../../bases/rest-api/resources">
+      <sourceFolder url="file://$MODULE_DIR$/../../bases/rest-api/resources" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../bases/rest-api/src">
+      <sourceFolder url="file://$MODULE_DIR$/../../bases/rest-api/src" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../bases/rest-api/test">
+      <sourceFolder url="file://$MODULE_DIR$/../../bases/rest-api/test" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../components/article/resources">
+      <sourceFolder url="file://$MODULE_DIR$/../../components/article/resources" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../components/article/src">
+      <sourceFolder url="file://$MODULE_DIR$/../../components/article/src" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../components/article/test">
+      <sourceFolder url="file://$MODULE_DIR$/../../components/article/test" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../components/comment/resources">
+      <sourceFolder url="file://$MODULE_DIR$/../../components/comment/resources" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../components/comment/src">
+      <sourceFolder url="file://$MODULE_DIR$/../../components/comment/src" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../components/comment/test">
+      <sourceFolder url="file://$MODULE_DIR$/../../components/comment/test" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../components/database/resources">
+      <sourceFolder url="file://$MODULE_DIR$/../../components/database/resources" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../components/database/src">
+      <sourceFolder url="file://$MODULE_DIR$/../../components/database/src" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../components/database/test">
+      <sourceFolder url="file://$MODULE_DIR$/../../components/database/test" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../components/log/resources">
+      <sourceFolder url="file://$MODULE_DIR$/../../components/log/resources" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../components/log/src">
+      <sourceFolder url="file://$MODULE_DIR$/../../components/log/src" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../components/log/test">
+      <sourceFolder url="file://$MODULE_DIR$/../../components/log/test" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../components/profile/resources">
+      <sourceFolder url="file://$MODULE_DIR$/../../components/profile/resources" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../components/profile/src">
+      <sourceFolder url="file://$MODULE_DIR$/../../components/profile/src" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../components/profile/test">
+      <sourceFolder url="file://$MODULE_DIR$/../../components/profile/test" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../components/spec/resources">
+      <sourceFolder url="file://$MODULE_DIR$/../../components/spec/resources" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../components/spec/src">
+      <sourceFolder url="file://$MODULE_DIR$/../../components/spec/src" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../components/spec/test">
+      <sourceFolder url="file://$MODULE_DIR$/../../components/spec/test" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../components/tag/resources">
+      <sourceFolder url="file://$MODULE_DIR$/../../components/tag/resources" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../components/tag/src">
+      <sourceFolder url="file://$MODULE_DIR$/../../components/tag/src" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../components/tag/test">
+      <sourceFolder url="file://$MODULE_DIR$/../../components/tag/test" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../components/user/resources">
+      <sourceFolder url="file://$MODULE_DIR$/../../components/user/resources" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../components/user/src">
+      <sourceFolder url="file://$MODULE_DIR$/../../components/user/src" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../components/user/test">
+      <sourceFolder url="file://$MODULE_DIR$/../../components/user/test" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$" />
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Deps: org.bouncycastle/bcprov-jdk15on:1.52" level="project" />
+    <orderEntry type="library" name="Deps: org.clojure/data.json:0.2.6" level="project" />
+    <orderEntry type="library" name="Deps: org.clojure/clojure:1.10.0" level="project" />
+    <orderEntry type="library" name="Deps: joda-time:2.9.7" level="project" />
+    <orderEntry type="library" name="Deps: commons-codec:1.10" level="project" />
+    <orderEntry type="library" name="Deps: org.clojure/tools.logging:0.3.1" level="project" />
+    <orderEntry type="library" name="Deps: org.clojure/core.specs.alpha:0.2.44" level="project" />
+    <orderEntry type="library" name="Deps: org.bouncycastle/bcpkix-jdk15on:1.52" level="project" />
+    <orderEntry type="library" name="Deps: org.clojure/spec.alpha:0.2.176" level="project" />
+    <orderEntry type="library" name="Deps: crypto-password:0.2.0" level="project" />
+    <orderEntry type="library" name="Deps: compojure:1.6.0" level="project" />
+    <orderEntry type="library" name="Deps: commons-fileupload:1.3.3" level="project" />
+    <orderEntry type="library" name="Deps: org.eclipse.jetty/jetty-http:9.2.21.v20170120" level="project" />
+    <orderEntry type="library" name="Deps: org.eclipse.jetty/jetty-util:9.2.21.v20170120" level="project" />
+    <orderEntry type="library" name="Deps: com.taoensso/encore:2.91.0" level="project" />
+    <orderEntry type="library" name="Deps: metosin/spec-tools:0.6.1" level="project" />
+    <orderEntry type="library" name="Deps: slugger:1.0.1" level="project" />
+    <orderEntry type="library" name="Deps: org.clojure/tools.macro:0.1.5" level="project" />
+    <orderEntry type="library" name="Deps: com.fasterxml.jackson.dataformat/jackson-dataformat-cbor:2.7.5" level="project" />
+    <orderEntry type="library" name="Deps: org.clojure/google-closure-library:0.0-20160609-f42b4a24" level="project" />
+    <orderEntry type="library" name="Deps: io.aviso/pretty:0.1.33" level="project" />
+    <orderEntry type="library" name="Deps: org.clojure/clojurescript:1.9.293" level="project" />
+    <orderEntry type="library" name="Deps: honeysql:0.9.2" level="project" />
+    <orderEntry type="library" name="Deps: ring/ring-jetty-adapter:1.6.3" level="project" />
+    <orderEntry type="library" name="Deps: ring/ring-json:0.5.0-beta1" level="project" />
+    <orderEntry type="library" name="Deps: commons-io:2.5" level="project" />
+    <orderEntry type="library" name="Deps: com.google.jsinterop/jsinterop-annotations:1.0.0" level="project" />
+    <orderEntry type="library" name="Deps: com.fasterxml.jackson.core/jackson-core:2.7.5" level="project" />
+    <orderEntry type="library" name="Deps: clj-time:0.14.2" level="project" />
+    <orderEntry type="library" name="Deps: instaparse:1.4.0" level="project" />
+    <orderEntry type="library" name="Deps: com.lambdaworks/scrypt:1.4.0" level="project" />
+    <orderEntry type="library" name="Deps: org.clojars.pjlegato/clansi:1.3.0" level="project" />
+    <orderEntry type="library" name="Deps: org.mozilla/rhino:1.7R5" level="project" />
+    <orderEntry type="library" name="Deps: com.taoensso/truss:1.5.0" level="project" />
+    <orderEntry type="library" name="Deps: org.clojure/google-closure-library-third-party:0.0-20160609-f42b4a24" level="project" />
+    <orderEntry type="library" name="Deps: com.google.javascript/closure-compiler-externs:v20160911" level="project" />
+    <orderEntry type="library" name="Deps: ring-logger-timbre:0.7.6" level="project" />
+    <orderEntry type="library" name="Deps: clout:2.1.2" level="project" />
+    <orderEntry type="library" name="Deps: environ:1.1.0" level="project" />
+    <orderEntry type="library" name="Deps: com.google.guava/guava:19.0" level="project" />
+    <orderEntry type="library" name="Deps: net.cgrand/macrovich:0.2.0" level="project" />
+    <orderEntry type="library" name="Deps: com.taoensso/timbre:4.10.0" level="project" />
+    <orderEntry type="library" name="Deps: org.clojure/java.jdbc:0.7.5" level="project" />
+    <orderEntry type="library" name="Deps: args4j:2.0.26" level="project" />
+    <orderEntry type="library" name="Deps: clj-jwt:0.1.1" level="project" />
+    <orderEntry type="library" name="Deps: crypto-random:1.2.0" level="project" />
+    <orderEntry type="library" name="Deps: ring/ring-codec:1.0.1" level="project" />
+    <orderEntry type="library" name="Deps: crypto-equality:1.0.0" level="project" />
+    <orderEntry type="library" name="Deps: cheshire:5.6.3" level="project" />
+    <orderEntry type="library" name="Deps: tigris:0.1.1" level="project" />
+    <orderEntry type="library" name="Deps: org.eclipse.jetty/jetty-io:9.2.21.v20170120" level="project" />
+    <orderEntry type="library" name="Deps: org.clojure/tools.reader:1.0.0-beta3" level="project" />
+    <orderEntry type="library" name="Deps: org.mindrot/jbcrypt:0.3m" level="project" />
+    <orderEntry type="library" name="Deps: javax.servlet/javax.servlet-api:3.1.0" level="project" />
+    <orderEntry type="library" name="Deps: org.xerial/sqlite-jdbc:3.7.2" level="project" />
+    <orderEntry type="library" name="Deps: com.google.javascript/closure-compiler-unshaded:v20160911" level="project" />
+    <orderEntry type="library" name="Deps: org.clojure/test.check:0.10.0-alpha3" level="project" />
+    <orderEntry type="library" name="Deps: ring-logger:0.7.7" level="project" />
+    <orderEntry type="library" name="Deps: com.google.protobuf/protobuf-java:2.5.0" level="project" />
+    <orderEntry type="library" name="Deps: ring/ring-servlet:1.6.3" level="project" />
+    <orderEntry type="library" name="Deps: org.eclipse.jetty/jetty-server:9.2.21.v20170120" level="project" />
+    <orderEntry type="library" name="Deps: com.google.code.findbugs/jsr305:1.3.9" level="project" />
+    <orderEntry type="library" name="Deps: ring/ring-core:1.6.3" level="project" />
+    <orderEntry type="library" name="Deps: medley:1.0.0" level="project" />
+    <orderEntry type="library" name="Deps: com.fasterxml.jackson.dataformat/jackson-dataformat-smile:2.7.5" level="project" />
+    <orderEntry type="library" name="Deps: org.clojure/data.codec:0.1.0" level="project" />
+    <orderEntry type="library" name="Deps: com.google.code.gson/gson:2.2.4" level="project" />
+  </component>
+</module>

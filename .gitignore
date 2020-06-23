@@ -1,12 +1,26 @@
-**/.idea/**
-**/target/**
-**/.cpcache/**
-database.db
+**/classes
+**/target
+**/.cpcache
+**/.DS_Store
+
+# User-specific stuff
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/shelf
+.idea/**/statistic.xml
+.idea/dictionaries/**
+.idea/libraries/**
+
+# File-based project format
+*.iws
+*.ipr
+
+# Cursive Clojure plugin
+.idea/replstate.xml
 .nrepl-port
 .lein-failures
+
+# Project specific
+database.db
 test.db
-**/*.iml
-**/pom.xml
-.polylith/time.edn
-.polylith/git.edn
-artifacts/**
