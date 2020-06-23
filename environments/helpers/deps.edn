@@ -7,7 +7,7 @@
            metosin/spec-tools           {:mvn/version "0.6.1"}
            org.clojure/tools.deps.alpha {:mvn/version "0.8.695"}
            tengstrand/polylith          {:git/url   "https://github.com/tengstrand/polylith.git"
-                                         :sha       "f93e5a23a8c8ac0e3c7c1d0cb80eeab6f3466d4c"
+                                         :sha       "b8357e9e1c04eeeaed5e603aa9a48cf936f0d6ad"
                                          :deps/root "environments/core"}}
 
  :aliases {:test    {:extra-paths ["../../bases/helpers/test"
