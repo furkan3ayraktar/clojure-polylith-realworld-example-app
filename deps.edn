@@ -1,1 +1,6 @@
-{:polylith {:top-namespace "clojure.realworld"}}
+{:polylith {:top-namespace "clojure.realworld"}
+
+ :aliases  {:test {:extra-deps {tengstrand/polylith {:git/url   "https://github.com/tengstrand/polylith.git"
+                                                     :sha       "f93e5a23a8c8ac0e3c7c1d0cb80eeab6f3466d4c"
+                                                     :deps/root "environments/core"}}
+                   :main-opts  ["-m" "polylith.tool.poly" "test"]}}}

@@ -24,3 +24,4 @@
 # Project specific
 database.db
 test.db
+*.iml
