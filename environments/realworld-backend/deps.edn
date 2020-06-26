@@ -64,4 +64,10 @@
                                   "../../components/spec/test"
                                   "../../components/tag/test"
                                   "../../components/user/test"]
-                    :extra-deps  {org.clojure/test.check {:mvn/version "0.10.0-alpha3"}}}}}
+                    :extra-deps  {org.clojure/test.check {:mvn/version "0.10.0-alpha3"}}}
+
+             :aot     {:extra-paths ["classes"]
+                       :main-opts   ["-e" "(compile,'clojure.realworld.rest-api.api)"]}
+
+             :uberjar {:extra-deps {uberdeps {:mvn/version "0.1.10"}}
+                       :main-opts  ["-m" "uberdeps.uberjar"]}}}

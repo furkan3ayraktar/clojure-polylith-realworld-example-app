@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/clojure-polylith-realworld-example-app.iml" filepath="$PROJECT_DIR$/clojure-polylith-realworld-example-app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/environments/helpers/helpers.iml" filepath="$PROJECT_DIR$/environments/helpers/helpers.iml" />
       <module fileurl="file://$PROJECT_DIR$/environments/realworld-backend/realworld-backend.iml" filepath="$PROJECT_DIR$/environments/realworld-backend/realworld-backend.iml" />
     </modules>
   </component>
