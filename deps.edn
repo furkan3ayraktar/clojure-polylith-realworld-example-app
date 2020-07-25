@@ -7,8 +7,10 @@
 
             :dev           {:extra-deps {env/realworld-backend {:local/root "environments/realworld-backend"}}}
 
-            :test          {:main-opts ["-m" "polylith.cli.poly" "test"]}
-            :check         {:main-opts ["-m" "polylith.cli.poly" "check"]}
+            :check    {:main-opts ["-m" "polylith.clj.core.cli.poly" "check"]}
+            :deps     {:main-opts ["-m" "polylith.clj.core.cli.poly" "deps"]}
+            :info     {:main-opts ["-m" "polylith.clj.core.cli.poly" "info"]}
+            :test     {:main-opts ["-m" "polylith.clj.core.cli.poly" "test"]}
 
             :ring {:extra-deps {furkan3ayraktar/polylith-clj-deps-ring
                                 {:git/url   "https://github.com/furkan3ayraktar/polylith-clj-deps-ring.git"
