@@ -2,8 +2,8 @@
 
  :aliases  {:polylith      {:extra-deps {tengstrand/polylith
                                          {:git/url   "https://github.com/tengstrand/polylith.git"
-                                          :sha       "b8aa8574b68afc74d032a2ef64fae5bd0ad578ce"
-                                          :deps/root "environments/core"}}}
+                                          :sha       "011f358cbf81e7c713db0acc1ec63b8f6a292d02"
+                                          :deps/root "environments/cli"}}}
 
             :dev           {:extra-deps {env/realworld-backend {:local/root "environments/realworld-backend"}}}
 
