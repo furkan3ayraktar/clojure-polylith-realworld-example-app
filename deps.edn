@@ -71,10 +71,10 @@
                                  ; Bases
                                  "bases/rest-api/test"]}
 
-            :poly {:extra-deps {tengstrand/polylith
-                                 {:git/url   "https://github.com/tengstrand/polylith.git"
-                                  :sha       "34e9400f36db5292cff347b041a59ad2bc481e3e"
-                                  :deps/root "environments/cli"}}}
+            :polylith {:extra-deps {tengstrand/polylith
+                                     {:git/url   "https://github.com/tengstrand/polylith.git"
+                                      :sha       "34e9400f36db5292cff347b041a59ad2bc481e3e"
+                                      :deps/root "environments/cli"}}}
             :poly-check       {:main-opts ["-m" "polylith.clj.core.cli.poly" "check"]}
             :poly-create-ws   {:main-opts ["-m" "polylith.clj.core.cli.poly" "create-ws"]}
             :poly-create-env  {:main-opts ["-m" "polylith.clj.core.cli.poly" "create-env"]}
