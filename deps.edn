@@ -1,5 +1,6 @@
 
-{:polylith {:top-namespace "clojure.realworld"
+{:polylith {:vcs "git"
+            :top-namespace "clojure.realworld"
             :env->alias {"development" "dev"
                          "realworld-backend" "rb"}
             :ns->lib {clj-time              clj-time
@@ -22,7 +23,6 @@
 
  :aliases  {:dev {:extra-paths [; Development
                                 "development/src"
-
                                 ; Components
                                 "components/article/src"
                                 "components/article/resources"
@@ -40,7 +40,6 @@
                                 "components/tag/resources"
                                 "components/user/src"
                                 "components/user/resources"
-
                                 ; Bases
                                 "bases/rest-api/src"]
                   :extra-deps {clj-time                {:mvn/version "0.14.2"}
@@ -71,20 +70,11 @@
                                  ; Bases
                                  "bases/rest-api/test"]}
 
-            :polylith {:extra-deps {tengstrand/polylith
-                                     {:git/url   "https://github.com/tengstrand/polylith.git"
-                                      :sha       "34e9400f36db5292cff347b041a59ad2bc481e3e"
-                                      :deps/root "environments/cli"}}}
-            :poly-check       {:main-opts ["-m" "polylith.clj.core.cli.poly" "check"]}
-            :poly-create-ws   {:main-opts ["-m" "polylith.clj.core.cli.poly" "create-ws"]}
-            :poly-create-env  {:main-opts ["-m" "polylith.clj.core.cli.poly" "create-env"]}
-            :poly-create-base {:main-opts ["-m" "polylith.clj.core.cli.poly" "create-base"]}
-            :poly-create-comp {:main-opts ["-m" "polylith.clj.core.cli.poly" "create-comp"]}
-            :poly-deps        {:main-opts ["-m" "polylith.clj.core.cli.poly" "deps"]}
-            :poly-help        {:main-opts ["-m" "polylith.clj.core.cli.poly" "help"]}
-            :poly-info        {:main-opts ["-m" "polylith.clj.core.cli.poly" "info"]}
-            :poly-test        {:main-opts ["-m" "polylith.clj.core.cli.poly" "test"]}
-            :poly-ws          {:main-opts ["-m" "polylith.clj.core.cli.poly" "ws"]}
+            :poly {:main-opts ["-m" "polylith.clj.core.poly-cli.poly"]
+                   :extra-deps {tengstrand/polylith
+                                {:git/url   "https://github.com/tengstrand/polylith.git"
+                                 :sha       "f67ea46e95748179861eee7eebe757206b8e1f67"
+                                 :deps/root "environments/poly"}}}
 
             :ring {:extra-deps {furkan3ayraktar/polylith-clj-deps-ring
                                 {:git/url   "https://github.com/furkan3ayraktar/polylith-clj-deps-ring.git"
