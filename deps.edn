@@ -13,7 +13,7 @@
                       crypto.password       crypto-password
                       environ               environ
                       honeysql              honeysql
-                      net.sf.junidecode     slugger
+                      slugger               slugger
                       org.sqlite            org.xerial/sqlite-jdbc
                       ring.adapter.jetty    ring/ring-jetty-adapter
                       ring.logger           ring-logger-timbre
