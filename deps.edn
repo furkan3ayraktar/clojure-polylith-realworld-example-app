@@ -6,16 +6,12 @@
             :ns->lib {clj-time              clj-time
                       clj-jwt               clj-jwt
                       clojure               org.clojure/clojure
-                      clojure.data.json     org.clojure/data.json
                       clojure.java.jdbc     org.clojure/java.jdbc
-                      clojure.tools.deps    org.clojure/tools.deps.alpha
                       compojure             compojure/compojure
                       crypto.password       crypto-password
                       environ               environ
                       honeysql              honeysql
                       slugger               slugger
-                      org.sqlite            org.xerial/sqlite-jdbc
-                      ring.adapter.jetty    ring/ring-jetty-adapter
                       ring.logger           ring-logger-timbre
                       ring.middleware.json  ring/ring-json
                       spec-tools            metosin/spec-tools
