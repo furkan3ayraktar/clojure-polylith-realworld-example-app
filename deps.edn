@@ -1,6 +1,7 @@
 
 {:polylith {:vcs "git"
             :top-namespace "clojure.realworld"
+            :stable-since-tag-pattern "stable-*"
             :env->alias {"development" "dev"
                          "realworld-backend" "rb"}
             :ns->lib {clj-time              clj-time
