@@ -1,6 +1,4 @@
-
-{:paths     [; Components
-             "../../components/article/src"
+{:paths     ["../../components/article/src"
              "../../components/article/resources"
              "../../components/comment/src"
              "../../components/comment/resources"
@@ -16,8 +14,6 @@
              "../../components/tag/resources"
              "../../components/user/src"
              "../../components/user/resources"
-
-             ; Bases
              "../../bases/rest-api/resources"
              "../../bases/rest-api/src"]
 
@@ -46,17 +42,11 @@
              ring/ring-json          {:mvn/version "0.5.0-beta1"}
              slugger                 {:mvn/version "1.0.1"}}
 
- :aliases   {:test {:extra-paths [; Components
-                                  "../../components/article/test"
+ :aliases   {:test {:extra-paths ["../../components/article/test"
                                   "../../components/comment/test"
-                                  "../../components/database/test"
-                                  "../../components/log/test"
                                   "../../components/profile/test"
-                                  "../../components/spec/test"
                                   "../../components/tag/test"
                                   "../../components/user/test"
-
-                                  ; Bases
                                   "../../bases/rest-api/test"]
                     :extra-deps  {org.clojure/test.check {:mvn/version "0.10.0-alpha3"}}}
 
@@ -64,4 +54,6 @@
                        :main-opts   ["-e" "(compile,'clojure.realworld.rest-api.api)"]}
 
              :uberjar {:extra-deps {uberdeps {:mvn/version "0.1.10"}}
-                       :main-opts  ["-m" "uberdeps.uberjar"]}}}
+                       :main-opts  ["-m" "uberdeps.uberjar"
+                                    "--aliases" "aot"
+                                    "--main-class" "clojure.realworld.rest_api.api"]}}}

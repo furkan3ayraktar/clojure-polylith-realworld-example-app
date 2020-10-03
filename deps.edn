@@ -1,26 +1,24 @@
-
 {:polylith {:vcs "git"
             :top-namespace "clojure.realworld"
             :stable-since-tag-pattern "stable-*"
-            :env->alias {"development" "dev"
-                         "realworld-backend" "rb"}
-            :ns->lib {clj-time              clj-time
-                      clj-jwt               clj-jwt
-                      clojure               org.clojure/clojure
-                      clojure.java.jdbc     org.clojure/java.jdbc
-                      compojure             compojure/compojure
-                      crypto.password       crypto-password
-                      environ               environ
-                      honeysql              honeysql
-                      slugger               slugger
-                      ring.logger           ring-logger-timbre
-                      ring.middleware.json  ring/ring-json
-                      spec-tools            metosin/spec-tools
-                      taoensso.timbre       com.taoensso/timbre}}
+            :use-compact-output false
+            :env-to-alias {"development" "dev"
+                           "realworld-backend" "rb"}
+            :ns-to-lib {clj-time              clj-time
+                        clj-jwt               clj-jwt
+                        clojure               org.clojure/clojure
+                        clojure.java.jdbc     org.clojure/java.jdbc
+                        compojure             compojure/compojure
+                        crypto.password       crypto-password
+                        environ               environ
+                        honeysql              honeysql
+                        slugger               slugger
+                        ring.logger           ring-logger-timbre
+                        ring.middleware.json  ring/ring-json
+                        spec-tools            metosin/spec-tools
+                        taoensso.timbre       com.taoensso/timbre}}
 
- :aliases  {:dev {:extra-paths [; Development
-                                "development/src"
-                                ; Components
+ :aliases  {:dev {:extra-paths ["development/src"
                                 "components/article/src"
                                 "components/article/resources"
                                 "components/comment/src"
@@ -55,16 +53,11 @@
                                ring/ring-jetty-adapter {:mvn/version "1.6.3"}
                                ring/ring-json          {:mvn/version "0.5.0-beta1"}
                                slugger                 {:mvn/version "1.0.1"}}}
-            :test {:extra-paths [; Components
-                                 "components/article/test"
+            :test {:extra-paths ["components/article/test"
                                  "components/comment/test"
-                                 "components/database/test"
-                                 "components/log/test"
                                  "components/profile/test"
-                                 "components/spec/test"
                                  "components/tag/test"
                                  "components/user/test"
-                                 ; Bases
                                  "bases/rest-api/test"]}
 
             :poly {:main-opts ["-m" "polylith.clj.core.poly-cli.poly"]
