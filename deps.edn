@@ -61,9 +61,9 @@
                                  "bases/rest-api/test"]}
 
             :poly {:main-opts ["-m" "polylith.clj.core.poly-cli.poly"]
-                   :extra-deps {tengstrand/polylith
-                                {:git/url   "https://github.com/tengstrand/polylith.git"
-                                 :sha       "f67ea46e95748179861eee7eebe757206b8e1f67"
+                   :extra-deps {polyfy/polylith
+                                {:git/url   "https://github.com/polyfy/polylith.git"
+                                 :sha       "78b2c77c56d1b41109d68b451069affac935200e"
                                  :deps/root "environments/poly"}}}
 
             :ring {:extra-deps {furkan3ayraktar/polylith-clj-deps-ring
