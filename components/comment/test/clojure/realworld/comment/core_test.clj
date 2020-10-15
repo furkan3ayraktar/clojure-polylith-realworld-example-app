@@ -3,7 +3,7 @@
             [clojure.realworld.comment.core :as core]
             [clojure.realworld.comment.spec :as spec]
             [clojure.realworld.database.interface :as database]
-            [clojure.realworld.user.interface :as user]
+            [clojure.realworld.user.interface.spec :as user-spec]
             [clojure.spec.alpha :as s]
             [clojure.spec.gen.alpha :as gen]
             [clojure.test :refer :all]))
@@ -15,7 +15,7 @@
   ([_] (test-db)))
 
 (def ^:private auth-user
-  (assoc (gen/generate (s/gen user/user)) :id 1))
+  (assoc (gen/generate (s/gen user-spec/user)) :id 1))
 
 (defn prepare-for-tests [f]
   (with-redefs [database/db test-db]
@@ -40,7 +40,7 @@
 
 (deftest article-comments--comments-found--return-positive-response
   (let [_ (jdbc/insert! (test-db) :article {:slug "slug"})
-        _ (jdbc/insert-multi! (test-db) :user (map-indexed #(assoc %2 :id (+ 2 %1)) (gen/sample (s/gen user/user) 2)))
+        _ (jdbc/insert-multi! (test-db) :user (map-indexed #(assoc %2 :id (+ 2 %1)) (gen/sample (s/gen user-spec/user) 2)))
         _ (jdbc/insert-multi! (test-db) :comment [{:body "body1" :articleId 1 :userId 1}
                                                   {:body "body2" :articleId 1 :userId 2}
                                                   {:body "body3" :articleId 1 :userId 2}
@@ -51,7 +51,7 @@
 
 (deftest article-comments--comments-found-without-auth--return-positive-response
   (let [_ (jdbc/insert! (test-db) :article {:slug "slug"})
-        _ (jdbc/insert-multi! (test-db) :user (map-indexed #(assoc %2 :id (+ 2 %1)) (gen/sample (s/gen user/user) 2)))
+        _ (jdbc/insert-multi! (test-db) :user (map-indexed #(assoc %2 :id (+ 2 %1)) (gen/sample (s/gen user-spec/user) 2)))
         _ (jdbc/insert-multi! (test-db) :comment [{:body "body1" :articleId 1 :userId 1}
                                                   {:body "body2" :articleId 1 :userId 2}
                                                   {:body "body3" :articleId 1 :userId 2}

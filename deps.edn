@@ -1,9 +1,12 @@
 {:polylith {:vcs "git"
             :top-namespace "clojure.realworld"
-            :stable-since-tag-pattern "stable-*"
-            :use-compact-output false
-            :env-to-alias {"development" "dev"
-                           "realworld-backend" "rb"}
+            :interface-ns "interface"
+            :default-profile-name "default"
+            :compact-views #{}
+            :release-tag-pattern "v[0-9]*"
+            :stable-tag-pattern "stable-*"
+            :project-to-alias {"development" "dev"
+                               "realworld-backend" "rb"}
             :ns-to-lib {clj-time              clj-time
                         clj-jwt               clj-jwt
                         clojure               org.clojure/clojure
@@ -64,11 +67,11 @@
                    :extra-deps {polyfy/polylith
                                 {:git/url   "https://github.com/polyfy/polylith.git"
                                  :sha       "78b2c77c56d1b41109d68b451069affac935200e"
-                                 :deps/root "environments/poly"}}}
+                                 :deps/root "projects/poly"}}}
 
             :ring {:extra-deps {furkan3ayraktar/polylith-clj-deps-ring
                                 {:git/url   "https://github.com/furkan3ayraktar/polylith-clj-deps-ring.git"
                                  :sha       "d74f49da6547fa160f74873d2d0ae3414631750b"
-                                 :deps/root "environments/core"}}
+                                 :deps/root "projects/core"}}
 
                    :main-opts  ["-m" "polylith.clj-deps-ring.cli.main"]}}}

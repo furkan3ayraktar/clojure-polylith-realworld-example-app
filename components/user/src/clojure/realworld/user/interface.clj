@@ -1,15 +1,6 @@
 (ns clojure.realworld.user.interface
   (:require [clojure.realworld.user.core :as core]
-            [clojure.realworld.user.spec :as spec]
             [clojure.realworld.user.store :as store]))
-
-(def login spec/login)
-
-(def register spec/register)
-
-(def update-user spec/update-user)
-
-(def user spec/user)
 
 (defn login! [login-input]
   (core/login! login-input))
