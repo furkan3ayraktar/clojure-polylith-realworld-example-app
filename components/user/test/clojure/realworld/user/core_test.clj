@@ -73,14 +73,14 @@
     (is (s/valid? spec/visible-user res))))
 
 (deftest update-user!--user-exists-with-given-email--return-negative-result
-  (let [_         (jdbc/insert! (test-db) :user {:email "test1@test.com"})
+  (let [_ (jdbc/insert! (test-db) :user {:email "test1@test.com"})
         auth-user (jdbc/insert! (test-db) :user {:email "test2@test.com" :token "token"})
         [ok? res] (core/update-user! auth-user {:email "test1@test.com"})]
     (is (false? ok?))
     (is (= {:errors {:email ["A user exists with given email."]}} res))))
 
 (deftest update-user!--user-exists-with-given-username--return-negative-result
-  (let [_         (jdbc/insert! (test-db) :user {:username "username"})
+  (let [_ (jdbc/insert! (test-db) :user {:username "username"})
         auth-user (jdbc/insert! (test-db) :user {:email "test2@test.com" :token "token"})
         [ok? res] (core/update-user! auth-user {:email "test@test.com" :username "username" :token "token"})]
     (is (false? ok?))
@@ -88,9 +88,9 @@
 
 (deftest update-user!--valid-input--return-positive-result
   (let [initial-inputs (gen/sample (s/gen spec/register) 20)
-        users          (map #(-> (core/register! %) second :user) initial-inputs)
-        inputs         (gen/sample (s/gen spec/update-user) 20)
-        results        (map-indexed #(core/update-user! (nth users %1) %2) inputs)]
+        users (map #(-> (core/register! %) second :user) initial-inputs)
+        inputs (gen/sample (s/gen spec/update-user) 20)
+        results (map-indexed #(core/update-user! (nth users %1) %2) inputs)]
     (is (every? true? (map first results)))
     (is (every? #(s/valid? spec/visible-user (second %)) results))
     (is (= (map #(dissoc % :password) inputs)

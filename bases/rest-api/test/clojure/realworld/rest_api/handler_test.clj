@@ -4,6 +4,7 @@
             [clojure.realworld.article.interface.spec :as article-spec]
             [clojure.realworld.rest-api.handler :as handler]
             [clojure.realworld.comment.interface :as comment-comp]
+            [clojure.realworld.comment.interface.spec :as comment-spec]
             [clojure.realworld.profile.interface :as profile]
             [clojure.realworld.spec.interface :as spec]
             [clojure.realworld.tag.interface :as tag]
@@ -28,8 +29,8 @@
                 article/unfavorite-article!   (fn [_ _] [true {}])
                 article/feed                  (fn [_ limit offset] [true {:limit limit :offset offset}])
                 article/articles              (fn [_ limit offset author tag favorited]
-                                               [true {:limit  limit :offset offset
-                                                      :author author :tag tag :favorited favorited}])
+                                                [true {:limit  limit :offset offset
+                                                       :author author :tag tag :favorited favorited}])
                 tag/all-tags                  (fn [] [true {:tags []}])
                 comment-comp/article-comments (fn [_ _] [true {:comments []}])
                 comment-comp/add-comment!     (fn [_ _ _] [true {}])
@@ -64,7 +65,7 @@
 
 (deftest current-user--valid-input--return-200
   (let [auth-user (gen/generate (s/gen user-spec/user))
-        res       (handler/current-user {:auth-user auth-user})]
+        res (handler/current-user {:auth-user auth-user})]
     (is (= {:status 200
             :body   {:user auth-user}}
            res))))
@@ -76,7 +77,7 @@
            res))))
 
 (deftest update-user--valid-input--return-200
-  (let [res (handler/update-user {:auth-user (gen/generate (s/gen user-spec-spec/user))
+  (let [res (handler/update-user {:auth-user (gen/generate (s/gen user-spec/user))
                                   :params    {:user (gen/generate (s/gen user-spec/update-user))}})]
     (is (= {:status 200
             :body   {}}

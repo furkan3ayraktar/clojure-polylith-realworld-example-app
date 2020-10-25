@@ -61,8 +61,8 @@
     (is (= 4 (-> res :comments count)))))
 
 (deftest add-comment!--test
-  (let [_       (jdbc/insert! (test-db) :article {:slug "slug"})
-        inputs  (gen/sample (s/gen spec/add-comment) 20)
+  (let [_ (jdbc/insert! (test-db) :article {:slug "slug"})
+        inputs (gen/sample (s/gen spec/add-comment) 20)
         results (map #(core/add-comment! auth-user "slug" %) inputs)]
     (is (every? true? (map first results)))
     (is (every? #(s/valid? spec/visible-comment (second %)) results))))
@@ -73,7 +73,7 @@
     (is (= {:errors {:id ["Cannot find a comment with given id."]}} res))))
 
 (deftest delete-comment!--comment-is-not-owned-by-user--return-negative-response
-  (let [_       (jdbc/insert! (test-db) :article {:slug "slug"})
+  (let [_ (jdbc/insert! (test-db) :article {:slug "slug"})
         initial (gen/generate (s/gen spec/add-comment))
         [_ comment] (core/add-comment! auth-user "slug" initial)
         [ok? res] (core/delete-comment! (assoc auth-user :id 2)
@@ -82,8 +82,8 @@
     (is (= {:errors {:authorization ["You need to be author of this comment to delete it."]}} res))))
 
 (deftest delete-comment!--input-is-ok--delete-comment-and-return-positive-response
-  (let [_              (jdbc/insert! (test-db) :article {:slug "slug"})
+  (let [_ (jdbc/insert! (test-db) :article {:slug "slug"})
         initial-inputs (gen/sample (s/gen spec/add-comment) 20)
-        create-res     (map #(core/add-comment! auth-user "slug" %) initial-inputs)
-        update-res     (map #(core/delete-comment! auth-user (-> % second :comment :id)) create-res)]
+        create-res (map #(core/add-comment! auth-user "slug" %) initial-inputs)
+        update-res (map #(core/delete-comment! auth-user (-> % second :comment :id)) create-res)]
     (is (every? #(= [true nil] %) update-res))))

@@ -4,23 +4,24 @@
             [environ.core :refer [env]]
             [taoensso.timbre :as timbre])
   (:import (java.util Calendar)
-           (java.text SimpleDateFormat)))
+           (java.text SimpleDateFormat)
+           (java.io File IOException)))
 
-(defn- rename-old-create-new-log [log old-log]
+(defn- rename-old-create-new-log [^File log ^File old-log]
   (.renameTo log old-log)
   (.createNewFile log))
 
 (defn- shift-log-period [log path prev-cal]
-  (let [postfix           (-> "yyyy-MM-dd" SimpleDateFormat. (.format (.getTime prev-cal)))
+  (let [postfix (-> "yyyy-MM-dd" SimpleDateFormat. (.format (.getTime prev-cal)))
         last-index-of-dot (str/last-index-of path ".")
-        file-name         (if (>= last-index-of-dot 0) (subs path 0 last-index-of-dot) path)
-        extension         (if (>= last-index-of-dot 0) (subs path (+ 1 last-index-of-dot)) "")
-        old-path          (format "%s.%s.%s" file-name postfix extension)
-        old-log           (io/file old-path)]
+        file-name (if (>= last-index-of-dot 0) (subs path 0 last-index-of-dot) path)
+        extension (if (>= last-index-of-dot 0) (subs path (+ 1 last-index-of-dot)) "")
+        old-path (format "%s.%s.%s" file-name postfix extension)
+        old-log (io/file old-path)]
     (if (.exists old-log)
       (loop [index 0]
         (let [index-path (format "%s.%d" old-path index)
-              index-log  (io/file index-path)]
+              index-log (io/file index-path)]
           (if (.exists index-log)
             (recur (+ index 1))
             (rename-old-create-new-log log index-log))))
@@ -29,7 +30,7 @@
 (defn- log-cal [date] (let [now (Calendar/getInstance)] (.setTime now date) now))
 
 (defn- prev-period-end-cal [date pattern]
-  (let [cal    (log-cal date)
+  (let [cal (log-cal date)
         offset (case pattern
                  :daily 1
                  :weekly (.get cal Calendar/DAY_OF_WEEK)
@@ -59,7 +60,7 @@
                (fn [data]
                  (let [{:keys [instant output_]} data
                        output-str (force output_)
-                       prev-cal   (prev-period-end-cal instant pattern)]
+                       prev-cal (prev-period-end-cal instant pattern)]
                    (when-let [log (io/file path)]
                      (try
                        (when-not (.exists log)
@@ -69,7 +70,7 @@
                            (shift-log-period log path prev-cal))
                          (.createNewFile log))
                        (spit path (with-out-str (println output-str)) :append true)
-                       (catch java.io.IOException _)))))})
+                       (catch IOException _)))))})
 
 (defn init []
   (if (= "LOCAL" (env :environment))

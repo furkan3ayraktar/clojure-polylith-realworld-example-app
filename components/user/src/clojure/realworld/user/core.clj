@@ -11,7 +11,7 @@
     "some-default-secret-do-not-use-it"))
 
 (defn- generate-token [email]
-  (let [now   (t/now)
+  (let [now (t/now)
         claim {:iss email
                :exp (t/plus now (t/days 7))
                :iat now}]
@@ -27,8 +27,8 @@
   (if-let [user (store/find-by-email email)]
     (if (crypto/check password (:password user))
       (let [new-token (generate-token email)
-            _         (store/update-token! email new-token)
-            new-user  (assoc user :token new-token)]
+            _ (store/update-token! email new-token)
+            new-user (assoc user :token new-token)]
         [true (user->visible-user new-user)])
       [false {:errors {:password ["Invalid password."]}}])
     [false {:errors {:email ["Invalid email."]}}]))
@@ -42,7 +42,7 @@
                         :username username
                         :password (encrypt-password password)
                         :token    (generate-token email)}
-            _          (store/insert-user! user-input)]
+            _ (store/insert-user! user-input)]
         (if-let [user (store/find-by-email email)]
           [true (user->visible-user user)]
           [false {:errors {:other ["Cannot insert user into db."]}}])))))
@@ -66,10 +66,10 @@
                                  {:password (when password (encrypt-password password))
                                   :email    (when email email)
                                   :username (when username username)})
-            user-input   (merge {:image image
-                                 :bio   bio}
-                                optional-map)
-            _            (store/update-user! (:id auth-user) user-input)]
+            user-input (merge {:image image
+                               :bio   bio}
+                              optional-map)
+            _ (store/update-user! (:id auth-user) user-input)]
         (if-let [updated-user (store/find-by-email email-to-use)]
           [true (user->visible-user updated-user)]
           [false {:errors {:other ["Cannot update user."]}}])))))

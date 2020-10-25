@@ -4,10 +4,10 @@
             [honeysql.core :as sql]))
 
 (defn following? [user-id followed-user-id]
-  (let [query   {:select [:*]
-                 :from   [:userFollows]
-                 :where  [:and [:= :userId user-id]
-                          [:= :followedUserId followed-user-id]]}
+  (let [query {:select [:*]
+               :from   [:userFollows]
+               :where  [:and [:= :userId user-id]
+                        [:= :followedUserId followed-user-id]]}
         results (jdbc/query (database/db) (sql/format query))]
     (-> results first nil? not)))
 

@@ -10,9 +10,9 @@
     (jdbc/query (database/db) (sql/format query) {:identifiers identity})))
 
 (defn find-by-id [id]
-  (let [query   {:select [:*]
-                 :from   [:comment]
-                 :where  [:= :id id]}
+  (let [query {:select [:*]
+               :from   [:comment]
+               :where  [:= :id id]}
         results (jdbc/query (database/db) (sql/format query) {:identifiers identity})]
     (first results)))
 
