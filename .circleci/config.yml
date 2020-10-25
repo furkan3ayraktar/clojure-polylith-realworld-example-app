@@ -12,6 +12,9 @@ jobs:
             - realworld-example-{{ checksum "deps.edn" }}-{{ checksum "projects/realworld-backend/deps.edn" }}
             - realworld-example-
       - run:
+          name: Create polylith config if it does not exist
+          command: mkdir -p ~/.polylith && echo "{}" > ~/.polylith/config.edn
+      - run:
           name: Check Polylith workspace
           command: clojure -A:poly check
       - save_cache:
@@ -96,7 +99,7 @@ jobs:
       - run:
           name: Run api tests
           command: APIURL=http://localhost:6003/api ./run-api-tests.sh
-          working_directory: ~/realworld-backend/api-tests
+          working_directory: ~/realworld-example/api-tests
 
   build-uberjar:
     docker:
@@ -148,7 +151,7 @@ jobs:
 
 workflows:
   version: 2
-  test-build-success:
+  validate-test-build:
     jobs:
       - check
       - info:
@@ -159,14 +162,13 @@ workflows:
             - check
       - api-test:
           requires:
-            - check
             - test
       - build-uberjar:
           requires:
             - test
-            - api-test
       - mark-as-stable:
           requires:
+            - api-test
             - build-uberjar
           filters:
             branches:
