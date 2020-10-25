@@ -13,7 +13,7 @@ jobs:
             - realworld-example-
       - run:
           name: Check Polylith workspace
-          command: clojure -M:poly check
+          command: clojure -A:poly check
       - save_cache:
           key: realworld-example-{{ checksum "deps.edn" }}-{{ checksum "projects/realworld-backend/deps.edn" }}
           paths:
@@ -45,16 +45,16 @@ jobs:
           command: git config --global user.name "CircleCI"
       - run:
           name: Run ws command for Polylith workspace
-          command: clojure -M:poly ws
+          command: clojure -A:poly ws
       - run:
           name: Run info command for Polylith workspace
-          command: clojure -M:poly info
+          command: clojure -A:poly info
       - run:
           name: Run deps command for Polylith workspace
-          command: clojure -M:poly deps
+          command: clojure -A:poly deps
       - run:
           name: Run libs command for Polylith workspace
-          command: clojure -M:poly libs
+          command: clojure -A:poly libs
 
   test:
     docker:
@@ -88,7 +88,7 @@ jobs:
             - realworld-example-{{ checksum "deps.edn" }}-{{ checksum "projects/realworld-backend/deps.edn" }}
       - run:
           name: Run realworld backend
-          command: clojure -M:ring realworld-backend
+          command: clojure -A:ring realworld-backend
           background: true
       - run:
           name: Wait for backend to initialize

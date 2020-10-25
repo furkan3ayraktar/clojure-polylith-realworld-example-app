@@ -17,7 +17,7 @@ rm -rf target/$1.*
 
 echo "Compiling project..."
 
-clojure -M:aot
+clojure -A:aot
 
 if [[ $? -ne 0 ]]
 then
@@ -27,7 +27,7 @@ fi
 
 echo "Project compiled. Creating an uberjar for the project..."
 
-clojure -M:uberjar
+clojure -A:uberjar
 
 if [[ $? -ne 0 ]]
 then

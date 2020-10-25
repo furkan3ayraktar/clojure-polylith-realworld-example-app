@@ -7,16 +7,16 @@
             :stable-tag-pattern   "stable-*"
             :project-to-alias     {"development"       "dev"
                                    "realworld-backend" "rb"}
-            :ns-to-lib            {clj-time             clj-time
-                                   clj-jwt              clj-jwt
+            :ns-to-lib            {clj-time             clj-time/clj-time
+                                   clj-jwt              clj-jwt/clj-jwt
                                    clojure              org.clojure/clojure
                                    clojure.java.jdbc    org.clojure/java.jdbc
                                    compojure            compojure/compojure
-                                   crypto.password      crypto-password
-                                   environ              environ
-                                   honeysql             honeysql
-                                   slugger              slugger
-                                   ring.logger          ring-logger-timbre
+                                   crypto.password      crypto-password/crypto-password
+                                   environ              environ/environ
+                                   honeysql             honeysql/honeysql
+                                   slugger              slugger/slugger
+                                   ring.logger          ring-logger-timbre/ring-logger-timbre
                                    ring.middleware.json ring/ring-json
                                    spec-tools           metosin/spec-tools
                                    taoensso.timbre      com.taoensso/timbre}}
