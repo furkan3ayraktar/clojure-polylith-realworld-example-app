@@ -3,11 +3,11 @@ set -e
 
 if [[ $# -ne 1 ]]
 then
-    echo "Usage: ENV_NAME, e.g.: dev"
+    echo "Usage: PROJ_NAME, e.g.: realworld-backend"
     exit 1
 fi
 
-cd environments/$1
+cd projects/$1
 
 mkdir -p classes
 mkdir -p target
@@ -15,23 +15,23 @@ mkdir -p target
 rm -rf classes/*
 rm -rf target/$1.*
 
-echo "Compiling environment"
+echo "Compiling project..."
 
-clojure -A:aot
+clojure -M:aot
 
 if [[ $? -ne 0 ]]
 then
-  echo "Could not compile environment."
+  echo "Could not compile project."
   exit 1
 fi
 
-echo "Environment compiled. Creating an uberjar for the environment"
+echo "Project compiled. Creating an uberjar for the project..."
 
-clojure -A:uberjar
+clojure -M:uberjar
 
 if [[ $? -ne 0 ]]
 then
-  echo "Could not create uberjar for the environment."
+  echo "Could not create uberjar for the projet."
   exit 1
 fi
 

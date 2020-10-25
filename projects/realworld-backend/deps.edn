@@ -14,6 +14,7 @@
              "../../components/tag/resources"
              "../../components/user/src"
              "../../components/user/resources"
+
              "../../bases/rest-api/resources"
              "../../bases/rest-api/src"]
 
@@ -25,35 +26,35 @@
  :mvn/repos {"central" {:url "https://repo1.maven.org/maven2/"}
              "clojars" {:url "https://clojars.org/repo"}}
 
- :deps      {clj-time                {:mvn/version "0.14.2"}
-             clj-jwt                 {:mvn/version "0.1.1"}
-             com.taoensso/timbre     {:mvn/version "4.10.0"}
-             compojure/compojure     {:mvn/version "1.6.0"}
-             crypto-password         {:mvn/version "0.2.0"}
-             environ                 {:mvn/version "1.1.0"}
-             honeysql                {:mvn/version "0.9.2"}
-             metosin/spec-tools      {:mvn/version "0.6.1"}
-             org.clojure/clojure     {:mvn/version "1.10.0"}
-             org.clojure/data.json   {:mvn/version "0.2.6"}
-             org.clojure/java.jdbc   {:mvn/version "0.7.5"}
-             org.xerial/sqlite-jdbc  {:mvn/version "3.7.2"}
-             ring-logger-timbre      {:mvn/version "0.7.6"}
-             ring/ring-jetty-adapter {:mvn/version "1.6.3"}
-             ring/ring-json          {:mvn/version "0.5.0-beta1"}
-             slugger                 {:mvn/version "1.0.1"}}
+ :deps      {clj-time/clj-time                     {:mvn/version "0.14.2"}
+             clj-jwt/clj-jwt                       {:mvn/version "0.1.1"}
+             com.taoensso/timbre                   {:mvn/version "4.10.0"}
+             compojure/compojure                   {:mvn/version "1.6.0"}
+             crypto-password/crypto-password       {:mvn/version "0.2.0"}
+             environ/environ                       {:mvn/version "1.1.0"}
+             honeysql/honeysql                     {:mvn/version "0.9.2"}
+             metosin/spec-tools                    {:mvn/version "0.6.1"}
+             org.clojure/clojure                   {:mvn/version "1.10.0"}
+             org.clojure/data.json                 {:mvn/version "0.2.6"}
+             org.clojure/java.jdbc                 {:mvn/version "0.7.5"}
+             org.xerial/sqlite-jdbc                {:mvn/version "3.7.2"}
+             ring-logger-timbre/ring-logger-timbre {:mvn/version "0.7.6"}
+             ring/ring-jetty-adapter               {:mvn/version "1.6.3"}
+             ring/ring-json                        {:mvn/version "0.5.0-beta1"}
+             slugger/slugger                       {:mvn/version "1.0.1"}}
 
- :aliases   {:test {:extra-paths ["../../components/article/test"
-                                  "../../components/comment/test"
-                                  "../../components/profile/test"
-                                  "../../components/tag/test"
-                                  "../../components/user/test"
-                                  "../../bases/rest-api/test"]
-                    :extra-deps  {org.clojure/test.check {:mvn/version "0.10.0-alpha3"}}}
+ :aliases   {:test    {:extra-paths ["../../components/article/test"
+                                     "../../components/comment/test"
+                                     "../../components/profile/test"
+                                     "../../components/tag/test"
+                                     "../../components/user/test"
+                                     "../../bases/rest-api/test"]
+                       :extra-deps  {org.clojure/test.check {:mvn/version "0.10.0-alpha3"}}}
 
              :aot     {:extra-paths ["classes"]
-                       :main-opts   ["-e" "(compile,'clojure.realworld.rest-api.api)"]}
+                       :main-opts   ["-e" "(compile,'clojure.realworld.rest-api.main)"]}
 
-             :uberjar {:extra-deps {uberdeps {:mvn/version "0.1.10"}}
+             :uberjar {:extra-deps {uberdeps/uberdeps {:mvn/version "0.1.10"}}
                        :main-opts  ["-m" "uberdeps.uberjar"
                                     "--aliases" "aot"
-                                    "--main-class" "clojure.realworld.rest_api.api"]}}}
+                                    "--main-class" "clojure.realworld.rest_api.main"]}}}
