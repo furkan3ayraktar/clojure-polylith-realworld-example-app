@@ -69,10 +69,10 @@
 
                                  "bases/rest-api/test"]}
 
-            :poly {:main-opts  ["-m" "polylith.clj.core.poly-cli.poly"]
+            :poly {:main-opts  ["-m" "polylith.clj.core.poly-cli.core"]
                    :extra-deps {polyfy/polylith
                                 {:git/url   "https://github.com/polyfy/polylith.git"
-                                 :sha       "78b2c77c56d1b41109d68b451069affac935200e"
+                                 :sha       "7551fb659cb8bf18343376cb0f9f994e99f9d9e3"
                                  :deps/root "projects/poly"}}}
 
             :ring {:extra-deps {furkan3ayraktar/polylith-clj-deps-ring
