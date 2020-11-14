@@ -1,7 +1,7 @@
 (ns clojure.realworld.log.config
   (:require [clojure.java.io :as io]
             [clojure.string :as str]
-            [environ.core :refer [env]]
+            [clojure.realworld.env.interface :as env]
             [taoensso.timbre :as timbre])
   (:import (java.util Calendar)
            (java.text SimpleDateFormat)
@@ -73,7 +73,7 @@
                        (catch IOException _)))))})
 
 (defn init []
-  (if (= "LOCAL" (env :environment))
+  (if (= "LOCAL" (env/env :environment))
     (timbre/info "Initialized logging. Using console to print logs.")
     (do
       (timbre/set-config! {:level     :info

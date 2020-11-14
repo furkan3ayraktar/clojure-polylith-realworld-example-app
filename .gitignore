@@ -19,7 +19,6 @@
 # Cursive Clojure plugin
 .idea/replstate.xml
 .nrepl-port
-.lein-failures
 
 # Project specific
 database.db

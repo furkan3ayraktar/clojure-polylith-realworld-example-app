@@ -3,11 +3,11 @@
             [crypto.password.pbkdf2 :as crypto]
             [clj-jwt.core :as jwt]
             [clj-time.core :as t]
-            [environ.core :refer [env]]))
+            [clojure.realworld.env.interface :as env]))
 
 (defn- token-secret []
-  (if (contains? env :secret)
-    (env :secret)
+  (if (contains? env/env :secret)
+    (env/env :secret)
     "some-default-secret-do-not-use-it"))
 
 (defn- generate-token [email]

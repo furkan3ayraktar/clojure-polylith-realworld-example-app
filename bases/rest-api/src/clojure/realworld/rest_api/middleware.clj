@@ -2,7 +2,7 @@
   (:require [clojure.string :as str]
             [clojure.realworld.log.interface :as log]
             [clojure.realworld.user.interface :as user]
-            [environ.core :refer [env]]))
+            [clojure.realworld.env.interface :as env]))
 
 (defn wrap-auth-user [handler]
   (fn [req]
@@ -33,7 +33,7 @@
            :body   {:errors {:other [message]}}})))))
 
 (defn create-access-control-header [origin]
-  (let [allowed-origins (or (env :allowed-origins) "")
+  (let [allowed-origins (or (env/env :allowed-origins) "")
         origins (str/split allowed-origins #",")
         allowed-origin (some #{origin} origins)]
     {"Access-Control-Allow-Origin"  allowed-origin
