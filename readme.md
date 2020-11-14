@@ -29,6 +29,7 @@ For more information on how this works with other frontends/backends, head over 
 - [Workspace Info](#workspace-info)
 - [Check Workspace Integrity](#workspace-info)
 - [Running Tests](#running-tests)
+- [Stable Points](#stable-points)
 - [Continuous Integration](#continuous-integration)
 - [How to create this workspace from scratch](#how-to-create-this-workspace-from-scratch)
 
@@ -62,7 +63,7 @@ Main directories in the project are:
 + `` projects ``
   + `` realworld-backend `` 
 
-Bases are the main building blocks of the Polylith Architecture. There is only one base and one project in this project to make it simple. Each base and component in the system has its own isolated source code, resources and tests. Components in the system communicates to each other through their 'interfaces'. The project named 'realworld-backend' bundles the base, components and libraries together. Development project makes it delightful to develop from one single place. You can run a REPL within the development project, start the Ring server for debugging or refactor between components easily with using your favorite IDE (mine is Intellij IDEA with [Cursive](https://cursive-ide.com) plugin).
+Bases are the main building blocks of the Polylith Architecture. There is only one base and one project in this workspace to make it simple. Each base and component in the workspace has its own isolated source code, resources and tests. Components communicates to each other through their 'interfaces'. The project named 'realworld-backend' bundles the base, components and libraries together. Development project makes it delightful to develop from one single place. You can run a REPL within the development project, start the Ring server for debugging or refactor between components easily with using your favorite IDE (mine is Intellij IDEA with [Cursive](https://cursive-ide.com) plugin).
 
 Polylith tool also helps to run tests incrementally. If you run `` poly test `` command on the root directory, it will detect changes made since the last stable point and only run tests for the recent changes. [Check out Polylith tool](https://github.com/polyfy/polylith#testing) for further information about incremental testing or simply write `` poly help `` to see available commands.
 
@@ -122,7 +123,7 @@ This middleware will check every request that it wraps and return an authorizati
 
 The `` main.clj `` namespace contains a main function to expose the REST API via a [Jetty](https://www.eclipse.org/jetty/) server. If you look at the project configuration at `` projects/realworld-backend/deps.edn `` you'll notice that there are two aliases named `` :aot `` and `` :uberjar ``. With the help of those two aliases and `` main.clj ``, we can create an uberjar which is a single jar file that can be run directly on any machine that has Java runtime. Once the jar file is run, the main function defined under `` main.clj `` will be triggered and it will start the server. 
 
-Finally, the `` handler.clj `` namespace is the place where we define our handlers. Since `` rest-api `` is the only place where our system exposes its functionality, its handler needs to call functions in different components via their `` interfaces ``. If you check out the `` :require `` statements on top of the namespace, you'll see this:
+Finally, the `` handler.clj `` namespace is the place where we define our handlers. Since `` rest-api `` is the only place where our project exposes its functionality, its handler needs to call functions in different components via their `` interfaces ``. If you check out the `` :require `` statements on top of the namespace, you'll see this:
 ```clojure
 (ns clojure.realworld.rest-api.handler
   (:require [clojure.realworld.article.interface :as article]
@@ -281,7 +282,7 @@ The following environment variables are used in the project. You can define thes
   + Secret for JWT token.
 
 ### Database
-The project uses a SQLite database to make it easy to run. It can be changed easily to other sql databases by editing database connection and changing to proper jdbc dependency. There is an existing database under development project, ready to use. If you want to start from scratch, you can delete database.db and start the server again. It will generate a database with correct schema on start. The system also checks if the schema is valid or not, and prints out proper logs for each case.
+The project uses a SQLite database to make it easy to run. It can be changed easily to other sql databases by editing database connection and changing to proper jdbc dependency. There is an existing database under development project, ready to use. If you want to start from scratch, you can delete database.db and start the server again. It will generate a database with correct schema on start. The project also checks if the schema is valid or not, and prints out proper logs for each case.
 
 ### Workspace info
 Run following command in the root directory to print out workspace information and changes since the last stable point:
@@ -299,6 +300,9 @@ Run following command in the root directory:
 `` poly test ``
 
 This command will run all the tests for changed components and other components that are effected from the current changes. You can read more about test command [here](https://github.com/polyfy/polylith/blob/master/doc/commands.md#test) and [here](https://github.com/polyfy/polylith#testing).
+
+### Stable points
+Once you check the integrity of your workspace and see that all tests are green, you can commit your changes to your git repository and add (or move if there is one already) a git tag that starts with ``stable-`` prefix. This way, Polylith tool will understand that the commit specified by the git tag is a stable point and it should calculate changes since that point. You can easily add this logic to your continuous integration pipeline in order to not do it manually. You can read more about stable points [here](https://github.com/polyfy/polylith#tagging) and you can see an example of how to implement the stable logic with CI in the section below. 
 
 ### Continuous integration
 This repository has a [CircleCI](https://circleci.com) configuration to demonstrate how to use Polylith plugin to incrementally run tests and build artifacts. You can find CircleCI configuration file at `` .circleci/config.yml ``.
