@@ -12,6 +12,8 @@ We've gone to great lengths to adhere to the **Clojure** community styleguides &
 
 For more information on how this works with other frontends/backends, head over to the [RealWorld](https://github.com/gothinkster/realworld) repo.
 
+> ### There is a newer version of this project that uses [tools.deps](https://github.com/clojure/tools.deps.alpha). You can find it on the [master branch](https://github.com/furkan3ayraktar/clojure-polylith-realworld-example-app/tree/master).
+
 #### Build Status
 [![CircleCI](https://circleci.com/gh/furkan3ayraktar/clojure-polylith-realworld-example-app/tree/leiningen.svg?style=svg&circle-token=927fe6a1ea0db6ea74775199135b5feb92292818)](https://circleci.com/gh/furkan3ayraktar/clojure-polylith-realworld-example-app/tree/leiningen)
 
