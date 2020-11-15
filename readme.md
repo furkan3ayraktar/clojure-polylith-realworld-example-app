@@ -44,36 +44,40 @@ Just a few steps to have you up and running locally:
 and the Realworld backend is up on port 6003!
 
 ### General Structure
-Project is structured according to Polylith Architecture principles. If you are not familiar with Polylith Architecture, please refer to its [documentation](https://polylith.gitbook.io/polylith) for further and deeper understanding.
+This project is structured according to Polylith Architecture principles. If you are not familiar with Polylith Architecture, please refer to its [documentation](https://polylith.gitbook.io/polylith) for further and deeper understanding.
 
-Main directories in the project are:
-+ `` bases ``
-  + `` rest-api `` 
-+ `` components ``
-  + `` article `` 
-  + `` comment `` 
-  + `` database ``
-  + `` env `` 
-  + `` log `` 
-  + `` profile `` 
-  + `` spec `` 
-  + `` tag `` 
-  + `` user `` 
-+ `` development ``
-+ `` projects ``
-  + `` realworld-backend `` 
+The workspace is the root directory in a Polylith codebase, and it's where we work with all our building blocks and projects. A workspace is usually version controlled in a monorepo, and its subdirectories looks like this:
 
-Bases are the main building blocks of the Polylith Architecture. There is only one base and one project in this workspace to make it simple. Each base and component in the workspace has its own isolated source code, resources and tests. Components communicates to each other through their 'interfaces'. The project named 'realworld-backend' bundles the base, components and libraries together. Development project makes it delightful to develop from one single place. You can run a REPL within the development project, start the Ring server for debugging or refactor between components easily with using your favorite IDE (mine is Intellij IDEA with [Cursive](https://cursive-ide.com) plugin).
+The root directory contains all the building blocks, supplementary development sources, and projects. The subdirectories of the workspace look like this:
++ `` ▾ bases ``
+  + `` ▸ rest-api `` 
++ `` ▾ components ``
+  + `` ▸ article `` 
+  + `` ▸ comment `` 
+  + `` ▸ database ``
+  + `` ▸ env `` 
+  + `` ▸ log `` 
+  + `` ▸ profile `` 
+  + `` ▸ spec `` 
+  + `` ▸ tag `` 
+  + `` ▸ user `` 
++ `` ▸ development ``
++ `` ▾ projects ``
+  + `` ▸ realworld-backend `` 
+
+Components are the main building blocks in Polylith. Bases are another kind of building blocks where the difference from components are that they expose a public API to the outside world. Both bases and components are encapsulated blocks of code that can be assembled together into services, libraries or tools. Components communicate to each other through their 'interfaces'. A base in each project glue components together via their 'interfaces' and expose the business logic via a public API, in this project's case, a REST api. 
+
+There is only one base and one project in this workspace to make it simple. The project named 'realworld-backend' bundles the base, components and libraries together. The development project makes it delightful to develop from one single place. You can run a REPL within the development project, start the Ring server for debugging or refactor the components easily with using your favorite IDE (mine is Intellij IDEA with [Cursive](https://cursive-ide.com) plugin).
 
 Polylith tool also helps to run tests incrementally. If you run `` poly test `` command on the root directory, it will detect changes made since the last stable point and only run tests for the recent changes. [Check out Polylith tool](https://github.com/polyfy/polylith#testing) for further information about incremental testing or simply write `` poly help `` to see available commands.
 
 ##### Project
-There is only one project in this workspace, which is called `` realworld-backend ``. Projects in Polylith architecture are a way to glue a base and all the components you want to deliver within a bundle. Since we only need to deliver one bundle for realworld backend, we have only one project.
+Projects in Polylith architecture are configurations for deployable artifacts. There is only one project in this workspace, which is called `` realworld-backend ``. Projects are a way to define a base, a set of components and libraries to deliver within a bundle. Since we only need to deliver one bundle for realworld backend, we have only one project.
 
 If you look at the directory `` projects/realworld-backend ``, you will see a standard ``deps.edn`` file. The magic here is, the `` deps.edn `` file of the project refers to the sources, resources and tests of actual components and bases. A project only has it's `` deps.edn `` file to define project specific configuration and external dependencies. All the code and resources in a project come from the components and the base, which creates the project.
 
 ##### Base
-Bases in Polylith architecture are the foundational blocks to build on it and `` rest-api `` is the only base in our workspace. As hinted in its name, it exposes its functionality via a RESTful API. In order to achieve this, it uses Ring and [Compojure](https://github.com/weavejester/compojure). There are 4 namespaces under the `` src `` directory of `` bases/rest-api ``:
+Bases in Polylith architecture are the building blocks that exposes a public API to the outside world and `` rest-api `` is the only base in our workspace. As hinted in its name, it exposes its functionality via a RESTful API. In order to achieve this, it uses Ring and [Compojure](https://github.com/weavejester/compojure). There are 4 namespaces under the `` src `` directory of `` bases/rest-api ``:
 - `` api.clj ``
 - `` handler.clj ``
 - `` main.clj ``
@@ -134,7 +138,7 @@ Finally, the `` handler.clj `` namespace is the place where we define our handle
             [clojure.realworld.user.interface :as user]
             [clojure.spec.alpha :as s]))
 ```
-Following the rules of architecture, `` handler.clj `` does not depend on anything except the interfaces of different components. An example handler for profile request can be written like this:
+Following the rules of the Polylith architecture means that `` handler.clj `` does not depend on anything except the interfaces of different components. An example handler for profile request can be written like this:
 ```clojure
 (defn profile [req]
   (let [auth-user (-> req :auth-user)
@@ -146,7 +150,7 @@ Following the rules of architecture, `` handler.clj `` does not depend on anythi
 ```
 
 ##### Components
-In the workspace, there are 9 different components. In Polylith Architecture, components talk to each other via their interfaces. Let's take a deeper look at one of the interfaces, like `` profile ``. The interface of `` profile `` component is split into two different files. One of them contains the function interfaces and the other one contains the exposed specs.
+Components are the main building blocks in Polylith architecture. In this workspace, there are 9 different components. Let's take a deeper look at one of the interfaces, like `` profile ``. The interface of `` profile `` component is split into two different files. One of them contains the function interfaces and the other one contains the exposed specs.
 ```clojure
 (ns clojure.realworld.profile.interface
   (:require [clojure.realworld.profile.core :as core]))
@@ -282,7 +286,7 @@ The following environment variables are used in the project. You can define thes
   + Secret for JWT token.
 
 ### Database
-The project uses a SQLite database to make it easy to run. It can be changed easily to other sql databases by editing database connection and changing to proper jdbc dependency. There is an existing database under development project, ready to use. If you want to start from scratch, you can delete database.db and start the server again. It will generate a database with correct schema on start. The project also checks if the schema is valid or not, and prints out proper logs for each case.
+The project uses a SQLite database to make it easy to run. It can be changed easily to other sql databases by editing database connection and changing to a real jdbc dependency. There is an existing database under development project, ready to use. If you want to start from scratch, you can delete database.db and start the server again. It will generate a database with correct schema on start. The project also checks if the schema is valid or not, and prints out proper logs for each case.
 
 ### Workspace info
 Run following command in the root directory to print out workspace information and changes since the last stable point:
