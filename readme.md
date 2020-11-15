@@ -37,18 +37,19 @@ For more information on how this works with other frontends/backends, head over 
 
 Just a few steps to have you up and running locally:
 
-+ Install [Polylith tool](https://github.com/polyfy/polylith#installation)
++ Install the [Polylith tool](https://github.com/polyfy/polylith#installation)
 + Clone this repo
 + Open a terminal, navigate to the root directory of this repo and run ``clj -A:ring realworld-backend``
 
 and the Realworld backend is up on port 6003!
 
 ### General Structure
-This project is structured according to Polylith Architecture principles. If you are not familiar with Polylith Architecture, please refer to its [documentation](https://polylith.gitbook.io/polylith) for further and deeper understanding.
+This project is structured according to Polylith Architecture principles. 
+If you are not familiar with Polylith Architecture, please refer to its [documentation](https://polylith.gitbook.io/polylith) for further and deeper understanding.
 
-The workspace is the root directory in a Polylith codebase, and it's where we work with all our building blocks and projects. A workspace is usually version controlled in a monorepo, and its subdirectories looks like this:
-
-The root directory contains all the building blocks, supplementary development sources, and projects. The subdirectories of the workspace look like this:
+The workspace is the root directory in a Polylith codebase, and is where we work with all our building blocks and projects. 
+A workspace is usually version controlled in a monorepo, and contains all the building blocks, 
+supplementary development sources, and projects. The subdirectories of the workspace looks like this:
 ```
 ▾ bases
   ▸ rest-api
@@ -67,19 +68,29 @@ The root directory contains all the building blocks, supplementary development s
   ▸ realworld-backend
 ```
 
-Components are the main building blocks in Polylith. Bases are another kind of building blocks where the difference from components are that they expose a public API to the outside world. Both bases and components are encapsulated blocks of code that can be assembled together into services, libraries or tools. Components communicate to each other through their 'interfaces'. A base in each project glue components together via their 'interfaces' and expose the business logic via a public API, in this project's case, a REST api. 
+Components are the main building blocks in Polylith. Bases are another kind of building blocks where the difference from components is that they expose a public API to the outside world. Both bases and components are encapsulated blocks of code that can be assembled together into services, libraries or tools. Components communicate to each other through their 'interfaces'. 
+The base in each project, glue components together via their 'interfaces' and expose the business logic via a public API, in this project's case, a REST API. 
 
-There is only one base and one project in this workspace to make it simple. The project named 'realworld-backend' bundles the base, components and libraries together. The development project makes it delightful to develop from one single place. You can run a REPL within the development project, start the Ring server for debugging or refactor the components easily with using your favorite IDE (mine is Intellij IDEA with [Cursive](https://cursive-ide.com) plugin).
+There is only one base and one project in this workspace to keep it simple. The project named 'realworld-backend' bundles the base, components and libraries together. The development project makes it delightful to develop from one single place. You can run a REPL within the development project, start the Ring server for debugging or refactor the components easily by using your favorite IDE (mine is Intellij IDEA with [Cursive](https://cursive-ide.com) plugin).
 
-Polylith tool also helps to run tests incrementally. If you run `` poly test `` command on the root directory, it will detect changes made since the last stable point and only run tests for the recent changes. [Check out Polylith tool](https://github.com/polyfy/polylith#testing) for further information about incremental testing or simply write `` poly help `` to see available commands.
+The Polylith tool also helps you run the tests incrementally. If you run the `` poly test `` command from the root directory, it will detect changes made since the last stable point in time, and only run tests for the recent changes. [Check out Polylith tool](https://github.com/polyfy/polylith#testing) for further information about incremental testing or simply write `` poly help `` to see available commands.
 
 ##### Project
-Projects in Polylith architecture are configurations for deployable artifacts. There is only one project in this workspace, which is called `` realworld-backend ``. Projects are a way to define a base, a set of components and libraries to deliver within a bundle. Since we only need to deliver one bundle for realworld backend, we have only one project.
+Projects in the Polylith architecture are configurations for deployable artifacts. 
+There is only one project in this workspace, which is called `` realworld-backend ``. 
+Projects are a way to define a base, a set of components and libraries to deliver within a bundle. 
+Since we only need to deliver one bundle for realworld backend, we have only one project.
 
-If you look at the directory `` projects/realworld-backend ``, you will see a standard ``deps.edn`` file. The magic here is, the `` deps.edn `` file of the project refers to the sources, resources and tests of actual components and bases. A project only has it's `` deps.edn `` file to define project specific configuration and external dependencies. All the code and resources in a project come from the components and the base, which creates the project.
+If you look at the directory `` projects/realworld-backend ``, you will see a standard ``deps.edn`` file. 
+The magic here is the project's `` deps.edn `` file which refers to the sources, resources and tests of actual components and bases. 
+A project only has it's `` deps.edn `` file to define project specific configuration and external dependencies. 
+All the code and resources in a project come from the components and the base, which creates the project.
 
 ##### Base
-Bases in Polylith architecture are the building blocks that exposes a public API to the outside world and `` rest-api `` is the only base in our workspace. As hinted in its name, it exposes its functionality via a RESTful API. In order to achieve this, it uses Ring and [Compojure](https://github.com/weavejester/compojure). There are 4 namespaces under the `` src `` directory of `` bases/rest-api ``:
+Bases in Polylith architecture are the building blocks that expose a public API to the outside world and `` rest-api `` is the only base in our workspace. 
+As hinted in its name, it exposes its functionality via a RESTful API. 
+In order to achieve this, it uses Ring and [Compojure](https://github.com/weavejester/compojure). 
+There are four namespaces under the `` src `` directory of `` bases/rest-api ``:
 - `` api.clj ``
 - `` handler.clj ``
 - `` main.clj ``
@@ -116,7 +127,8 @@ These routes are defined with compojure with this piece of code:
   (DELETE  "/api/articles/:slug/favorite"     [] h/unfavorite-article))
 ```
 
-The `` middleware.clj `` namespace contains several useful middleware definitions for ring, like adding CORS headers, wrapping exceptions and authorization. Middlewares in Ring are functions that are called before or after the execution of your handlers. For example, for authorization we can have a simple middleware like this:
+The `` middleware.clj `` namespace contains several useful middleware definitions for Ring, 
+like adding CORS headers, wrapping exceptions and authorization. Middlewares in Ring are functions that are called before or after the execution of your handlers. For example, for authorization we can have a simple middleware like this:
 ```clojure
 (defn wrap-authorization [handler]
   (fn [req]
@@ -140,7 +152,7 @@ Finally, the `` handler.clj `` namespace is the place where we define our handle
             [clojure.realworld.user.interface :as user]
             [clojure.spec.alpha :as s]))
 ```
-Following the rules of the Polylith architecture means that `` handler.clj `` does not depend on anything except the interfaces of different components. An example handler for profile request can be written like this:
+Following the rules of the Polylith architecture means that `` handler.clj `` doesn't depend on anything except the interfaces of different components. An example handler for profile request can be written like this:
 ```clojure
 (defn profile [req]
   (let [auth-user (-> req :auth-user)
@@ -152,7 +164,9 @@ Following the rules of the Polylith architecture means that `` handler.clj `` do
 ```
 
 ##### Components
-Components are the main building blocks in Polylith architecture. In this workspace, there are 9 different components. Let's take a deeper look at one of the interfaces, like `` profile ``. The interface of `` profile `` component is split into two different files. One of them contains the function interfaces and the other one contains the exposed specs.
+Components are the main building blocks in a Polylith architecture. In this workspace, there are nine different components. 
+Let's take a deeper look at one of the interfaces, like `` profile ``. 
+The interface of the `` profile `` component is split into two different files. One of them contains the function interfaces and the other one contains the exposed specs.
 ```clojure
 (ns clojure.realworld.profile.interface
   (:require [clojure.realworld.profile.core :as core]))
@@ -174,7 +188,7 @@ Components are the main building blocks in Polylith architecture. In this worksp
 (def profile spec/profile)
 ```
 
-As you can see in above code examples, interfaces are just passing through to the real implemantation encapsulated in the component.
+As you can see, the interfaces are just passing through to the real implemantation encapsulated in the component.
 
 One example of using these interfaces can be found under `` handler.clj `` namespace of `` rest-api `` base.  
 ```clojure
@@ -196,7 +210,8 @@ One example of using these interfaces can be found under `` handler.clj `` names
 ;;...
 ```
 
-`` handler.clj `` uses function signature `` profile/follow! `` from `` profile `` components interface. If we continue to follow looking at this functionality, the actual definition of `` follow! `` function under `` core.clj `` namespace of `` profile `` component. 
+The function `` profile/follow! `` is called via the `` profile `` interface, which delegates
+to the `follow!` function that lives in the `core` namespace inside the `profile` component:
 ```clojure
 (defn follow! [auth-user username]
   (if-let [user (user/find-by-username-or-id username)]
@@ -205,7 +220,8 @@ One example of using these interfaces can be found under `` handler.clj `` names
       [true (create-profile user true)])
     [false {:errors {:username ["Cannot find a profile with given username."]}}]))
 ```
-Here we see another function call to `` user `` component from `` profile `` component. We can take a look at `` user ``s interface: 
+Here is another function call to the `` user `` component from `` profile `` component. 
+This is how the `` user ``s interface looks like: 
 ```clojure
 (ns clojure.realworld.user.interface
   (:require [clojure.realworld.user.core :as core]
@@ -226,13 +242,25 @@ Here we see another function call to `` user `` component from `` profile `` com
 (defn find-by-username-or-id [username-or-id]
   (store/find-by-username-or-id username-or-id))
 ```
-`` profile `` uses `` find-by-username-or-id `` function from `` user `` component. This is how different components talk to each other within the workspace. You are forced to call other components' functions defined in their `` interface.clj `` from any component or base.
+`` profile `` uses `` find-by-username-or-id `` function from `` user `` component. This is how different components talk to each other within the workspace. 
+It's only possible to call component functions via their `` interface.clj ``.
 
-In the code example above, we see that the interface functions direct each function call to an actual implementation inside the component. By having an interface and an implementation of that interface, it is easy to compile/test/build (as well as develop) components in isolation. This separation gives it ability to detect/test/build only changed parts of the workspace. It also gives the developer a better development experience on local, with support of IDE refactoring through development project. You can read more about interfaces and their benefits [here](https://github.com/polyfy/polylith#interface).  
+In the code example above, we can see that the interface functions redirect each function call to an actual implementation inside the component. 
+By having an interface and an implementation of that interface, it is easy to compile/test/build (as well as develop) components in isolation. 
+This separation gives it ability to detect/test/build only changed parts of the workspace. 
+It also gives the developer a better development experience locally, with support for IDE refactoring via the  development project.
+You can read more about interfaces and their benefits [here](https://github.com/polyfy/polylith#interface).  
 
-`` article ``, `` comment ``, `` profile ``, `` tag ``, and `` user `` components define functionality to endpoints required for realworld backend. The other components, `` database ``, `` env ``, `` spec `` and `` log ``, are created to isolate some other common code in the workspace. `` spec `` component contains some basic spec definitions that are used in different components. Similarly, `` log `` component creates a wrapper around logging library, [timbre](https://github.com/ptaoussanis/timbre). This is included in the workspace to demonstrate how to create wrapper components around external libraries. This gives you an opportunity to declare your own interface for an external library and if you decide to use another external library, you can just switch to another component implementing the same interface without effecting other components.
+`` article ``, `` comment ``, `` profile ``, `` tag ``, and `` user `` components define functionality to endpoints required for the RealWorld backend. 
+The other components, `` database ``, `` env ``, `` spec `` and `` log ``, are created to encapsulate some other common code in the workspace. 
+`` spec `` component contains some basic spec definitions that are used in different components. 
 
-`` database `` component is another type of common functionality component. It contains schema definitions for the sqlite database and functions to apply that schema. If you check Ring initializer function in `` api.clj `` namespace of `` rest-api `` base, you'll see this:
+Similarly, the `` log `` component creates a wrapper around the logging library [timbre](https://github.com/ptaoussanis/timbre). 
+This is included in the workspace to demonstrate how to create wrapper components around external libraries. 
+This gives you an opportunity to declare your own interface for an external library and if you decide to use another external library, 
+you can just switch to another component implementing the same interface without affecting other components.
+
+The `` database `` component is another type of common functionality component. It contains schema definitions for the sqlite database and functions to apply that schema. If you check Ring initializer function in `` api.clj `` namespace of `` rest-api `` base, you'll see this:
 ```clojure
 (defn init []
   (try
@@ -250,7 +278,8 @@ In the code example above, we see that the interface functions direct each funct
     (catch Exception e
       (log/error e "Could not start server."))))
 ```
-Here, we use helper functions from `` database `` components `` interface.clj `` to check if an sqlite database exists in the current path and if it exists, to check the validity of schema. The interface of `` database `` component looks like this:
+Here, we use helper functions from the `` database `` component's `` interface.clj `` to check if an sqlite database exists in the current path and if it exists, to check the validity of the schema. 
+The interface for the `` database `` component looks like this:
 ```clojure
 (ns clojure.realworld.database.interface
   (:require [clojure.realworld.database.core :as core]
@@ -276,49 +305,63 @@ Here, we use helper functions from `` database `` components `` interface.clj ``
 ```
 
 ### Environment Variables
-The following environment variables are used in the project. You can define these variables under env.edn file for local development.
+The following environment variables are used in the project. 
+You can define these variables under the `env.edn` file for local development.
 
 + `` :allowed-origins ``
   + Comma separated string of origins. Used to whitelist origins for CORS.
 + `` :environment ``
   + Defines current environment. Currently used for logging. If set to LOCAL, logs printed to console.
 + `` :database ``
-  + Defaults to database.db. If provided, it will be the name of the file that contains SQLite database.
+  + Defaults to database.db. If provided, it will be the name of the file that contains the SQLite database.
 + `` :secret ``
   + Secret for JWT token.
 
 ### Database
-The project uses a SQLite database to make it easy to run. It can be changed easily to other sql databases by editing database connection and changing to a real jdbc dependency. There is an existing database under development project, ready to use. If you want to start from scratch, you can delete database.db and start the server again. It will generate a database with correct schema on start. The project also checks if the schema is valid or not, and prints out proper logs for each case.
+The project uses an SQLite database to make it easy to run. 
+It can easily be changed to another SQL database, by editing the database connection and changing to a real jdbc dependency. 
+There is an existing database under the development project, ready to be used. If you want to start from scratch, you can delete `database.db and start the server again. 
+It will generate a database with correct schema on start. The project also checks if the schema is valid or not, and prints out proper logs for each case.
 
 ### Workspace info
-Run following command in the root directory to print out workspace information and changes since the last stable point:
+Run the following command from the root directory to print out workspace information and changes since the last stable point in time:
 `` poly info ``
 
-This command will print an output like below. Here you can see that changed components are marked with a * symbol. Refer to the [Polylith tool documentation](https://github.com/polyfy/polylith/blob/master/doc/commands.md#info) for more detailed information about this command and other commands that Polylith provides.
+This command will print an output like below. Here you can see that changed components are marked with a * symbol. 
+Refer to the [Polylith tool documentation](https://github.com/polyfy/polylith/blob/master/doc/commands.md#info) for more detailed information about this command and other commands that Polylith provides.
 
 ![polylith-info](.media/readme/02_polylith_info.png)
 
 ### Check workspace integrity
-In order to guarantee workspace integrity, which means each component refers to each other by only using their interfaces, Polylith tool provides a convenient command. You can run `` poly check `` anytime in the root directory of the workspace. The Polylith tool will check the entire workspace and print out errors and/or warnings, if any.
+In order to guarantee workspace integrity, which means all components refer to each other throgh their interfaces.
+The Polylith tool provides you with the `` poly check `` command that will check the entire workspace and print out errors and/or warnings, if any.
 
 ### Running tests
-Run following command in the root directory:
+Run the following command from the root directory:
 `` poly test ``
 
-This command will run all the tests for changed components and other components that are effected from the current changes. You can read more about test command [here](https://github.com/polyfy/polylith/blob/master/doc/commands.md#test) and [here](https://github.com/polyfy/polylith#testing).
+This command will run all the tests for changed components and other components that are affected by the current changes. 
+You can read more about the test command [here](https://github.com/polyfy/polylith/blob/master/doc/commands.md#test) and [here](https://github.com/polyfy/polylith#testing).
 
-### Stable points
-Once you check the integrity of your workspace and see that all tests are green, you can commit your changes to your git repository and add (or move if there is one already) a git tag that starts with ``stable-`` prefix. This way, Polylith tool will understand that the commit specified by the git tag is a stable point and it should calculate changes since that point. You can easily add this logic to your continuous integration pipeline in order to not do it manually. You can read more about stable points [here](https://github.com/polyfy/polylith#tagging) and you can see an example of how to implement the stable logic with CI in the section below. 
+### Stable points in time
+Once you check the integrity of your workspace and see that all tests are green, you can commit your changes to your git repository and add (or move if there is one already) a git tag that starts with ``stable-`` prefix. 
+The Polylith tool with use this point in time to to  calculate what changes has been made. 
+You can easily add this logic to your continuous integration pipeline as a way to automate it. 
+Read more about stable points [here](https://github.com/polyfy/polylith#tagging) where you can find
+an example of how to implement the stable logic with the CI in the section below. 
 
 ### Continuous integration
-This repository has a [CircleCI](https://circleci.com) configuration to demonstrate how to use Polylith plugin to incrementally run tests and build artifacts. You can find CircleCI configuration file at `` .circleci/config.yml ``.
+This repository has a [CircleCI](https://circleci.com) configuration to demonstrate how to use the Polylith tool to incrementally run tests and build artifacts. 
+The CircleCI configuration file is located at `` .circleci/config.yml ``.
 
-The CircleCI workflow for this project consists of 6 steps to demonstrate different commands from Polylith tool. You can also achieve same functionality with less number of steps once you learned the commands. The current steps are:
+The CircleCI workflow for this project consists of six steps to demonstrate different commands from the Polylith tool. 
+You can achieve the same result with fewer steps once you have learned the commands. The current steps are:
 
 - check
-  - This job runs the check command from Polylith as follows: ```clojure -A:poly check```. If there are any errors in the Polylith workspace, it returns with a non-zero exit code and the CircleCI workflow stops at this stage. If there are any warnings printed by Polylith, it will be visible in the job's output.
+  - This job runs the check command from Polylith as follows: ```clojure -A:poly check```. If there are any errors in the Polylith workspace, it returns with a non-zero exit code and the CircleCI workflow stops at this stage. 
+  If there are any warnings printed by Polylith, it will be visible in the job's output.
 - info
-  - Prints useful information about the current state of the workspace. This job runs the following commands one after another:
+  - Prints useful information about the current state of the workspace. This job runs the following commands, one after another:
     - ```clojure -A:poly ws```
       - Prints the current workspace as data in [edn format](https://github.com/edn-format/edn).
     - ```clojure -A:poly info```
@@ -329,13 +372,21 @@ The CircleCI workflow for this project consists of 6 steps to demonstrate differ
       - Prints all libraries that are used in the workspace.
   - After this job is done, all this information will be available in the jobs output for debugging purposes if needed. You can read more about available commands [here](https://github.com/polyfy/polylith/blob/master/doc/commands.md).
 - test
-  - This job runs all the tests for all the bricks and projects that are directly or indirectly changed since the last stable point. Polylith supports incremental testing out of the box by using stable point marks in the git history. It runs the following command: ```clojure -A:poly test :project```. If any of the tests fail, it will exit with a non-zero exit code and the CircleCI workflow stops at this stage. Information about the passed/failed tests will be printed in the job's output.
+  - This job runs all the tests for all the bricks and projects that are directly or indirectly changed since the last stable point in time. 
+    Polylith supports incremental testing out of the box by using stable point marks in the git history. 
+    It runs the following command: ```clojure -A:poly test :project```. 
+    If any of the tests fail, it will exit with a non-zero exit code and the CircleCI workflow stops at this stage. 
+    Information about the passed/failed tests will be printed in the job's output.
 - api-test
-  - Runs end-to-end API tests using a [Postman](https://www.postman.com) collection defined under `` api-tests `` directory. Before running tests, starts the backend service by running `` clojure -A:ring realworld-backend `` command.
+  - Runs end-to-end API tests using a [Postman](https://www.postman.com) collection defined under the `` api-tests `` directory. 
+    Before running the tests, start the backend service by executing the `` clojure -A:ring realworld-backend `` statement.
 - build-uberjar
   - This job creates an aot compiled uberjar for the realworld-backend project. Created artifact can be found in the artifacts section of this job's output.
 - mark-as-stable
-  - This job only runs for the commits made to master branch. It adds (or moves if there is already one) the `stable-master` tag to the repository. At this point in the workflow, it is proven that the Polylith workspace is valid and all of the tests are passed. It is safe to mark this commit as stable. It does that by running following commands one after another:
+  - This job only runs for the commits made to the master branch. 
+    It adds (or moves if there is already one) the `stable-master` tag to the repository. 
+    At this point in the workflow, it is proven that the Polylith workspace is valid and that all the tests have passed. 
+    It is safe to mark this commit as stable. It does that by running the following commands one after another:
     - ```git tag -f -a "stable-$CIRCLE_BRANCH" -m "[skip ci] Added Stable Polylith tag"```
       - Creates or moves the tag
     - ```git push origin $CIRCLE_BRANCH --tags --force```
