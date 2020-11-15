@@ -49,21 +49,23 @@ This project is structured according to Polylith Architecture principles. If you
 The workspace is the root directory in a Polylith codebase, and it's where we work with all our building blocks and projects. A workspace is usually version controlled in a monorepo, and its subdirectories looks like this:
 
 The root directory contains all the building blocks, supplementary development sources, and projects. The subdirectories of the workspace look like this:
-+ `` ▾ bases ``
-  + `` ▸ rest-api `` 
-+ `` ▾ components ``
-  + `` ▸ article `` 
-  + `` ▸ comment `` 
-  + `` ▸ database ``
-  + `` ▸ env `` 
-  + `` ▸ log `` 
-  + `` ▸ profile `` 
-  + `` ▸ spec `` 
-  + `` ▸ tag `` 
-  + `` ▸ user `` 
-+ `` ▸ development ``
-+ `` ▾ projects ``
-  + `` ▸ realworld-backend `` 
+```
+▾ bases
+  ▸ rest-api
+▾ components
+  ▸ article
+  ▸ comment
+  ▸ database
+  ▸ env
+  ▸ log
+  ▸ profile
+  ▸ spec
+  ▸ tag
+  ▸ user
+▸ development
+▾ projects
+  ▸ realworld-backend
+```
 
 Components are the main building blocks in Polylith. Bases are another kind of building blocks where the difference from components are that they expose a public API to the outside world. Both bases and components are encapsulated blocks of code that can be assembled together into services, libraries or tools. Components communicate to each other through their 'interfaces'. A base in each project glue components together via their 'interfaces' and expose the business logic via a public API, in this project's case, a REST api. 
 
