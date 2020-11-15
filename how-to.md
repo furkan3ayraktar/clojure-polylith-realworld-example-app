@@ -1,5 +1,5 @@
 ## How to create this workspace from scratch
-Workspace structure follows the Polylith Architecture ideas. The Polylith tool makes it easy to create a workspace, add components, and test and validate the project. Here, you can find all the steps required to create this workspace from scratch.
+Workspace structure follows the Polylith Architecture ideas. The Polylith tool makes it easy to create a workspace, add components, and test and validate the workspace. Here, you can find all the steps required to create this workspace from scratch.
 
 ###### Install Clojure
 If you do not have Clojure installed on your machine already, you can install it through [Homebrew](https://brew.sh/) on MacOS by running:
@@ -8,32 +8,32 @@ If you do not have Clojure installed on your machine already, you can install it
 brew install clojure/tools/clojure
 ```
 
-Check out [Clojure page](https://clojure.org/guides/getting_started) for more options on installing.
+Check out [this page on clojure.org](https://clojure.org/guides/getting_started) for more options on installing.
 
 ###### Install Polylith Tool
-Polylith provides a command line tool that you can install on your machine to improve your development experience. You can install it through Homebrew on MacOS by running:
+Polylith provides a command line tool that you can install on your machine to enhance your development experience. You can install it through Homebrew on MacOS by running:
 
 ```sh
 brew install polyfy/polylith/poly
 ```
 
-Check out [Polylith repo](https://github.com/polyfy/polylith#installation) for more installation options.
+Check out [Polylith tool documentation](https://github.com/polyfy/polylith#installation) for more installation options.
 
 ###### Create a workspace
 - `` poly create workspace name:realworld-app top-ns:clojure.realworld ``
-  - This will create your workspace under a folder named `` realworld-app ``
+  - This will create your workspace under a directory named `` realworld-app ``
   - Your code will end up in a package named `` clojure.realworld ``
   - Inside your workspace, you'll find the structure as in the image below.
-  - If you look inside these folders, you'll see that bases, components, and projects are empty.
+  - If you look inside these directories, you'll see that bases, components, and projects are empty.
 
-![workspace-structure](.media/how-to/01_workspace_structure.png)
+![workspace](.media/how-to/01_workspace.png)
 
 Once the workspace is created, navigate to workspace directory: `` cd realworld-backend ``
 
-###### Open development environment in IDE
-You can open development environment with your favorite IDE. It will look like the following at this stage if you open it with [Intellij IDEA](https://www.jetbrains.com/idea/) with [Cursive](https://cursive-ide.com) plugin:
+###### Open workspace in IDE
+You can open workspace with your favorite IDE. It will look like the following at this stage if you open it with [Intellij IDEA](https://www.jetbrains.com/idea/) with [Cursive](https://cursive-ide.com) plugin:
 
-![dev-environment](.media/how-to/02_dev_environment.png)
+![dev-project](.media/how-to/02_dev_project.png)
 
 ###### Create components
 - `` poly create component name:article ``
