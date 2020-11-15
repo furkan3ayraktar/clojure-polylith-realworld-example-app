@@ -22,6 +22,7 @@
 
  :aliases  {:dev  {:extra-paths ["development/src"
 
+                                 ; Components
                                  "components/article/src"
                                  "components/article/resources"
                                  "components/comment/src"
