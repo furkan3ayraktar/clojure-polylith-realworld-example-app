@@ -333,7 +333,7 @@ The CircleCI workflow for this project consists of 6 steps to demonstrate differ
 - api-test
   - Runs end-to-end API tests using a [Postman](https://www.postman.com) collection defined under `` api-tests `` directory. Before running tests, starts the backend service by running `` clojure -A:ring realworld-backend `` command.
 - build-uberjar
-  - This job creates an an aot compiled uberjar for the realworld-backend project. Created artifact can be found in the artifacts section of this job's output.
+  - This job creates an aot compiled uberjar for the realworld-backend project. Created artifact can be found in the artifacts section of this job's output.
 - mark-as-stable
   - This job only runs for the commits made to master branch. It adds (or moves if there is already one) the `stable-master` tag to the repository. At this point in the workflow, it is proven that the Polylith workspace is valid and all of the tests are passed. It is safe to mark this commit as stable. It does that by running following commands one after another:
     - ```git tag -f -a "stable-$CIRCLE_BRANCH" -m "[skip ci] Added Stable Polylith tag"```
