@@ -8,7 +8,7 @@ If you do not have Clojure installed on your machine already, you can install it
 brew install clojure/tools/clojure
 ```
 
-Check out [this page on clojure.org](https://clojure.org/guides/getting_started) for more options on installing.
+Refer to [this page on clojure.org](https://clojure.org/guides/getting_started) for more options on installing.
 
 ###### Install Polylith Tool
 Polylith provides a command line tool that you can install on your machine to enhance your development experience. You can install it through Homebrew on MacOS by running:
@@ -17,7 +17,7 @@ Polylith provides a command line tool that you can install on your machine to en
 brew install polyfy/polylith/poly
 ```
 
-Check out [Polylith tool documentation](https://github.com/polyfy/polylith#installation) for more installation options.
+For more installation options, please have a look at [Polylith tool documentation](https://github.com/polyfy/polylith#installation).
 
 ###### Create a workspace
 - `` poly create workspace name:realworld-app top-ns:clojure.realworld ``
@@ -28,10 +28,10 @@ Check out [Polylith tool documentation](https://github.com/polyfy/polylith#insta
 
 ![workspace](.media/how-to/01_workspace.png)
 
-Once the workspace is created, navigate to workspace directory: `` cd realworld-backend ``
+Once the workspace is created, navigate to the workspace directory: `` cd realworld-backend ``
 
 ###### Open workspace in IDE
-You can open workspace with your favorite IDE. It will look like the following at this stage if you open it with [Intellij IDEA](https://www.jetbrains.com/idea/) with [Cursive](https://cursive-ide.com) plugin:
+You can open the workspace with your favorite IDE. It will look like the following at this stage if you open it with [Intellij IDEA](https://www.jetbrains.com/idea/) with [Cursive](https://cursive-ide.com) plugin:
 
 ![dev-project](.media/how-to/02_dev_project.png)
 
@@ -95,7 +95,7 @@ This command will print out the information about the current workspace. You can
 Here the asterisk symbol points the changed components and bases since the last stable point.
 
 ###### Validating intergrity
-In order to validate the integratiy of Polylith workspace, run the following command:
+In order to validate the integratiy of the Polylith workspace, run the following command:
 
 ```sh
 poly check
@@ -126,4 +126,4 @@ Polylith works out-of-the-box with Intellij IDEA + Cursive setup. Here is how my
 
 ![repl-config](.media/how-to/10_repl_config.png)
 
-The only thing that is different from default Cursive REPL configuration is, I selected Run with Deps option and added two aliases (``dev,test``) that comes from Polylith workspace `` deps.edn ``.
+The only thing that is different from default Cursive REPL configuration is, I selected Run with Deps option and added two aliases (``dev,test``) that comes from the Polylith workspace `` deps.edn ``.
