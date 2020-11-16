@@ -2,7 +2,7 @@
   (:require [clojure.java.jdbc :as jdbc]
             [clojure.realworld.database.interface :as database]
             [clojure.realworld.profile.core :as core]
-            [clojure.realworld.user.interface :as user]
+            [clojure.realworld.user.interface.spec :as user-spec]
             [clojure.spec.gen.alpha :as gen]
             [clojure.spec.alpha :as s]
             [clojure.test :refer :all]))
@@ -14,7 +14,7 @@
   ([_] (test-db)))
 
 (def ^:private auth-user
-  (assoc (gen/generate (s/gen user/user)) :id 1))
+  (assoc (gen/generate (s/gen user-spec/user)) :id 1))
 
 (defn prepare-for-tests [f]
   (with-redefs [database/db test-db]

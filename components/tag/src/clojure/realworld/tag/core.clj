@@ -4,8 +4,8 @@
             [honeysql.core :as sql]))
 
 (defn all-tags []
-  (let [query  {:select [:name]
-                :from   [:tag]}
+  (let [query {:select [:name]
+               :from   [:tag]}
         result (jdbc/query (database/db) (sql/format query))
-        res    {:tags (mapv :name result)}]
+        res {:tags (mapv :name result)}]
     [true res]))

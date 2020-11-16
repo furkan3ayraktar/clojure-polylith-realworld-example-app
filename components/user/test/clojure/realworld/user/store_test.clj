@@ -20,8 +20,8 @@
 (use-fixtures :each prepare-for-tests)
 
 (deftest find-by-key--test
-  (let [_    (jdbc/insert! (test-db) :user {:email    "test@test.com"
-                                            :username "username"})
+  (let [_ (jdbc/insert! (test-db) :user {:email    "test@test.com"
+                                         :username "username"})
         res1 (store/find-by :email "test@test.com")
         user {:bio      nil
               :email    "test@test.com"
@@ -35,9 +35,9 @@
     (is (= user res2))))
 
 (deftest update-token!--test
-  (let [_    (jdbc/insert! (test-db) :user {:email "test@test.com"})
+  (let [_ (jdbc/insert! (test-db) :user {:email "test@test.com"})
         res1 (store/find-by-email "test@test.com")
-        _    (store/update-token! "test@test.com" "new-token")
+        _ (store/update-token! "test@test.com" "new-token")
         res2 (store/find-by-email "test@test.com")]
     (is (nil? (:token res1)))
     (is (= "new-token" (:token res2)))))
@@ -49,23 +49,23 @@
               :password "password"
               :token    "token"
               :username "username"}
-        _    (store/insert-user! user)
-        res  (store/find-by-email "test@test.com")]
+        _ (store/insert-user! user)
+        res (store/find-by-email "test@test.com")]
     (is (= (assoc user :id 1) res))))
 
 (deftest update-user!--test
-  (let [_    (store/insert-user! {:bio      "bio"
-                                  :email    "test@test.com"
-                                  :image    "image"
-                                  :password "password"
-                                  :token    "token"
-                                  :username "username"})
+  (let [_ (store/insert-user! {:bio      "bio"
+                               :email    "test@test.com"
+                               :image    "image"
+                               :password "password"
+                               :token    "token"
+                               :username "username"})
         user {:bio      "updated-bio"
               :email    "updated-test@test.com"
               :image    "updated-image"
               :password "updated-password"
               :token    "updated-token"
               :username "updated-username"}
-        _    (store/update-user! 1 user)
-        res  (store/find-by-email "updated-test@test.com")]
+        _ (store/update-user! 1 user)
+        res (store/find-by-email "updated-test@test.com")]
     (is (= (assoc user :id 1) res))))

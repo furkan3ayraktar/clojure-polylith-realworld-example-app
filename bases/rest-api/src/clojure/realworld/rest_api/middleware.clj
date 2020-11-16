@@ -2,12 +2,12 @@
   (:require [clojure.string :as str]
             [clojure.realworld.log.interface :as log]
             [clojure.realworld.user.interface :as user]
-            [environ.core :refer [env]]))
+            [clojure.realworld.env.interface :as env]))
 
 (defn wrap-auth-user [handler]
   (fn [req]
     (let [authorization (get (:headers req) "authorization")
-          token         (when authorization (-> (str/split authorization #" ") last))]
+          token (when authorization (-> (str/split authorization #" ") last))]
       (if-not (str/blank? token)
         (let [[ok? user] (user/user-by-token token)]
           (if ok?
@@ -33,8 +33,8 @@
            :body   {:errors {:other [message]}}})))))
 
 (defn create-access-control-header [origin]
-  (let [allowed-origins (env :allowed-origins)
-        origins        (str/split allowed-origins #",")
+  (let [allowed-origins (or (env/env :allowed-origins) "")
+        origins (str/split allowed-origins #",")
         allowed-origin (some #{origin} origins)]
     {"Access-Control-Allow-Origin"  allowed-origin
      "Access-Control-Allow-Methods" "POST, GET, PUT, OPTIONS, DELETE"
@@ -43,6 +43,6 @@
 
 (defn wrap-cors [handler]
   (fn [req]
-    (let [origin   (get (:headers req) "origin")
+    (let [origin (get (:headers req) "origin")
           response (handler req)]
       (assoc response :headers (merge (:headers response) (create-access-control-header origin))))))

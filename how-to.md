@@ -1,126 +1,129 @@
 ## How to create this workspace from scratch
-Workspace structure follows the Polylith Architecture ideas. Polylith plugin makes it easy to create a workspace, add components, and build the project. Here, you can find all the steps required to create this workspace from scratch.
+Workspace structure follows the Polylith Architecture ideas. The Polylith tool makes it easy to create a workspace, add components, and test and validate the workspace. Here, you can find all the steps required to create this workspace from scratch.
 
-###### Install Leiningen
-Leiningen is one of the main dependency management tools in the Clojure world. If you don't have it already on your computer, you can start by installing it.
-- Go to leiningen.org and download lein script.
-- Place it on your $PATH where your shell can find it
-  - You can put it under `` ~/bin `` folder, or similar 
-- Set it to be executable 
-  - `` chmod a+x ~/bin/lein ``
-- Run `` lein `` on your shell and it will download and install itself
-- You can run `` lein version `` to validate installation
+###### Install Clojure
+If you do not have Clojure installed on your machine already, you can install it through [Homebrew](https://brew.sh/) on MacOS by running:
 
-###### Install Polylith plugin
-Polylith plugin is a leiningen plugin. You need to install it globally in order to use it to create a workspace.
-- Go to your leiningen folder
-  - `` cd ~/.lein ``
-- If you don't have already, create `` profiles.clj ``
-  - `` vi profiles.clj ``
-- Add Polylith plugin to use profile.
-  - `` {:user {:plugins [[polylith/lein-polylith "0.2.2"]]}} ``
-    - If you want to receive latest versions, you can write "LATEST" instead of "0.2.2".
-- Save the file with `` :wq ``
+```sh
+brew install clojure/tools/clojure
+```
+
+Refer to [this page on clojure.org](https://clojure.org/guides/getting_started) for more options on installing.
+
+###### Install Polylith Tool
+Polylith provides a command line tool that you can install on your machine to enhance your development experience. You can install it through Homebrew on MacOS by running:
+
+```sh
+brew install polyfy/polylith/poly
+```
+
+For more installation options, please have a look at [Polylith tool documentation](https://github.com/polyfy/polylith#installation).
 
 ###### Create a workspace
-- `` lein polylith create workspace realworld-app clojure.realworld ``
-  - This will create your workspace under a folder named `` realworld-app ``
+- `` poly create workspace name:realworld-app top-ns:clojure.realworld ``
+  - This will create your workspace under a directory named `` realworld-app ``
   - Your code will end up in a package named `` clojure.realworld ``
-  - Inside your workspace, you'll find the following structure:
-    - `` bases ``
-    - `` components ``
-    - `` environments ``
-      - `` development ``
-    - `` interfaces ``
-    - `` systems ``
-  - If you look inside these folders, you'll see that bases, components, and systems are empty. Environments has the default environment named development. This will be the project you will develop locally. It has links to all other bases, components, and interfaces inside your workspace.
+  - Inside your workspace, you'll find the structure as in the image below.
+  - If you look inside these directories, you'll see that bases, components, and projects are empty.
 
-![workspace-structure](.media/how-to/01_workspace_structure.png)
+![workspace](.media/how-to/01_workspace.png)
 
-###### Open development environment in IDE
-You can open development environment with your favorite IDE. It will be something like this:
+Once the workspace is created, navigate to the workspace directory: `` cd realworld-backend ``
 
-![dev-environment](.media/how-to/02_dev_environment.png)
+###### Open workspace in IDE
+You can open the workspace with your favorite IDE. It will look like the following at this stage if you open it with [Intellij IDEA](https://www.jetbrains.com/idea/) with [Cursive](https://cursive-ide.com) plugin:
 
-###### Create a system with a base
-Systems are the projects where all the components are glued together on top of a base. You can create a system together with a base with the Polylith plugin.
-- `` lein polylith create system realworld-backend rest-api ``
-  - This command will create a system named `` realworld-backend `` and a base named `` rest-api ``.
-  - If you check src folder under `` systems/realworld-backend `` you will see a link to `` bases/rest-api `` 
-  - Newly created base will be visible in the development project, as well as other related files from system
-
-![system-and-base](.media/how-to/03_system_and_base.png)
-
-- The base named `` rest-api `` will contain our Ring configuration and handlers. You can check out the code in the repository.
+![dev-project](.media/how-to/02_dev_project.png)
 
 ###### Create components
-- `` lein polylith create component article ``
-- `` lein polylith create component comment ``
-- `` lein polylith create component database ``
-- `` lein polylith create component log ``
-- `` lein polylith create component profile ``
-- `` lein polylith create component spec ``
-- `` lein polylith create component tag ``
-- `` lein polylith create component user ``
-  - These command above will create components under `` components `` folder and link them to the development project.
+- `` poly create component name:article ``
+- `` poly create component name:comment ``
+- `` poly create component name:database ``
+- `` poly create component name:env ``
+- `` poly create component name:log ``
+- `` poly create component name:profile ``
+- `` poly create component name:spec ``
+- `` poly create component name:tag ``
+- `` poly create component name:user ``
 
-![components](.media/how-to/04_components.png)
+These command above will create components under `` components `` directory.
 
-- However, our components are not yet linked to any system.
+![components](.media/how-to/03_components.png)
 
-![components-are-not-linked](.media/how-to/05_components_are_not_linked.png)
+However, our components are not yet added to development project's `` deps.edn ``. In order to start working with them, you need to add them to `` deps.edn `` in the root directory as following:
 
-###### Add components to system
-- `` lein polylith add article realworld-backend ``
-- `` lein polylith add comment realworld-backend ``
-- `` lein polylith add database realworld-backend ``
-- `` lein polylith add log realworld-backend ``
-- `` lein polylith add profile realworld-backend ``
-- `` lein polylith add spec realworld-backend ``
-- `` lein polylith add tag realworld-backend ``
-- `` lein polylith add user realworld-backend ``
-  - These commands will add components to system named `` realworld-backend ``
+![components-added](.media/how-to/04_components_added_to_development_project.png)
 
-![components-are-linked](.media/how-to/06_components_are_linked.png)
+As you can notice, we added the components' source and resource directories under the `` :dev `` alias and the test directories under the `` :test `` alias. Once you do this and load dev and test aliases, you can start working with your components.
 
-###### Test and build
-- To run tests and build artifacts, run the following command on project root:
-  - `` lein polylith build ``
-  - When you build the project, it will create an artifact from each system in your workspace.
+###### Create base
+- `` poly create base name:rest-api ``
 
-![build](.media/how-to/07_build.png)
+This command will create a base named `` rest-api `` under bases directory. Same as components, you should add the source, resource and test directories of `` rest-api `` base to the `` deps.edn `` file in the workspace root. It will look as following:
 
-- This command will run all the tests in all components and bases, validate the interface dependencies between them and build an artifact for each system.
-- It will also update :last-success in the file `` .polylith/time.edn ``. If you try building it again, you'll see that none of the tests will run and no artifacts will be built. This is because Polylith plugin checks the `` :last-success ``, detects changes since that time and finds parts in the workspace that needs a rebuild.
-- You can force plugin to build since a specific time by passing a unix time as another argument, or 0 to build everything.
-- If you run same command on a CI system (having a CI bash variable), it will use `` .polylith/git.edn `` file to detect changes. Instead of files' modified date, it will use git to detect changes since the last successful git commit.
+![base](.media/how-to/05_base.png)
 
-###### Make a change and build affected parts
-- Change a namespace in one of the components
-- Run `` lein polylith build ``
-- It will only test the changed component and build the system since it is affected.
+###### Add code to components and the base
+You can take the code from the [repository]() to populate the components and the base. You should also add the necessary dependencies to the `` deps.edn `` file in the workspace root.
 
-![incremental-builds](.media/how-to/08_incremental_builds.png)
+Once your code is ready, you can move on to the next step to create a project.
 
-###### Running command separately
-- If you want to run compile, test, build and success commands separately, you can use specific commands. Each command takes arguments to skip previous steps.
-  - `` lein polylith build -compile -test -success `` will only build and skip compile, test, and success steps.
-  - Similarly, `` lein polylith test `` will both compile and test changes. If you run `` lein polylith test -compile ``, it will skip compilation and only test.
+###### Create a project
+- `` poly create project name:realworld-backend ``
 
-#### Sample IDE run configurations for polylith commands
+This command will create a new directory under `` projects/realworld-backend ``. If you look into that directory, you will see that there is only a single file, named `` deps.edn `` and it will look like this:
 
-###### Build
+![empty-project](.media/how-to/06_empty_project.png)
 
-![build-config](.media/how-to/09_build_config.png)
+This is where you will place the configuration for your project. In Polylith, a project is a configuration which includes a single base, a set of components and library dependencies. Since our project is a very simple one with one single artifact, we'll include our only base and all of our components in this configuration. After adding those, it will look like this:
 
-###### Build All
+![filled-project](.media/how-to/07_filled_project.png)
 
-![build-all-config](.media/how-to/10_build_all_config.png)
+As you can notice, we also have some extra configuration necessarry for our specific project, such as, ring configuration and two special aliases (`` :aot `` and `` :uberjar ``) for creating aot compiled uberjar artifact.
 
-###### Test
+At this stage, you should have a copy of this repository. 
 
-![test-config](.media/how-to/11_test_config.png)
+###### Workspace info
+```sh
+poly info
+```
 
-###### Test All
+This command will print out the information about the current workspace. You can find documentation about it in the [Polylith repository](https://github.com/polyfy/polylith). It should print an output like this:
 
-![test-all-config](.media/how-to/12_test_all_config.png)
+![workspace-info](.media/how-to/08_workspace_info.png)
+
+Here the asterisk symbol points the changed components and bases since the last stable point.
+
+###### Validating intergrity
+In order to validate the integratiy of the Polylith workspace, run the following command:
+
+```sh
+poly check
+```
+
+This command should output `` OK `` as message if everything is okay. Otherwise, it will print out errors and warnings found in the workspace.
+
+###### Running tests
+```sh
+poly test
+```
+
+This command will run all the tests since the last stable point. Since this is a newly created workspace, last stable point will be since the beginning.
+
+###### Adding a stable point
+Once you are ready with your changes and the check and test commands run without any issues, you can commit your changes to your git repository. After commiting, you can add a git tag with `` stable- `` prefix. This will tell Polylith to take that commit as the last stable point next time you run any Polylith commands.
+
+```sh
+git tag -f -a "stable-master" -m "Stable point"
+```
+
+After adding tag, you can run info command again and get an output similar to this:
+
+![workspace-info-after-commit](.media/how-to/09_workspace_info_after_commit.png)
+
+#### Sample REPL run configuration for Intellij IDEA with Cursive
+Polylith works out-of-the-box with Intellij IDEA + Cursive setup. Here is how my REPL run configuration looks like:
+
+![repl-config](.media/how-to/10_repl_config.png)
+
+The only thing that is different from default Cursive REPL configuration is, I selected Run with Deps option and added two aliases (``dev,test``) that comes from the Polylith workspace `` deps.edn ``.

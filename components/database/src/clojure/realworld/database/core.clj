@@ -1,10 +1,10 @@
 (ns clojure.realworld.database.core
   (:require [clojure.java.io :as io]
-            [environ.core :refer [env]]))
+            [clojure.realworld.env.interface :as env]))
 
 (defn- db-path []
-  (if (contains? env :database)
-    (env :database)
+  (if (contains? env/env :database)
+    (env/env :database)
     "database.db"))
 
 (defn db

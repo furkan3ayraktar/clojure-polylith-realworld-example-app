@@ -6,9 +6,9 @@
             [honeysql.core :as sql]))
 
 (defn find-by [key value]
-  (let [query   {:select [:*]
-                 :from   [:user]
-                 :where  [:= key value]}
+  (let [query {:select [:*]
+               :from   [:user]
+               :where  [:= key value]}
         results (jdbc/query (database/db) (sql/format query))]
     (first results)))
 

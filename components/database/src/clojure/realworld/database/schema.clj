@@ -84,19 +84,19 @@
   [(keyword tbl_name) sql])
 
 (defn valid-schema? [db]
-  (let [query          {:select [:*]
-                        :from   [:sqlite_master]
-                        :where  [:= :type "table"]}
-        tables         (jdbc/query db (sql/format query) {:identifiers identity})
+  (let [query {:select [:*]
+               :from   [:sqlite_master]
+               :where  [:= :type "table"]}
+        tables (jdbc/query db (sql/format query) {:identifiers identity})
         current-schema (select-keys (into {} (map table->schema-item tables))
                                     [:user :userFollows :article :tag :articleTags :favoriteArticles :comment])
-        valid-schema   {:user             user
-                        :userFollows      user-follows
-                        :article          article
-                        :tag              tag
-                        :articleTags      article-tags
-                        :favoriteArticles favorite-articles
-                        :comment          comment-table}]
+        valid-schema {:user             user
+                      :userFollows      user-follows
+                      :article          article
+                      :tag              tag
+                      :articleTags      article-tags
+                      :favoriteArticles favorite-articles
+                      :comment          comment-table}]
     (if (= valid-schema current-schema)
       true
       (do

@@ -1,6 +1,6 @@
 (ns clojure.realworld.rest-api.api
-  (:require [clojure.realworld.database.interface :as database])
-  (:require [clojure.realworld.rest-api.handler :as h]
+  (:require [clojure.realworld.database.interface :as database]
+            [clojure.realworld.rest-api.handler :as h]
             [clojure.realworld.rest-api.middleware :as m]
             [clojure.realworld.log.interface :as log]
             [compojure.core :refer [routes wrap-routes defroutes GET POST PUT DELETE ANY OPTIONS]]
