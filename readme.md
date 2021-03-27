@@ -1,25 +1,42 @@
 # ![RealWorld Example App](logo.png)
 
-> ### Clojure, Polylith and Ring codebase containing real world examples (CRUD, auth, advanced patterns, etc) that adheres to the [RealWorld](https://github.com/gothinkster/realworld-example-apps) spec and API.
-
-
-### [RealWorld](https://github.com/gothinkster/realworld)
-
-
-This codebase was created to demonstrate a fully fledged fullstack application built with **Clojure, Polylith and Ring** including CRUD operations, authentication, routing, pagination, and more.
-
-We've gone to great lengths to adhere to the **Clojure** community styleguides & best practices.
-
-For more information on how this works with other frontends/backends, head over to the [RealWorld](https://github.com/gothinkster/realworld) repo.
-
-> This version uses [tools.deps](https://github.com/clojure/tools.deps.alpha). There is also an older version of this project that uses [Leiningen](https://leiningen.org/) on the [leiningen branch](https://github.com/furkan3ayraktar/clojure-polylith-realworld-example-app/tree/leiningen).
+A full-fledged [RealWorld](https://github.com/gothinkster/realworld) server (CRUD, auth, advanced patterns, etc) built with [Clojure](https://clojure.org), [Polylith](https://polylith.gitbook.io/), and [Ring](https://github.com/ring-clojure/ring), including CRUD operations, authentication, routing, pagination, and more.
 
 #### Build Status
 [![CircleCI](https://circleci.com/gh/furkan3ayraktar/clojure-polylith-realworld-example-app/tree/master.svg?style=svg&circle-token=927fe6a1ea0db6ea74775199135b5feb92292818)](https://circleci.com/gh/furkan3ayraktar/clojure-polylith-realworld-example-app/tree/master)
 
+## Start it in your Clojure REPL
+
+1. Fork & clone this repo
+1. Open the project in your favorite Clojure editor, start the project, and connect the REPL. (From a development perspective it is a regular `deps.edn` project.)
+1. In the `dev.server` namespace, evaluate:
+    ```clojure
+    (start! 6003)
+    ```
+
+Now the Polylith RealWorld backend is up on port 6003!
+
+### Test it with a RealWorld Frontend
+
+A sweet way to put the sever to some tests is to fork the [re-frame RealWorld frontend by Jacek Schae](https://github.com/jacekschae/conduit) and modify it to run against this server by editing the definition of `api-url` in `src/conduit/events.cljs` to be:
+
+```clojure
+(def api-url "http://localhost:6003/api")
+```
+
+Then start the frontend and open http://localhost:3000/ in a web browser.
+
+## Put the `poly` command to your service
+
+1. Install the [Polylith tool](https://github.com/polyfy/polylith#installation)
+2. Get ”at a glance" info about the project:
+    ```sh
+    $ poly info
+    ```   
+
 ## Table of Contents
 
-- [Getting Started](#getting-started)
+- [Getting Started](#start-it-in-your-clojure-repl)
 - [General Structure](#general-structure)
   - [Project](#project)
   - [Base](#base)
@@ -33,15 +50,6 @@ For more information on how this works with other frontends/backends, head over 
 - [Continuous Integration](#continuous-integration)
 - [How to create this workspace from scratch](#how-to-create-this-workspace-from-scratch)
 
-### Getting started
-
-Just a few steps to have you up and running locally:
-
-+ Install the [Polylith tool](https://github.com/polyfy/polylith#installation)
-+ Clone this repo
-+ Open a terminal, navigate to the root directory of this repo and run ``clj -A:ring realworld-backend``
-
-and the Realworld backend is up on port 6003!
 
 ### General Structure
 This project is structured according to Polylith Architecture principles. 
@@ -394,3 +402,7 @@ You can achieve the same result with fewer steps once you have learned the comma
 
 ### How to create this workspace from scratch
 You can find necessary steps to create this workspace with Polylith plugin [here](how-to.md).
+
+### Note about deps.edn vs Leiningen
+
+> This version uses [tools.deps](https://github.com/clojure/tools.deps.alpha). There is also an older version of this project that uses [Leiningen](https://leiningen.org/) on the [leiningen branch](https://github.com/furkan3ayraktar/clojure-polylith-realworld-example-app/tree/leiningen).
