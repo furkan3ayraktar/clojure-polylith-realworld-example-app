@@ -24,3 +24,9 @@
 database.db
 test.db
 *.iml
+
+# clojure-lsp
+.lsp/sqlite*.db
+
+# Calva VS Code extension
+.calva/output-window/output.calva-repl

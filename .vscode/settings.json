@@ -1,0 +1,14 @@
+{
+    "calva.autoOpenJackInTerminal": true,
+    "calva.replConnectSequences": [
+        {
+            "projectType": "deps.edn",
+            "afterCLJReplJackInCode": "(do (require '[dev.server] :reload) (in-ns 'dev.server))\n;Once the REPL is active, (start!) will start the server",
+            "name": "Polylith RealWorld Server REPL",
+            "cljsType": "none",
+            "menuSelections": {
+                "cljAliases": ["dev", "test"]
+            }
+        }
+    ]
+}
