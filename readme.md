@@ -8,7 +8,7 @@ A full-fledged [RealWorld](https://github.com/gothinkster/realworld) server (CRU
 ## Start it in your Clojure REPL
 
 1. Fork & clone this repo
-1. Open the project in your favorite Clojure editor, start the project, and connect the REPL. (From a development perspective it is a regular `deps.edn` project.)
+1. Open the project in your favorite Clojure editor, start the project, and connect the REPL. From a development perspective it is a regular `deps.edn` project. Just make sure to include the `:dev` and `:test` aliases, and you should be good.
 1. In the `dev.server` namespace, evaluate:
     ```clojure
     (start! 6003)
