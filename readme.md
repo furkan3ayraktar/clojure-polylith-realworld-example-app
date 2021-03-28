@@ -45,7 +45,7 @@ Then start the frontend and open http://localhost:3000/ in a web browser.
 - [Environment Variables](#environment-variables)
 - [Database](#database)
 - [Workspace Info](#workspace-info)
-- [Check Workspace Integrity](#workspace-info)
+- [Check Workspace Integrity](#check-workspace-integrity)
 - [Running Tests](#running-tests)
 - [Stable Points](#stable-points)
 - [Continuous Integration](#continuous-integration)
