@@ -33,6 +33,7 @@ Then start the frontend and open http://localhost:3000/ in a web browser.
     ```sh
     $ poly info
     ```   
+(See [Workspace Info](#workspace-info) below.)
 
 ## Table of Contents
 
