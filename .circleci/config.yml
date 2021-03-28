@@ -6,9 +6,6 @@ jobs:
       - image: circleci/clojure:tools-deps-1.10.1.561
     working_directory: ~/realworld-example
     steps:
-      - add_ssh_keys:
-          fingerprints:
-            - "3d:7a:60:40:26:8e:a8:4e:9c:22:fe:77:3f:84:fb:ec"
       - checkout
       - restore_cache:
           keys:
@@ -40,9 +37,6 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/realworld-example
-      - add_ssh_keys:
-          fingerprints:
-            - "3d:7a:60:40:26:8e:a8:4e:9c:22:fe:77:3f:84:fb:ec"
       - restore_cache:
           keys:
             - realworld-example-{{ checksum "deps.edn" }}-{{ checksum "projects/realworld-backend/deps.edn" }}
@@ -72,9 +66,6 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/realworld-example
-      - add_ssh_keys:
-          fingerprints:
-            - "3d:7a:60:40:26:8e:a8:4e:9c:22:fe:77:3f:84:fb:ec"
       - restore_cache:
           keys:
             - realworld-example-{{ checksum "deps.edn" }}-{{ checksum "projects/realworld-backend/deps.edn" }}
@@ -95,9 +86,6 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/realworld-example
-      - add_ssh_keys:
-          fingerprints:
-            - "3d:7a:60:40:26:8e:a8:4e:9c:22:fe:77:3f:84:fb:ec"
       - restore_cache:
           keys:
             - realworld-example-{{ checksum "deps.edn" }}-{{ checksum "projects/realworld-backend/deps.edn" }}
@@ -120,9 +108,6 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/realworld-example
-      - add_ssh_keys:
-          fingerprints:
-            - "3d:7a:60:40:26:8e:a8:4e:9c:22:fe:77:3f:84:fb:ec"
       - restore_cache:
           keys:
             - realworld-example-{{ checksum "deps.edn" }}-{{ checksum "projects/realworld-backend/deps.edn" }}
@@ -192,3 +177,4 @@ workflows:
             branches:
               only:
                 - master
+                - update-ci-config-and-deps
