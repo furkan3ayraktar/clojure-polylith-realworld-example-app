@@ -1,6 +1,6 @@
 (ns clojure.realworld.rest-api.main
-  (:require [clojure.realworld.rest-api.api :as api]
-            [clojure.realworld.log.interface :as log]
+  (:require [clojure.realworld.log.interface :as log]
+            [clojure.realworld.rest-api.api :as api]
             [ring.adapter.jetty :refer [run-jetty]])
   (:gen-class))
 
