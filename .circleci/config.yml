@@ -7,6 +7,10 @@ jobs:
     working_directory: ~/realworld-example
     steps:
       - checkout
+      - run:
+          name: Get rid of erroneous git config
+          command: |
+            rm -rf ~/.gitconfig
       - restore_cache:
           keys:
             - realworld-example-{{ checksum "deps.edn" }}-{{ checksum "projects/realworld-backend/deps.edn" }}
