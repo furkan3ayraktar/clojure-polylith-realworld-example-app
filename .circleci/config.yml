@@ -181,4 +181,3 @@ workflows:
             branches:
               only:
                 - master
-                - update-ci-config-and-deps
