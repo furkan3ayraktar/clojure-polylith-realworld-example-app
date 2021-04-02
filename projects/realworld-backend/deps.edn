@@ -1,26 +1,4 @@
-{:paths     ["../../components/article/src"
-             "../../components/article/resources"
-             "../../components/comment/src"
-             "../../components/comment/resources"
-             "../../components/database/src"
-             "../../components/database/resources"
-             "../../components/env/src"
-             "../../components/env/resources"
-             "../../components/log/src"
-             "../../components/log/resources"
-             "../../components/profile/src"
-             "../../components/profile/resources"
-             "../../components/spec/src"
-             "../../components/spec/resources"
-             "../../components/tag/src"
-             "../../components/tag/resources"
-             "../../components/user/src"
-             "../../components/user/resources"
-
-             "../../bases/rest-api/resources"
-             "../../bases/rest-api/src"]
-
- :ring      {:init    clojure.realworld.rest-api.api/init
+{:ring      {:init    clojure.realworld.rest-api.api/init
              :destroy clojure.realworld.rest-api.api/destroy
              :handler clojure.realworld.rest-api.api/app
              :port    6003}
@@ -28,7 +6,18 @@
  :mvn/repos {"central" {:url "https://repo1.maven.org/maven2/"}
              "clojars" {:url "https://clojars.org/repo"}}
 
- :deps      {clj-time/clj-time                     {:mvn/version "0.14.2"}
+ :deps      {poly/article  {:local/root "../../components/article"}
+             poly/comment  {:local/root "../../components/comment"}
+             poly/database {:local/root "../../components/database"}
+             poly/env      {:local/root "../../components/env"}
+             poly/log      {:local/root "../../components/log"}
+             poly/profile  {:local/root "../../components/profile"}
+             poly/spec     {:local/root "../../components/spec"}
+             poly/tag      {:local/root "../../components/tag"}
+             poly/user     {:local/root "../../components/user"}
+             poly/rest-api {:local/root "../../bases/rest-api"}
+
+             clj-time/clj-time                     {:mvn/version "0.14.2"}
              clj-jwt/clj-jwt                       {:mvn/version "0.1.1"}
              com.taoensso/timbre                   {:mvn/version "4.10.0"}
              compojure/compojure                   {:mvn/version "1.6.0"}
@@ -44,12 +33,7 @@
              ring/ring-json                        {:mvn/version "0.5.0-beta1"}
              slugger/slugger                       {:mvn/version "1.0.1"}}
 
- :aliases   {:test    {:extra-paths ["../../components/article/test"
-                                     "../../components/comment/test"
-                                     "../../components/profile/test"
-                                     "../../components/tag/test"
-                                     "../../components/user/test"
-                                     "../../bases/rest-api/test"]
+ :aliases   {:test    {:extra-paths []
                        :extra-deps  {org.clojure/test.check {:mvn/version "0.10.0-alpha3"}}}
 
              :aot     {:extra-paths ["classes"]
