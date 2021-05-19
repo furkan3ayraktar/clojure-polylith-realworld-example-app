@@ -1,6 +1,8 @@
 {:paths ["src" "resources"]
  :deps {compojure/compojure {:mvn/version "1.6.0"}
-        ring-logger-timbre/ring-logger-timbre {:mvn/version "0.7.6"}
-        ring/ring-json {:mvn/version "0.5.0-beta1"}}
+        org.clojure/data.json  {:mvn/version "0.2.6"}
+        ring/ring-json {:mvn/version "0.5.0-beta1"}
+        ring/ring-jetty-adapter {:mvn/version "1.6.3"}
+        ring-logger-timbre/ring-logger-timbre {:mvn/version "0.7.6"}}
  :aliases {:test {:extra-paths ["test"]
                   :extra-deps []}}}
