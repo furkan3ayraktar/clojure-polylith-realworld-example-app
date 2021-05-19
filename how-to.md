@@ -54,17 +54,19 @@ However, our components are not yet added to development project's `` deps.edn `
 
 ![components-added](.media/how-to/04_components_added_to_development_project.png)
 
-As you can notice, we added the components' source and resource directories under the `` :dev `` alias and the test directories under the `` :test `` alias. Once you do this and load dev and test aliases, you can start working with your components.
+notice that we added the components both under the `:dev` and `:test` alias. Once you do this and load dev and test aliases, you can start working with your components.
 
 ###### Create base
 - `` poly create base name:rest-api ``
 
-This command will create a base named `` rest-api `` under bases directory. Same as components, you should add the source, resource and test directories of `` rest-api `` base to the `` deps.edn `` file in the workspace root. It will look as following:
+This command will create a base named `` rest-api `` under bases directory. 
+Same as components, you should add the base to the `deps.edn` file in the workspace root. It will look like this:
 
 ![base](.media/how-to/05_base.png)
 
 ###### Add code to components and the base
-You can take the code from the [repository]() to populate the components and the base. You should also add the necessary dependencies to the `` deps.edn `` file in the workspace root.
+You can take the code from the [repository]() to populate the components and the base. 
+You should also add the necessary dependencies to the `` deps.edn `` file in the workspace root.
 
 Once your code is ready, you can move on to the next step to create a project.
 
@@ -90,7 +92,7 @@ poly info
 
 This command will print out the information about the current workspace. You can find documentation about it in the [Polylith repository](https://github.com/polyfy/polylith). It should print an output like this:
 
-![workspace-info](.media/how-to/08_workspace_info.png)
+<img src=".media/how-to/08_workspace_info.png" width="60%">
 
 Here the asterisk symbol points the changed components and bases since the last stable point.
 
