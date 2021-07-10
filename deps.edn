@@ -1,17 +1,30 @@
-{:aliases  {:dev  {:extra-paths ["development/src"]
+{:aliases  {:dev  {:extra-paths ["development/src"
 
-                   :extra-deps  {poly/article {:local/root "components/article"}
-                                 poly/comment {:local/root "components/comment"}
-                                 poly/database {:local/root "components/database"}
-                                 poly/env {:local/root "components/env"}
-                                 poly/log {:local/root "components/log"}
-                                 poly/profile {:local/root "components/profile"}
-                                 poly/spec {:local/root "components/spec"}
-                                 poly/tag {:local/root "components/tag"}
-                                 poly/user {:local/root "components/user"}
-                                 poly/rest-api {:local/root "bases/rest-api"}
+                                 ; Components
+                                 "components/article/src"
+                                 "components/article/resources"
+                                 "components/comment/src"
+                                 "components/comment/resources"
+                                 "components/database/src"
+                                 "components/database/resources"
+                                 "components/env/src"
+                                 "components/env/resources"
+                                 "components/log/src"
+                                 "components/log/resources"
+                                 "components/profile/src"
+                                 "components/profile/resources"
+                                 "components/spec/src"
+                                 "components/spec/resources"
+                                 "components/tag/src"
+                                 "components/tag/resources"
+                                 "components/user/src"
+                                 "components/user/resources"
 
-                                 org.clojure/clojure {:mvn/version "1.10.0"}}}
+                                 ; Bases
+                                 "bases/rest-api/src"
+                                 "bases/rest-api/resources"]
+
+                   :extra-deps  {org.clojure/clojure {:mvn/version "1.10.0"}}}
 
             :test {:extra-paths ["components/article/test"
                                  "components/comment/test"
