@@ -19,6 +19,9 @@ jobs:
           name: Create polylith config if it does not exist
           command: mkdir -p ~/.polylith && echo "{}" > ~/.polylith/config.edn
       - run:
+          name: Force clojure to resolve dependencies
+          command: clojure -A:dev:test -P
+      - run:
           name: Check Polylith workspace
           command: clojure -A:poly check
       - save_cache:
