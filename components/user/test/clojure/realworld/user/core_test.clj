@@ -67,8 +67,11 @@
     (is (= {:errors {:token ["Cannot find a user with associated token."]}} res))))
 
 (deftest user-by-token--user-found--return-positive-result
-  (let [_ (jdbc/insert! (test-db) :user {:email "test@test.com" :token "token" :username "username"})
-        [ok? res] (core/user-by-token "token")]
+  (let [email "test@test.com"
+        username "username"
+        token (#'clojure.realworld.user.core/generate-token email username)
+        _ (jdbc/insert! (test-db) :user {:email email :token token :username username})
+        [ok? res] (core/user-by-token token)]
     (is (true? ok?))
     (is (s/valid? spec/visible-user res))))
 

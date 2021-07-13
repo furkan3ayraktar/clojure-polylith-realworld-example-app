@@ -10,12 +10,24 @@
     (env/env :secret)
     "some-default-secret-do-not-use-it"))
 
-(defn- generate-token [email]
+(defn- generate-token [email username]
   (let [now (t/now)
-        claim {:iss email
+        claim {:sub username
+               :iss email
                :exp (t/plus now (t/days 7))
                :iat now}]
     (-> claim jwt/jwt (jwt/sign :HS256 (token-secret)) jwt/to-str)))
+
+(defn- jwt-str->jwt [jwt-string]
+  (try
+    (jwt/str->jwt jwt-string)
+    (catch Exception _
+      nil)))
+
+(defn- token->claims [jwt-string]
+  (when-let [jwt (jwt-str->jwt jwt-string)]
+    (when (jwt/verify jwt (token-secret))
+      (:claims jwt))))
 
 (defn encrypt-password [password]
   (-> password crypto/encrypt str))
@@ -26,7 +38,7 @@
 (defn login! [{:keys [email password]}]
   (if-let [user (store/find-by-email email)]
     (if (crypto/check password (:password user))
-      (let [new-token (generate-token email)
+      (let [new-token (generate-token email (:username user))
             _ (store/update-token! email new-token)
             new-user (assoc user :token new-token)]
         [true (user->visible-user new-user)])
@@ -41,16 +53,19 @@
       (let [user-input {:email    email
                         :username username
                         :password (encrypt-password password)
-                        :token    (generate-token email)}
+                        :token    (generate-token email username)}
             _ (store/insert-user! user-input)]
         (if-let [user (store/find-by-email email)]
           [true (user->visible-user user)]
           [false {:errors {:other ["Cannot insert user into db."]}}])))))
 
 (defn user-by-token [token]
-  (if-let [user (store/find-by-token token)]
-    [true (user->visible-user user)]
-    [false {:errors {:token ["Cannot find a user with associated token."]}}]))
+  (let [claims (token->claims token)
+        username (:sub claims)
+        user (store/find-by-username username)]
+    (if user
+      [true (user->visible-user user)]
+      [false {:errors {:token ["Cannot find a user with associated token."]}}])))
 
 (defn update-user! [auth-user {:keys [username email password image bio]}]
   (if (and (not (nil? email))
