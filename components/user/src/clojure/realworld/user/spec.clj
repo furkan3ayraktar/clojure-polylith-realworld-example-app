@@ -28,15 +28,18 @@
                            :bio      (ds/maybe spec/non-empty-string?)}
             :keys-default ds/opt}))
 
+(def user-base
+  {:id             id
+   :email          spec/email?
+   :username       spec/username?
+   (ds/opt :image) (ds/maybe spec/uri-string?)
+   (ds/opt :bio)   (ds/maybe spec/non-empty-string?)})
+
 (def user
   (ds/spec {:name :core/user
-            :spec {:id             id
-                   :email          spec/email?
-                   :username       spec/username?
-                   (ds/opt :image) (ds/maybe spec/uri-string?)
-                   (ds/opt :bio)   (ds/maybe spec/non-empty-string?)
-                   (ds/opt :token) spec/non-empty-string?}}))
+            :spec user-base}))
 
 (def visible-user
   (ds/spec {:name :core/visible-user
-            :spec {:user user}}))
+            :spec {:user (assoc user-base
+                           (ds/opt :token) spec/non-empty-string?)}}))

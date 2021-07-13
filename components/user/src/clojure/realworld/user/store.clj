@@ -26,15 +26,6 @@
     (find-by-id username-or-id)
     (find-by-username username-or-id)))
 
-(defn find-by-token [token]
-  (find-by :token token))
-
-(defn update-token! [email new-token]
-  (let [query {:update :user
-               :set    {:token new-token}
-               :where  [:= :email email]}]
-    (jdbc/execute! (database/db) (sql/format query))))
-
 (defn insert-user! [user-input]
   (jdbc/insert! (database/db) :user user-input))
 

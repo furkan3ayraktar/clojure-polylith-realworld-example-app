@@ -32,16 +32,16 @@
 (defn encrypt-password [password]
   (-> password crypto/encrypt str))
 
-(defn user->visible-user [user]
-  {:user (dissoc user :password)})
+(defn user->visible-user [user token]
+  {:user (-> user
+             (assoc :token token)
+             (dissoc :password))})
 
 (defn login! [{:keys [email password]}]
   (if-let [user (store/find-by-email email)]
     (if (crypto/check password (:password user))
-      (let [new-token (generate-token email (:username user))
-            _ (store/update-token! email new-token)
-            new-user (assoc user :token new-token)]
-        [true (user->visible-user new-user)])
+      (let [new-token (generate-token email (:username user))]
+        [true (user->visible-user user new-token)])
       [false {:errors {:password ["Invalid password."]}}])
     [false {:errors {:email ["Invalid email."]}}]))
 
@@ -50,13 +50,13 @@
     [false {:errors {:email ["A user exists with given email."]}}]
     (if-let [_ (store/find-by-username username)]
       [false {:errors {:username ["A user exists with given username."]}}]
-      (let [user-input {:email    email
+      (let [new-token (generate-token email username)
+            user-input {:email    email
                         :username username
-                        :password (encrypt-password password)
-                        :token    (generate-token email username)}
+                        :password (encrypt-password password)}
             _ (store/insert-user! user-input)]
         (if-let [user (store/find-by-email email)]
-          [true (user->visible-user user)]
+          [true (user->visible-user user new-token)]
           [false {:errors {:other ["Cannot insert user into db."]}}])))))
 
 (defn user-by-token [token]
@@ -64,7 +64,7 @@
         username (:sub claims)
         user (store/find-by-username username)]
     (if user
-      [true (user->visible-user user)]
+      [true (user->visible-user user token)]
       [false {:errors {:token ["Cannot find a user with associated token."]}}])))
 
 (defn update-user! [auth-user {:keys [username email password image bio]}]
@@ -86,5 +86,5 @@
                               optional-map)
             _ (store/update-user! (:id auth-user) user-input)]
         (if-let [updated-user (store/find-by-email email-to-use)]
-          [true (user->visible-user updated-user)]
+          [true (user->visible-user updated-user (:token auth-user))]
           [false {:errors {:other ["Cannot update user."]}}])))))
