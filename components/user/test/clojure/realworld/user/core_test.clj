@@ -1,5 +1,6 @@
 (ns clojure.realworld.user.core-test
-  (:require [clojure.java.jdbc :as jdbc]
+  (:require [clj-time.core :as t]
+            [clojure.java.jdbc :as jdbc]
             [clojure.realworld.database.interface :as database]
             [clojure.realworld.user.core :as core]
             [clojure.realworld.user.spec :as spec]
@@ -74,6 +75,18 @@
         [ok? res] (core/user-by-token token)]
     (is (true? ok?))
     (is (s/valid? spec/visible-user res))))
+
+(deftest user-by-token--expired-token--return-negative-result
+  (let [email "test@test.com"
+        username "username"
+        now (t/now)
+        ten-days-ago (t/minus now (t/days 10))
+        token (with-redefs [clj-time.core/now (fn [] ten-days-ago)]
+                (#'clojure.realworld.user.core/generate-token email username))
+        _ (jdbc/insert! (test-db) :user {:email email :username username})
+        [ok? res] (core/user-by-token token)]
+    (is (false? ok?))
+    (is (= {:errors {:token ["Cannot find a user with associated token."]}} res))))
 
 (deftest update-user!--user-exists-with-given-email--return-negative-result
   (let [_ (jdbc/insert! (test-db) :user {:email "test1@test.com"})

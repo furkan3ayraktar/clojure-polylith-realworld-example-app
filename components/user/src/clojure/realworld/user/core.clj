@@ -2,6 +2,7 @@
   (:require [clojure.realworld.user.store :as store]
             [crypto.password.pbkdf2 :as crypto]
             [clj-jwt.core :as jwt]
+            [clj-time.coerce :as c]
             [clj-time.core :as t]
             [clojure.realworld.env.interface :as env]))
 
@@ -24,9 +25,18 @@
     (catch Exception _
       nil)))
 
+(defn- expired? [jwt]
+  (if-let [exp (-> jwt :claims :exp)]
+    (try
+      (t/before? (c/from-long (* 1000 exp)) (t/now))
+      (catch Exception _
+        true))
+    true))
+
 (defn- token->claims [jwt-string]
   (when-let [jwt (jwt-str->jwt jwt-string)]
-    (when (jwt/verify jwt (token-secret))
+    (when (and (jwt/verify jwt (token-secret))
+               (not (expired? jwt)))
       (:claims jwt))))
 
 (defn encrypt-password [password]
