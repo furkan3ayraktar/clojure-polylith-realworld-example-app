@@ -28,26 +28,16 @@
               :id       1
               :image    nil
               :password nil
-              :token    nil
               :username "username"}
         res2 (store/find-by :username "username")]
     (is (= user res1))
     (is (= user res2))))
-
-(deftest update-token!--test
-  (let [_ (jdbc/insert! (test-db) :user {:email "test@test.com"})
-        res1 (store/find-by-email "test@test.com")
-        _ (store/update-token! "test@test.com" "new-token")
-        res2 (store/find-by-email "test@test.com")]
-    (is (nil? (:token res1)))
-    (is (= "new-token" (:token res2)))))
 
 (deftest insert-user!--test
   (let [user {:bio      "bio"
               :email    "test@test.com"
               :image    "image"
               :password "password"
-              :token    "token"
               :username "username"}
         _ (store/insert-user! user)
         res (store/find-by-email "test@test.com")]
@@ -58,13 +48,11 @@
                                :email    "test@test.com"
                                :image    "image"
                                :password "password"
-                               :token    "token"
                                :username "username"})
         user {:bio      "updated-bio"
               :email    "updated-test@test.com"
               :image    "updated-image"
               :password "updated-password"
-              :token    "updated-token"
               :username "updated-username"}
         _ (store/update-user! 1 user)
         res (store/find-by-email "updated-test@test.com")]

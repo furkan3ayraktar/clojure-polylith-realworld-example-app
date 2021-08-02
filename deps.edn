@@ -68,7 +68,8 @@
                                  "components/tag/test"
                                  "components/user/test"
 
-                                 "bases/rest-api/test"]}
+                                 "bases/rest-api/test"]
+                   :extra-deps  {org.clojure/test.check {:mvn/version "0.10.0-alpha3"}}}
 
             :poly {:main-opts  ["-m" "polylith.clj.core.poly-cli.core"]
                    :extra-deps {polyfy/polylith

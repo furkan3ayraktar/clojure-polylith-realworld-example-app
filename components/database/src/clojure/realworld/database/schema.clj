@@ -10,8 +10,7 @@
                           [:username :text :unique]
                           [:password :text]
                           [:image :text]
-                          [:bio :text]
-                          [:token :text :unique]]
+                          [:bio :text]]
                          {:entities identity}))
 
 (def user-follows
