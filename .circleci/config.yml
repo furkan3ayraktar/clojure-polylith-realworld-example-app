@@ -3,7 +3,7 @@ version: 2.0
 jobs:
   check:
     docker:
-      - image: circleci/clojure:tools-deps-1.10.1.561
+      - image: circleci/clojure:tools-deps-1.10.3.855
     working_directory: ~/realworld-example
     steps:
       - checkout
@@ -18,6 +18,9 @@ jobs:
       - run:
           name: Create polylith config if it does not exist
           command: mkdir -p ~/.polylith && echo "{}" > ~/.polylith/config.edn
+      - run:
+          name: Force clojure to resolve dependencies
+          command: clojure -A:dev:test -P
       - run:
           name: Check Polylith workspace
           command: clojure -A:poly check
@@ -36,7 +39,7 @@ jobs:
 
   info:
     docker:
-      - image: circleci/clojure:tools-deps-1.10.1.561
+      - image: circleci/clojure:tools-deps-1.10.3.855
     working_directory: ~/realworld-example
     steps:
       - attach_workspace:
@@ -65,7 +68,7 @@ jobs:
 
   test:
     docker:
-      - image: circleci/clojure:tools-deps-1.10.1.561
+      - image: circleci/clojure:tools-deps-1.10.3.855
     working_directory: ~/realworld-example
     steps:
       - attach_workspace:
@@ -85,7 +88,7 @@ jobs:
 
   api-test:
     docker:
-      - image: circleci/clojure:tools-deps-1.10.1.561-node
+      - image: circleci/clojure:tools-deps-1.10.3.855-node
     working_directory: ~/realworld-example
     steps:
       - attach_workspace:
@@ -107,7 +110,7 @@ jobs:
 
   build-uberjar:
     docker:
-      - image: circleci/clojure:tools-deps-1.10.1.561
+      - image: circleci/clojure:tools-deps-1.10.3.855
     working_directory: ~/realworld-example
     steps:
       - attach_workspace:
@@ -129,7 +132,7 @@ jobs:
 
   mark-as-stable:
     docker:
-      - image: circleci/clojure:tools-deps-1.10.1.561
+      - image: circleci/clojure:tools-deps-1.10.3.855
     working_directory: ~/realworld-example
     steps:
       - attach_workspace:

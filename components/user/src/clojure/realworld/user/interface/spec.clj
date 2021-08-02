@@ -8,3 +8,5 @@
 (def update-user spec/update-user)
 
 (def user spec/user)
+
+(def visible-user spec/visible-user)
