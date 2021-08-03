@@ -24,7 +24,7 @@
                                 "bases/rest-api/src"
                                 "bases/rest-api/resources"]
 
-                  :extra-deps  {clj-time/clj-time                     {:mvn/version "0.14.2"}
+                  :extra-deps  {clj-time/clj-time                     {:mvn/version "0.15.2"}
                                 clj-jwt/clj-jwt                       {:mvn/version "0.1.1"}
                                 com.taoensso/timbre                   {:mvn/version "4.10.0"}
                                 compojure/compojure                   {:mvn/version "1.6.0"}
