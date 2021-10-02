@@ -339,7 +339,7 @@ Run the following command from the root directory to print out workspace informa
 This command will print an output like below. Here you can see that changed components are marked with a * symbol. 
 Refer to the [Polylith tool documentation](https://github.com/polyfy/polylith/blob/master/doc/commands.md#info) for more detailed information about this command and other commands that Polylith provides.
 
-![polylith-info](.media/readme/02_polylith_info.png)
+<img src=".media/readme/02_polylith_info.png" width="50%">
 
 ### Check workspace integrity
 In order to guarantee workspace integrity, which means all components refer to each other throgh their interfaces.
