@@ -17,7 +17,7 @@
              poly/user     {:local/root "../../components/user"}
              poly/rest-api {:local/root "../../bases/rest-api"}
 
-             org.clojure/clojure {:mvn/version "1.10.0"}}
+             org.clojure/clojure {:mvn/version "1.10.3"}}
 
  :aliases   {:test    {:extra-paths []
                        :extra-deps  {org.clojure/test.check {:mvn/version "0.10.0-alpha3"}}}
@@ -28,4 +28,10 @@
              :uberjar {:extra-deps {uberdeps/uberdeps {:mvn/version "0.1.10"}}
                        :main-opts  ["-m" "uberdeps.uberjar"
                                     "--aliases" "aot"
-                                    "--main-class" "clojure.realworld.rest_api.main"]}}}
+                                    "--main-class" "clojure.realworld.rest_api.main"]}
+
+             :ring {:extra-deps {furkan3ayraktar/polylith-clj-deps-ring {:git/url   "https://github.com/furkan3ayraktar/polylith-clj-deps-ring.git"
+                                                                         :sha       "7bb68846bb8a200a486a2886f1af95984538ec25"
+                                                                         :deps/root "projects/core"}}
+
+                    :main-opts  ["-m" "polylith.clj-deps-ring.cli.main" "start"]}}}

@@ -388,7 +388,7 @@ You can achieve the same result with fewer steps once you have learned the comma
     Information about the passed/failed tests will be printed in the job's output.
 - api-test
   - Runs end-to-end API tests using a [Postman](https://www.postman.com) collection defined under the `` api-tests `` directory. 
-    Before running the tests, start the backend service by executing the `` clojure -A:ring realworld-backend `` statement.
+    Before running the tests, start the backend service by executing the `` clojure -A:ring `` statement under `` projects/realworld-backend `` directory.
 - build-uberjar
   - This job creates an aot compiled uberjar for the realworld-backend project. Created artifact can be found in the artifacts section of this job's output.
 - mark-as-stable

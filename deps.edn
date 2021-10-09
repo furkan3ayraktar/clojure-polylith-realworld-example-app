@@ -31,7 +31,7 @@
                                 crypto-password/crypto-password       {:mvn/version "0.2.0"}
                                 honeysql/honeysql                     {:mvn/version "0.9.2"}
                                 metosin/spec-tools                    {:mvn/version "0.6.1"}
-                                org.clojure/clojure                   {:mvn/version "1.10.0"}
+                                org.clojure/clojure                   {:mvn/version "1.10.3"}
                                 org.clojure/data.json                 {:mvn/version "0.2.6"}
                                 org.clojure/java.jdbc                 {:mvn/version "0.7.5"}
                                 org.xerial/sqlite-jdbc                {:mvn/version "3.7.2"}
@@ -50,10 +50,4 @@
                   :extra-deps  {org.clojure/test.check {:mvn/version "0.10.0-alpha3"}}}
 
            :poly {:main-opts  ["-m" "polylith.clj.core.poly-cli.core"]
-                  :extra-deps {polylith/clj-poly {:mvn/version "0.2.0-alpha10"}}}
-
-           :ring {:extra-deps {furkan3ayraktar/polylith-clj-deps-ring {:git/url   "https://github.com/furkan3ayraktar/polylith-clj-deps-ring.git"
-                                                                       :sha       "15e5ab1cef84d574c3e49f5335a0dadb831445ce"
-                                                                       :deps/root "projects/core"}}
-
-                  :main-opts  ["-m" "polylith.clj-deps-ring.cli.main" "start"]}}}
+                  :extra-deps {polylith/clj-poly {:mvn/version "0.2.12-alpha12"}}}}}
