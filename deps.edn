@@ -53,4 +53,4 @@
                     :extra-deps  {org.clojure/test.check {:mvn/version "0.10.0-alpha3"}}}
 
              :poly {:main-opts  ["-m" "polylith.clj.core.poly-cli.core"]
-                    :extra-deps {polylith/clj-poly {:mvn/version "0.2.12-alpha12"}}}}}
+                    :extra-deps {polylith/clj-poly {:mvn/version "0.2.12-alpha"}}}}}
