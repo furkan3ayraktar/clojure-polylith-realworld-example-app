@@ -1,0 +1,7 @@
+{:paths ["src" "resources"]
+ :deps {clj-time/clj-time {:mvn/version "0.15.2"}
+        honeysql/honeysql {:mvn/version "0.9.2"}
+        metosin/spec-tools {:mvn/version "0.6.1"}
+        org.clojure/java.jdbc {:mvn/version "0.7.5"}}
+ :aliases {:test {:extra-paths ["test"]
+                  :extra-deps []}}}

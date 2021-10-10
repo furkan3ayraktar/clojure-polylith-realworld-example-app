@@ -1,26 +1,4 @@
-{:paths     ["../../components/article/src"
-             "../../components/article/resources"
-             "../../components/comment/src"
-             "../../components/comment/resources"
-             "../../components/database/src"
-             "../../components/database/resources"
-             "../../components/env/src"
-             "../../components/env/resources"
-             "../../components/log/src"
-             "../../components/log/resources"
-             "../../components/profile/src"
-             "../../components/profile/resources"
-             "../../components/spec/src"
-             "../../components/spec/resources"
-             "../../components/tag/src"
-             "../../components/tag/resources"
-             "../../components/user/src"
-             "../../components/user/resources"
-
-             "../../bases/rest-api/resources"
-             "../../bases/rest-api/src"]
-
- :ring      {:init    clojure.realworld.rest-api.api/init
+{:ring      {:init    clojure.realworld.rest-api.api/init
              :destroy clojure.realworld.rest-api.api/destroy
              :handler clojure.realworld.rest-api.api/app
              :port    6003}
@@ -28,28 +6,20 @@
  :mvn/repos {"central" {:url "https://repo1.maven.org/maven2/"}
              "clojars" {:url "https://clojars.org/repo"}}
 
- :deps      {clj-time/clj-time                     {:mvn/version "0.14.2"}
-             clj-jwt/clj-jwt                       {:mvn/version "0.1.1"}
-             com.taoensso/timbre                   {:mvn/version "4.10.0"}
-             compojure/compojure                   {:mvn/version "1.6.0"}
-             crypto-password/crypto-password       {:mvn/version "0.2.0"}
-             honeysql/honeysql                     {:mvn/version "0.9.2"}
-             metosin/spec-tools                    {:mvn/version "0.6.1"}
-             org.clojure/clojure                   {:mvn/version "1.10.0"}
-             org.clojure/data.json                 {:mvn/version "0.2.6"}
-             org.clojure/java.jdbc                 {:mvn/version "0.7.5"}
-             org.xerial/sqlite-jdbc                {:mvn/version "3.7.2"}
-             ring-logger-timbre/ring-logger-timbre {:mvn/version "0.7.6"}
-             ring/ring-jetty-adapter               {:mvn/version "1.6.3"}
-             ring/ring-json                        {:mvn/version "0.5.0-beta1"}
-             slugger/slugger                       {:mvn/version "1.0.1"}}
+ :deps      {poly/article  {:local/root "../../components/article"}
+             poly/comment  {:local/root "../../components/comment"}
+             poly/database {:local/root "../../components/database"}
+             poly/env      {:local/root "../../components/env"}
+             poly/log      {:local/root "../../components/log"}
+             poly/profile  {:local/root "../../components/profile"}
+             poly/spec     {:local/root "../../components/spec"}
+             poly/tag      {:local/root "../../components/tag"}
+             poly/user     {:local/root "../../components/user"}
+             poly/rest-api {:local/root "../../bases/rest-api"}
 
- :aliases   {:test    {:extra-paths ["../../components/article/test"
-                                     "../../components/comment/test"
-                                     "../../components/profile/test"
-                                     "../../components/tag/test"
-                                     "../../components/user/test"
-                                     "../../bases/rest-api/test"]
+             org.clojure/clojure {:mvn/version "1.10.3"}}
+
+ :aliases   {:test    {:extra-paths []
                        :extra-deps  {org.clojure/test.check {:mvn/version "0.10.0-alpha3"}}}
 
              :aot     {:extra-paths ["classes"]
@@ -58,4 +28,10 @@
              :uberjar {:extra-deps {uberdeps/uberdeps {:mvn/version "0.1.10"}}
                        :main-opts  ["-m" "uberdeps.uberjar"
                                     "--aliases" "aot"
-                                    "--main-class" "clojure.realworld.rest_api.main"]}}}
+                                    "--main-class" "clojure.realworld.rest_api.main"]}
+
+             :ring {:extra-deps {furkan3ayraktar/polylith-clj-deps-ring {:git/url   "https://github.com/furkan3ayraktar/polylith-clj-deps-ring.git"
+                                                                         :sha       "7bb68846bb8a200a486a2886f1af95984538ec25"
+                                                                         :deps/root "projects/core"}}
+
+                    :main-opts  ["-m" "polylith.clj-deps-ring.cli.main" "start"]}}}
