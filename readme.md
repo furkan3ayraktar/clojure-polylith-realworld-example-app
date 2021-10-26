@@ -407,3 +407,7 @@ You can find necessary steps to create this workspace with Polylith plugin [here
 ### Note about deps.edn vs Leiningen
 
 > This version uses [tools.deps](https://github.com/clojure/tools.deps.alpha). There is also an older version of this project that uses [Leiningen](https://leiningen.org/) on the [leiningen branch](https://github.com/furkan3ayraktar/clojure-polylith-realworld-example-app/tree/leiningen).
+
+## License
+
+Distributed under the [The MIT License](https://opensource.org/licenses/MIT), the same as [RealWorld](https://github.com/gothinkster/realworld) project.
