@@ -28,7 +28,7 @@ Then start the frontend and open http://localhost:3000/ in a web browser.
 
 ## Put the `poly` command to your service
 
-1. Install the [Polylith tool](https://github.com/polyfy/polylith#installation)
+1. Install the [Polylith tool](https://polylith.gitbook.io/poly/install/install)
 2. Get ”at a glance" info about the project:
     ```sh
     $ poly info
