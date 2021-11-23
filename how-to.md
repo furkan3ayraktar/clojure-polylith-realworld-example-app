@@ -17,7 +17,7 @@ Polylith provides a command line tool that you can install on your machine to en
 brew install polyfy/polylith/poly
 ```
 
-For more installation options, please have a look at [Polylith tool documentation](https://github.com/polyfy/polylith#installation).
+For more installation options, please have a look at [Poly tool documentation](https://polylith.gitbook.io/poly/install/install).
 
 ###### Create a workspace
 - `` poly create workspace name:realworld-app top-ns:clojure.realworld ``
@@ -65,7 +65,7 @@ Same as components, you should add the base to the `deps.edn` file in the worksp
 ![base](.media/how-to/05_base.png)
 
 ###### Add code to components and the base
-You can take the code from the [repository]() to populate the components and the base. 
+You can take the code from the [repository](https://github.com/furkan3ayraktar/clojure-polylith-realworld-example-app) to populate the components and the base. 
 You should also add the necessary dependencies to the `` deps.edn `` file in the workspace root.
 
 Once your code is ready, you can move on to the next step to create a project.
@@ -90,7 +90,7 @@ At this stage, you should have a copy of this repository.
 poly info
 ```
 
-This command will print out the information about the current workspace. You can find documentation about it in the [Polylith repository](https://github.com/polyfy/polylith). It should print an output like this:
+This command will print out the information about the current workspace. You can find documentation about it in the [Poly tool documentation](https://polylith.gitbook.io/poly/). It should print an output like this:
 
 <img src=".media/how-to/08_workspace_info.png" width="60%">
 
