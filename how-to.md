@@ -17,7 +17,7 @@ Polylith provides a command line tool that you can install on your machine to en
 brew install polyfy/polylith/poly
 ```
 
-For more installation options, please have a look at [Poly tool documentation](https://polylith.gitbook.io/poly/install/install).
+For more installation options, please have a look at [Polylith tool documentation](https://polylith.gitbook.io/poly/install/install).
 
 ###### Create a workspace
 - `` poly create workspace name:realworld-app top-ns:clojure.realworld ``
@@ -90,7 +90,7 @@ At this stage, you should have a copy of this repository.
 poly info
 ```
 
-This command will print out the information about the current workspace. You can find documentation about it in the [Poly tool documentation](https://polylith.gitbook.io/poly/). It should print an output like this:
+This command will print out the information about the current workspace. You can find documentation about it in the [Polylith tool documentation](https://polylith.gitbook.io/poly/). It should print an output like this:
 
 <img src=".media/how-to/08_workspace_info.png" width="60%">
 
