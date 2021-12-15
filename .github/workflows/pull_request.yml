@@ -11,10 +11,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-#      - name: Setup Clojure
-#        uses: DeLaGuardo/setup-clojure@3.6
-#        with:
-#          cli: latest
+      - name: Setup Clojure
+        uses: DeLaGuardo/setup-clojure@3.6
+        with:
+          cli: latest
       - name: Cache deps
         uses: actions/cache@v2
         with:
@@ -27,8 +27,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
             ${{ runner.os }}-
-      - name: Create polylith config
-        run: mkdir -p ~/.polylith && echo "{}" > ~/.polylith/config.edn
       - name: Check Polylith workspace
         run: clojure -A:poly check
       - name: Run tests for polylith workspace
