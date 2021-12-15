@@ -31,8 +31,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
             ${{ runner.os }}-
-      - name: Force clojure to resolve dependencies
-        run: clojure -A:dev:test -P
       - name: Create polylith config if it does not exist
         run: mkdir -p ~/.polylith && echo "{}" > ~/.polylith/config.edn
       - name: Check Polylith workspace
