@@ -44,6 +44,6 @@ jobs:
       - name: Run linter
         uses: DeLaGuardo/clojure-lint-action@master
         with:
-          clj-kondo-args: --lint . --config .clj-kondo/config.edn --fail-level error
+          clj-kondo-args: --lint . --config .clj-kondo/config.edn --fail-level error # this won't show errors on report
           check-name: Linter report
           github_token: ${{ secrets.GITHUB_TOKEN }}
