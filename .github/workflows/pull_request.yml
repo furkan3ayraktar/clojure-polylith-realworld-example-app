@@ -1,4 +1,4 @@
-name: Clojure CI
+name: CI
 
 
 on:
@@ -20,7 +20,6 @@ jobs:
           cli: latest
       - name: Cache deps
         uses: actions/cache@v2
-        id: restore-cache
         with:
           path: |
             ~/.polylith
@@ -32,12 +31,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
             ${{ runner.os }}-
-      - name: Create polylith config if it does not exist
-        run: mkdir -p ~/.polylith && echo "{}" > ~/.polylith/config.edn
       - name: Check Polylith workspace
         run: clojure -M:poly check
-      - name: Run Poly info
-        run: clojure -M:poly info
       - name: Run tests for polylith workspace
         if: success()
         run: clojure -M:poly test :project
