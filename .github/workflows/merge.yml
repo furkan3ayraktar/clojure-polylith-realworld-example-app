@@ -7,6 +7,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
+  BUILD_PATH: ./scripts/build-uberjar-app.sh
 
 jobs:
   test:
@@ -60,8 +61,10 @@ jobs:
             ~/.gitlibs
             ~/.clojure
           key: ${{ runner.os }}-maven-${{ hashFiles('deps.edn') }}
+      - name: Make executeable
+        run: chmod +x ${{ env.BUILD_PATH }}
       - name: Create uberjar
-        run: ./scripts/build-uberjar-app.sh
+        run: ${{ env.BUILD_PATH }}
       - name: Verify
         run: ls /projects/realworld-backend/target
       - name: Verify
