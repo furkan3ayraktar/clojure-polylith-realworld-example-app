@@ -27,7 +27,7 @@ jobs:
             ~/.m2
             ~/.gitlibs
             ~/.clojure
-            ~/bean-counter/.cpcache
+            ~/clojure-polylith-realworld-example-app/.cpcache
           key: ${{ runner.os }}-maven-${{ hashFiles('deps.edn') }}
           restore-keys: |
             ${{ runner.os }}-maven-

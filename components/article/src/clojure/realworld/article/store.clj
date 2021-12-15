@@ -3,6 +3,7 @@
             [clojure.realworld.database.interface :as database]
             [clojure.string :as str]
             [honeysql.core :as sql]))
+(def trans-conn {})
 
 (defn find-by-slug [slug]
   (let [query {:select [:*]
