@@ -34,10 +34,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
             ${{ runner.os }}-
-      - name: Create polylith config
-        run: mkdir -p ~/.polylith && echo "{}" > ~/.polylith/config.edn
-      - name: Check Polylith workspace
-        run: clojure -A:poly check
+
       - name: Run tests for polylith workspace
         if: success()
         run: clojure -A:poly test
