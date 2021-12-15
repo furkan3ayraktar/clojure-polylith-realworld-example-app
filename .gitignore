@@ -16,6 +16,8 @@
 *.iws
 *.ipr
 
+**/.clj-kondo/.cache
+
 # Cursive Clojure plugin
 .idea/replstate.xml
 .nrepl-port

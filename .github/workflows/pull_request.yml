@@ -36,8 +36,14 @@ jobs:
         run: mkdir -p ~/.polylith && echo "{}" > ~/.polylith/config.edn
       - name: Check Polylith workspace
         run: clojure -M:poly check
+      - name: Run Poly info
+          run: clojure -M:poly info
+      - name: Run linter
+        uses: DeLaGuardo/clojure-lint-action@master
+        with:
+          clj-kondo-args: --lint . --config .clj-kondo/config.edn
+          check-name: This is a report name
+          github_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Run tests for polylith workspace
         if: success()
         run: clojure -M:poly test :project
-      - name: Run Poly info
-        run: clojure -M:poly info
