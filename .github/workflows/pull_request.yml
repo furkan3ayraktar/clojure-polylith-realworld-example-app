@@ -10,7 +10,7 @@ jobs:
   check:
     name: Build, test, lint, poly check
     runs-on: ubuntu-latest
-    working_directory: ~/clojure-polylith-realworld-example-app
+    working-directory: ~/clojure-polylith-realworld-example-app
     steps:
       - name: Checkout
         uses: actions/checkout@v2
