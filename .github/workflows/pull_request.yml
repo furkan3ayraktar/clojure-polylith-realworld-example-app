@@ -25,7 +25,6 @@ jobs:
             ~/.m2
             ~/.gitlibs
             ~/.clojure
-            ~/clojure-polylith-realworld-example-app/.cljkondo
             ~/clojure-polylith-realworld-example-app/.cpcache
           key: ${{ runner.os }}-maven-${{ hashFiles('deps.edn') }}
           restore-keys: |
@@ -37,4 +36,4 @@ jobs:
         run: clojure -A:poly check
       - name: Run tests for polylith workspace
         if: success()
-        run: clojure -A:poly test :project
+        run: clojure -A:poly test
