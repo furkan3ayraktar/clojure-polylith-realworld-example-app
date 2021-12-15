@@ -62,9 +62,9 @@ jobs:
             ~/.clojure
           key: ${{ runner.os }}-maven-${{ hashFiles('deps.edn') }}
       - name: Setup Clojure
-          uses: DeLaGuardo/setup-clojure@3.6
-          with:
-            cli: latest
+        uses: DeLaGuardo/setup-clojure@3.6
+        with:
+          cli: latest
       - name: Make executeable
         run: chmod +x ${{ env.BUILD_PATH }}
       - name: Create uberjar
