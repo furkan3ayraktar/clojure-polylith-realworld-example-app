@@ -1,6 +1,5 @@
 name: CI
 
-
 on:
   push:
     branches: ['master']
@@ -32,8 +31,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
             ${{ runner.os }}-
-      - name: Create polylith config if it does not exist
-        run: mkdir -p ~/.polylith && echo "{}" > ~/.polylith/config.edn #aa
+      - name: Create polylith config
+        run: mkdir -p ~/.polylith && echo "{}" > ~/.polylith/config.edn
       - name: Check Polylith workspace
         run: clojure -M:poly check
       - name: Run tests for polylith workspace
@@ -42,6 +41,6 @@ jobs:
       - name: Run linter
         uses: DeLaGuardo/clojure-lint-action@master
         with:
-          clj-kondo-args: --lint . --config .clj-kondo/config.edn --fail-level error # this won't show errors on report
+          clj-kondo-args: --lint . --config .clj-kondo/config.edn # --fail-level error
           check-name: Linter report
           github_token: ${{ secrets.GITHUB_TOKEN }}
