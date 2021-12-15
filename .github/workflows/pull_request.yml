@@ -31,6 +31,8 @@ jobs:
             ${{ runner.os }}-
       - name: Create polylith config
         run: mkdir -p ~/.polylith && echo "{}" > ~/.polylith/config.edn
+      - name: Force clojure to resolve dependencies
+        run: clojure -A:dev:test -P
       - name: Check Polylith workspace
         run: clojure -A:poly check
       - name: Run tests for polylith workspace
