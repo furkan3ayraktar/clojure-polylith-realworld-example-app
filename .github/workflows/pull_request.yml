@@ -35,9 +35,9 @@ jobs:
       - name: Create polylith config if it does not exist
         run: mkdir -p ~/.polylith && echo "{}" > ~/.polylith/config.edn
       - name: Check Polylith workspace
-        run: clojure -A:poly check
-      - name: Run Poly info
-        run: clojure -A:poly info
+        run: clojure -M:poly check
       - name: Run tests for polylith workspace
         if: success()
-        run: clojure -A:poly test :project
+        run: clojure -M:poly test :project
+      - name: Run Poly info
+          run: clojure -M:poly info
