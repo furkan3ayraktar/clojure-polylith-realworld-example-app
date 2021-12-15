@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-./build-uberjar.sh realworld-backend
+./scripts/build-uberjar.sh realworld-backend
