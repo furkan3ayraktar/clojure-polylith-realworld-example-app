@@ -10,6 +10,8 @@ jobs:
   check:
     name: Build, test, lint, poly check
     runs-on: ubuntu-latest
+    permissions:
+      checks: write
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -43,4 +45,4 @@ jobs:
         with:
           clj-kondo-args: --lint . --config .clj-kondo/config.edn # --fail-level error
           check-name: Linter report
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ github.token }}
