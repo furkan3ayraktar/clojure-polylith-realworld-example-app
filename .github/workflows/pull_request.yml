@@ -40,4 +40,4 @@ jobs:
         if: success()
         run: clojure -M:poly test :project
       - name: Run Poly info
-          run: clojure -M:poly info
+        run: clojure -M:poly info
