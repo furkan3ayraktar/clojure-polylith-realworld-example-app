@@ -8,8 +8,40 @@ on:
 #    branches: ['main']
 
 jobs:
+  check:
+    name: Poly check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Clojure
+        uses: DeLaGuardo/setup-clojure@3.6
+        with:
+          cli: latest
+      - name: Cache deps
+        uses: actions/cache@v2
+        id: restore-cache
+        with:
+          path: |
+            ~/.polylith
+            ~/.m2
+            ~/.gitlibs
+            ~/.clojure
+          key: ${{ runner.os }}-maven-${{ hashFiles('deps.edn') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+            ${{ runner.os }}-
+      - name: Force clojure to resolve dependencies
+        run: clojure -A:dev:test -P
+      - name: Create polylith config if it does not exist
+        run: mkdir -p ~/.polylith && echo "{}" > ~/.polylith/config.edn
+      - name: Check Polylith workspace
+        run: clojure -A:poly check
+
+
   test:
     name: Test - unit, integration
+    needs: [check]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
