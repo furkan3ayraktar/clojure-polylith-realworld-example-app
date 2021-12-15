@@ -13,6 +13,7 @@
     (first results)))
 
 (defn insert-article! [article-input]
+  (println "A")
   (jdbc/insert! (database/db) :article article-input {:entities identity}))
 
 (defn tags-with-names [tag-names]
