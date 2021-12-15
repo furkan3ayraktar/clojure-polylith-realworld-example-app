@@ -37,7 +37,7 @@ jobs:
       - name: Check Polylith workspace
         run: clojure -M:poly check
       - name: Run Poly info
-          run: clojure -M:poly info
+        run: clojure -M:poly info
       - name: Run linter
         uses: DeLaGuardo/clojure-lint-action@master
         with:
