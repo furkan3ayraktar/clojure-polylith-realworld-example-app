@@ -13,6 +13,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Prepare java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'zulu'
+          java-version: '8'
       - name: Setup Clojure
         uses: DeLaGuardo/setup-clojure@3.6
         with:
@@ -31,13 +36,8 @@ jobs:
             ${{ runner.os }}-
       - name: Create polylith config
         run: mkdir -p ~/.polylith && echo "{}" > ~/.polylith/config.edn
-      - name: Force clojure to resolve dependencies
-        run: clojure -A:dev:test -P
       - name: Check Polylith workspace
         run: clojure -A:poly check
       - name: Run tests for polylith workspace
         if: success()
         run: clojure -A:poly test
-      - name: runn
-        run: clojure -e "(+ 1 1)"
-        shell: bash
