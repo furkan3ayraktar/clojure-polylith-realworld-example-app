@@ -1,0 +1,26 @@
+name: Clojure CI
+
+
+on:
+  push:
+    branches: ['master']
+#  pull_request:
+#    branches: ['main']
+
+jobs:
+  poly-check:
+    name: Runs poly check
+  test:
+    name: Test - unit, integration
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Clojure
+        uses: DeLaGuardo/setup-clojure@3.6
+        with:
+          cli: latest
+      - name: Create polylith config if it does not exist
+        run: mkdir -p ~/.polylith && echo "{}" > ~/.polylith/config.edn
+      - name: Check Polylith workspace
+        run: clojure -A:poly check
