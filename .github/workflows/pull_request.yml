@@ -10,8 +10,6 @@ jobs:
   check:
     name: Build, test, lint, poly check
     runs-on: ubuntu-latest
-#    permissions:
-#      checks: write
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -40,9 +38,3 @@ jobs:
       - name: Run tests for polylith workspace
         if: success()
         run: clojure -A:poly test :project
-      - name: Run linter
-        uses: DeLaGuardo/clojure-lint-action@master
-        with:
-          clj-kondo-args: --lint . --config .clj-kondo/config.edn --fail-level error
-          check-name: Linter report
-          github_token: ${{ github.token }}
