@@ -33,7 +33,7 @@ jobs:
             ${{ runner.os }}-maven-
             ${{ runner.os }}-
       - name: Create polylith config if it does not exist
-        run: mkdir -p ~/.polylith && echo "{}" > ~/.polylith/config.edn
+        run: mkdir -p ~/.polylith && echo "{}" > ~/.polylith/config.edn #aa
       - name: Check Polylith workspace
         run: clojure -M:poly check
       - name: Run tests for polylith workspace
