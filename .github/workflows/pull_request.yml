@@ -26,11 +26,14 @@ jobs:
             ~/.m2
             ~/.gitlibs
             ~/.clojure
+            ~/clojure-polylith-realworld-example-app/.cljkondo
             ~/clojure-polylith-realworld-example-app/.cpcache
           key: ${{ runner.os }}-maven-${{ hashFiles('deps.edn') }}
           restore-keys: |
             ${{ runner.os }}-maven-
             ${{ runner.os }}-
+      - name: Create polylith config if it does not exist
+        run: mkdir -p ~/.polylith && echo "{}" > ~/.polylith/config.edn
       - name: Check Polylith workspace
         run: clojure -M:poly check
       - name: Run tests for polylith workspace
