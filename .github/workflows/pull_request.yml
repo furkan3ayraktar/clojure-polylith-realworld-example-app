@@ -9,7 +9,7 @@ on:
 
 jobs:
   check:
-    name: Poly check
+    name: Build, poly check, test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -27,6 +27,7 @@ jobs:
             ~/.m2
             ~/.gitlibs
             ~/.clojure
+            ~/bean-counter/.cpcache
           key: ${{ runner.os }}-maven-${{ hashFiles('deps.edn') }}
           restore-keys: |
             ${{ runner.os }}-maven-
@@ -35,20 +36,8 @@ jobs:
         run: mkdir -p ~/.polylith && echo "{}" > ~/.polylith/config.edn
       - name: Check Polylith workspace
         run: clojure -A:poly check
-
-
-  test:
-    name: Test - unit, integration
-    needs: [check]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Setup Clojure
-        uses: DeLaGuardo/setup-clojure@3.6
-        with:
-          cli: latest
-      - name: Create polylith config if it does not exist
-        run: mkdir -p ~/.polylith && echo "{}" > ~/.polylith/config.edn
-      - name: Check Polylith workspace
-        run: clojure -A:poly check
+      - name: Run Poly info
+        run: clojure -A:poly info
+      - name: Run tests for polylith workspace
+        if: success()
+        run: clojure -A:poly test :project
