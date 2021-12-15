@@ -36,3 +36,6 @@ jobs:
       - name: Run tests for polylith workspace
         if: success()
         run: clojure -A:poly test
+      - name: runn
+        run: clojure -e "(+ 1 1)"
+        shell: bash
