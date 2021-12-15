@@ -9,7 +9,7 @@ on:
 
 jobs:
   check:
-    name: Build, poly check, test
+    name: Build, test, lint, poly check
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -44,6 +44,6 @@ jobs:
       - name: Run linter
         uses: DeLaGuardo/clojure-lint-action@master
         with:
-          clj-kondo-args: --lint . --config .clj-kondo/config.edn
+          clj-kondo-args: --lint . --config .clj-kondo/config.edn --fail-level error
           check-name: Linter report
           github_token: ${{ secrets.GITHUB_TOKEN }}
