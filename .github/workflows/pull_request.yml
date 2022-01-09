@@ -29,4 +29,4 @@ jobs:
             ${{ runner.os }}-
       - name: Run tests for polylith workspace
         if: success()
-        run: clojure -A:poly test :project
+        run: clojure -M:poly test :project
