@@ -1,8 +1,8 @@
 name: CI
 
 on:
-  pull_request:
-    branches: ['master']
+  push
+# branches: ['master']
 
 jobs:
   test:
@@ -14,7 +14,7 @@ jobs:
       - name: Setup Clojure
         uses: DeLaGuardo/setup-clojure@3.6
         with:
-          cli: latest
+          cli: latest # based on tools.deps
       - name: Cache deps
         uses: actions/cache@v2
         with:
@@ -27,10 +27,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
             ${{ runner.os }}-
-      - name: Create polylith config
-        run: mkdir -p ~/.polylith && echo "{}" > ~/.polylith/config.edn
-      - name: Check Polylith workspace
-        run: clojure -A:poly check
       - name: Run tests for polylith workspace
         if: success()
         run: clojure -A:poly test :project

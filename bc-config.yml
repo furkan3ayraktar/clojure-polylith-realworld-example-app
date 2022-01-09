@@ -1,0 +1,95 @@
+version: 2.0
+
+workflows:
+  version: 2
+  validate-test:
+    jobs:
+      - check
+      - info:
+          requires:
+            - check
+      - test:
+          requires:
+            - check
+jobs:
+  check:
+    docker:
+      - image: circleci/clojure:tools-deps-1.10.3.855
+    working_directory: ~/bean-counter
+    steps:
+      - checkout
+      - run:
+          name: Get rid of erroneous git config
+          command: |
+            rm -rf ~/.gitconfig
+      - restore_cache:
+          keys:
+            - bean-counter-{{ checksum "deps.edn" }}-{{ checksum "projects/commissions-rest-api-service/deps.edn" }}
+            - bean-counter-
+      - run:
+          name: Create polylith config if it does not exists
+          command: mkdir -p ~/.polylith && echo "{}" > ~/.polylith/config.edn
+      - run:
+          name: Force clojure to resolve dependencies
+          command: clojure -A:dev:test -P
+      - run:
+          name: Check Polylith workspace
+          command: clojure -A:poly check
+      - save_cache:
+          key: bean-counter-{{ checksum "deps.edn" }}-{{ checksum "projects/commissions-rest-api-service/deps.edn" }}
+          paths:
+            - ~/.polylith
+            - ~/.m2
+            - ~/.gitlibs
+            - ~/.clojure
+            - ~/bean-counter/.cpcache
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+
+  info:
+    docker:
+      - image: circleci/clojure:tools-deps-1.10.3.855
+    working_directory: ~/bean-counter
+    steps:
+      - attach_workspace:
+          at: ~/bean-counter
+      - restore_cache:
+          keys:
+            - bean-counter-{{ checksum "deps.edn" }}-{{ checksum "projects/commissions-rest-api-service/deps.edn" }}
+      - run:
+          name: Run ws command for Polylith workspace
+          command: clojure -A:poly ws
+      - run:
+          name: Run info command for Polylith workspace
+          command: clojure -A:poly info
+      - run:
+          name: Run deps command for Polylith workspace
+          command: clojure -A:poly deps
+      - run:
+          name: Run libs command for Polylith workspace
+          command: clojure -A:poly libs
+
+  test:
+    docker:
+      - image: circleci/clojure:tools-deps-1.10.3.855
+      - image: circleci/mysql:5.7-ram
+        environment:
+          - MYSQL_DATABASE: agents_test
+          - MYSQL_USER: rich
+          - MYSQL_PASSWORD: hickey
+          - MYSQL_TCP_PORT: 3309
+    working_directory: ~/bean-counter
+    steps:
+      - attach_workspace:
+          at: ~/bean-counter
+      - restore_cache:
+          keys:
+            - bean-counter-{{ checksum "deps.edn" }}-{{ checksum "projects/commissions-rest-api-service/deps.edn" }}
+      - run:
+          name: Wait for DB
+          command: dockerize -wait tcp://localhost:3309 -timeout 1m
+      - run:
+          name: Run tests for Polylith workspace
+          command: clojure -A:poly test :project

@@ -43,7 +43,7 @@ jobs:
 
   docker-publish:
     name: Publish docker image
-#    needs: [test]
+    needs: [test]
     runs-on: ubuntu-latest
     permissions:
       contents: read
