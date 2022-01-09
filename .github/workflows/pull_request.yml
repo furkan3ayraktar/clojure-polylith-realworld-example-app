@@ -27,6 +27,15 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
             ${{ runner.os }}-
+      - name: Get rid of erroneous git config
+        run: |
+          rm -rf ~/.gitconfig
+      - name: Create polylith config if it does not exists
+        run: mkdir -p ~/.polylith && echo "{}" > ~/.polylith/config.edn
+      - name: Force clojure to resolve dependencies
+        run: clojure -M:dev:test -P
+      - name: Check Polylith workspace
+        rum: clojure -MA:poly check
       - name: Run tests for polylith workspace
         if: success()
         run: clojure -M:poly test :project
