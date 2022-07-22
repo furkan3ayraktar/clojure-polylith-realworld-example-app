@@ -18,7 +18,7 @@ Now the Polylith RealWorld backend is up on port 6003!
 
 ### Test it with a RealWorld Frontend
 
-A sweet way to put the sever to some tests is to fork the [re-frame RealWorld frontend by Jacek Schae](https://github.com/jacekschae/conduit) and modify it to run against this server by editing the definition of `api-url` in `src/conduit/events.cljs` to be:
+A sweet way to put the server to some tests is to fork the [re-frame RealWorld frontend by Jacek Schae](https://github.com/jacekschae/conduit) and modify it to run against this server by editing the definition of `api-url` in `src/conduit/events.cljs` to be:
 
 ```clojure
 (def api-url "http://localhost:6003/api")
@@ -342,7 +342,7 @@ Refer to the [Polylith tool documentation](https://polylith.gitbook.io/poly/comm
 <img src=".media/readme/02_polylith_info.png" width="50%">
 
 ### Check workspace integrity
-In order to guarantee workspace integrity, which means all components refer to each other throgh their interfaces.
+In order to guarantee workspace integrity, which means all components refer to each other through their interfaces.
 The Polylith tool provides you with the `` poly check `` command that will check the entire workspace and print out errors and/or warnings, if any.
 
 ### Running tests
