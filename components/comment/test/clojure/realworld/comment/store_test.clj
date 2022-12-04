@@ -1,5 +1,5 @@
 (ns clojure.realworld.comment.store-test
-  (:require [clj-time.core :as t]
+  (:require [cljc.java-time.instant :as i]
             [clojure.java.jdbc :as jdbc]
             [clojure.realworld.comment.store :as store]
             [clojure.realworld.database.interface :as database]
@@ -42,7 +42,7 @@
     (is (nil? comment))))
 
 (deftest add-comment!--test
-  (let [now (t/now)
+  (let [now (i/now)
         comment {:body      "body"
                  :createdAt now
                  :updatedAt now
@@ -57,7 +57,7 @@
     (is (= 1 res))))
 
 (deftest delete-comment!--test
-  (let [now (t/now)
+  (let [now (i/now)
         _ (store/add-comment! {:body      "body"
                                :createdAt now
                                :updatedAt now

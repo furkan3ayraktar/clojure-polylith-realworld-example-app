@@ -1,5 +1,5 @@
 (ns clojure.realworld.comment.core
-  (:require [clj-time.core :as t]
+  (:require [cljc.java-time.instant :as i]
             [clojure.realworld.article.interface :as article]
             [clojure.realworld.comment.store :as store]
             [clojure.realworld.profile.interface :as profile]))
@@ -23,7 +23,7 @@
 (defn add-comment! [auth-user slug {:keys [body]}]
   (let [[ok? {:keys [article]}] (article/article auth-user slug)]
     (if ok?
-      (let [now (t/now)
+      (let [now (i/now)
             comment {:body      body
                      :articleId (:id article)
                      :userId    (:id auth-user)
