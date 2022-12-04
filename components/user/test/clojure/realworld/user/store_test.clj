@@ -20,11 +20,11 @@
 (use-fixtures :each prepare-for-tests)
 
 (deftest find-by-key--test
-  (let [_ (jdbc/insert! (test-db) :user {:email    "test@test.com"
-                                         :username "username"})
-        res1 (store/find-by :email "test@test.com")
+  (let [_    (jdbc/insert! (test-db) :user {:email    "test@example.com"
+                                            :username "username"})
+        res1 (store/find-by :email "test@example.com")
         user {:bio      nil
-              :email    "test@test.com"
+              :email    "test@example.com"
               :id       1
               :image    nil
               :password nil
@@ -35,25 +35,25 @@
 
 (deftest insert-user!--test
   (let [user {:bio      "bio"
-              :email    "test@test.com"
+              :email    "test@example.com"
               :image    "image"
               :password "password"
               :username "username"}
-        _ (store/insert-user! user)
-        res (store/find-by-email "test@test.com")]
+        _    (store/insert-user! user)
+        res  (store/find-by-email "test@example.com")]
     (is (= (assoc user :id 1) res))))
 
 (deftest update-user!--test
-  (let [_ (store/insert-user! {:bio      "bio"
-                               :email    "test@test.com"
-                               :image    "image"
-                               :password "password"
-                               :username "username"})
+  (let [_    (store/insert-user! {:bio      "bio"
+                                  :email    "test@example.com"
+                                  :image    "image"
+                                  :password "password"
+                                  :username "username"})
         user {:bio      "updated-bio"
-              :email    "updated-test@test.com"
+              :email    "updated-test@example.com"
               :image    "updated-image"
               :password "updated-password"
               :username "updated-username"}
-        _ (store/update-user! 1 user)
-        res (store/find-by-email "updated-test@test.com")]
+        _    (store/update-user! 1 user)
+        res  (store/find-by-email "updated-test@example.com")]
     (is (= (assoc user :id 1) res))))

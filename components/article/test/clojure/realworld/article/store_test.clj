@@ -172,7 +172,7 @@
         article-after          (store/find-by-slug "slug")
         favorites-count-after  (store/favorites-count 1)
         tags-after             (store/article-tags 1)]
-    (is (not (nil? article-before)))
+    (is (some? article-before))
     (is (= 3 favorites-count-before))
     (is (= ["tag1" "tag2" "tag3"] tags-before))
     (is (nil? article-after))

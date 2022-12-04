@@ -6,18 +6,18 @@
  :mvn/repos {"central" {:url "https://repo1.maven.org/maven2/"}
              "clojars" {:url "https://clojars.org/repo"}}
 
- :deps      {poly/article  {:local/root "../../components/article"}
-             poly/comment  {:local/root "../../components/comment"}
-             poly/database {:local/root "../../components/database"}
-             poly/env      {:local/root "../../components/env"}
-             poly/log      {:local/root "../../components/log"}
-             poly/profile  {:local/root "../../components/profile"}
-             poly/spec     {:local/root "../../components/spec"}
-             poly/tag      {:local/root "../../components/tag"}
-             poly/user     {:local/root "../../components/user"}
-             poly/rest-api {:local/root "../../bases/rest-api"}
+ :deps      {poly/article        {:local/root "../../components/article"}
+             poly/comment        {:local/root "../../components/comment"}
+             poly/database       {:local/root "../../components/database"}
+             poly/env            {:local/root "../../components/env"}
+             poly/log            {:local/root "../../components/log"}
+             poly/profile        {:local/root "../../components/profile"}
+             poly/spec           {:local/root "../../components/spec"}
+             poly/tag            {:local/root "../../components/tag"}
+             poly/user           {:local/root "../../components/user"}
+             poly/rest-api       {:local/root "../../bases/rest-api"}
 
-             org.clojure/clojure {:mvn/version "1.10.3"}}
+             org.clojure/clojure {:mvn/version "1.11.1"}}
 
  :aliases   {:test    {:extra-paths []
                        :extra-deps  {org.clojure/test.check {:mvn/version "0.10.0-alpha3"}}}
@@ -30,8 +30,8 @@
                                     "--aliases" "aot"
                                     "--main-class" "clojure.realworld.rest_api.main"]}
 
-             :ring {:extra-deps {furkan3ayraktar/polylith-clj-deps-ring {:git/url   "https://github.com/furkan3ayraktar/polylith-clj-deps-ring.git"
-                                                                         :sha       "7bb68846bb8a200a486a2886f1af95984538ec25"
-                                                                         :deps/root "projects/core"}}
+             :ring    {:extra-deps {furkan3ayraktar/polylith-clj-deps-ring {:git/url   "https://github.com/furkan3ayraktar/polylith-clj-deps-ring.git"
+                                                                            :sha       "7bb68846bb8a200a486a2886f1af95984538ec25"
+                                                                            :deps/root "projects/core"}}
 
-                    :main-opts  ["-m" "polylith.clj-deps-ring.cli.main" "start"]}}}
+                       :main-opts  ["-m" "polylith.clj-deps-ring.cli.main" "start"]}}}

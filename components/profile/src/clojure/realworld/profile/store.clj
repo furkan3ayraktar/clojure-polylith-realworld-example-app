@@ -9,7 +9,7 @@
                :where  [:and [:= :userId user-id]
                         [:= :followedUserId followed-user-id]]}
         results (jdbc/query (database/db) (sql/format query))]
-    (-> results first nil? not)))
+    (-> results first some?)))
 
 (defn follow! [user-id followed-user-id]
   (when-not (following? user-id followed-user-id)

@@ -1,10 +1,10 @@
 (ns clojure.realworld.user.core
-  (:require [clojure.realworld.user.store :as store]
-            [crypto.password.pbkdf2 :as crypto]
-            [clj-jwt.core :as jwt]
-            [clj-time.coerce :as c]
-            [clj-time.core :as t]
-            [clojure.realworld.env.interface :as env]))
+  (:require [buddy.sign.jwt :as jwt]
+            [cljc.java-time.instant :as i]
+            [cljc.java-time.zoned-date-time :as zdt]
+            [clojure.realworld.env.interface :as env]
+            [clojure.realworld.user.store :as store]
+            [crypto.password.pbkdf2 :as crypto]))
 
 (defn- token-secret []
   (if (contains? env/env :secret)
@@ -12,32 +12,38 @@
     "some-default-secret-do-not-use-it"))
 
 (defn- generate-token [email username]
-  (let [now (t/now)
+  (let [now   (zdt/now)
         claim {:sub username
                :iss email
-               :exp (t/plus now (t/days 7))
-               :iat now}]
-    (-> claim jwt/jwt (jwt/sign :HS256 (token-secret)) jwt/to-str)))
-
-(defn- jwt-str->jwt [jwt-string]
-  (try
-    (jwt/str->jwt jwt-string)
-    (catch Exception _
-      nil)))
+               :exp (zdt/to-instant (zdt/plus-days now 7))
+               :iat (zdt/to-instant now)}]
+    (jwt/sign claim (token-secret) {:alg :hs256})))
 
 (defn- expired? [jwt]
-  (if-let [exp (-> jwt :claims :exp)]
+  (if-let [exp (:exp jwt)]
     (try
-      (t/before? (c/from-long (* 1000 exp)) (t/now))
+      (i/is-before (i/of-epoch-second exp) (i/now))
       (catch Exception _
         true))
     true))
 
 (defn- token->claims [jwt-string]
-  (when-let [jwt (jwt-str->jwt jwt-string)]
-    (when (and (jwt/verify jwt (token-secret))
-               (not (expired? jwt)))
-      (:claims jwt))))
+  (when-let [claims (jwt/unsign jwt-string (token-secret) {:skip-validation true})]
+    (when-not (expired? claims)
+      claims)))
+
+(fn []
+
+  (token->claims (generate-token "a@b.com" "user"))
+
+  (jwt/unsign "token" (token-secret) {:skip-validation true})
+
+  (-> (generate-token "a@b.com" "user")
+      (jwt/unsign (token-secret) {:skip-validation true})
+      expired?
+      )
+
+  )
 
 (defn encrypt-password [password]
   (-> password crypto/encrypt str))
@@ -56,45 +62,46 @@
     [false {:errors {:email ["Invalid email."]}}]))
 
 (defn register! [{:keys [username email password]}]
-  (if-let [_ (store/find-by-email email)]
+  (if (store/find-by-email email)
     [false {:errors {:email ["A user exists with given email."]}}]
-    (if-let [_ (store/find-by-username username)]
+    (if (store/find-by-username username)
       [false {:errors {:username ["A user exists with given username."]}}]
-      (let [new-token (generate-token email username)
-            user-input {:email    email
-                        :username username
-                        :password (encrypt-password password)}
-            _ (store/insert-user! user-input)]
+      (do
+        (store/insert-user! {:email    email
+                             :username username
+                             :password (encrypt-password password)})
         (if-let [user (store/find-by-email email)]
-          [true (user->visible-user user new-token)]
+          [true (user->visible-user user (generate-token email username))]
           [false {:errors {:other ["Cannot insert user into db."]}}])))))
 
 (defn user-by-token [token]
-  (let [claims (token->claims token)
-        username (:sub claims)
-        user (store/find-by-username username)]
-    (if user
+  (let [claims   (try
+                   (token->claims token)
+                   (catch Exception _
+                     nil))
+        username (:sub claims)]
+    (if-let [user (store/find-by-username username)]
       [true (user->visible-user user token)]
       [false {:errors {:token ["Cannot find a user with associated token."]}}])))
 
 (defn update-user! [auth-user {:keys [username email password image bio]}]
-  (if (and (not (nil? email))
+  (if (and (some? email)
            (not= email (:email auth-user))
-           (not (nil? (store/find-by-email email))))
+           (some? (store/find-by-email email)))
     [false {:errors {:email ["A user exists with given email."]}}]
-    (if (and (not (nil? username))
+    (if (and (some? username)
              (not= username (:username auth-user))
-             (not (nil? (store/find-by-username username))))
+             (some? (store/find-by-username username)))
       [false {:errors {:username ["A user exists with given username."]}}]
-      (let [email-to-use (if email email (:email auth-user))
-            optional-map (filter #(-> % val nil? not)
-                                 {:password (when password (encrypt-password password))
+      (let [email-to-use (or email (:email auth-user))
+            optional-map (filter #(-> % val some?)
+                                 {:password (some-> password encrypt-password)
                                   :email    (when email email)
                                   :username (when username username)})
-            user-input (merge {:image image
-                               :bio   bio}
-                              optional-map)
-            _ (store/update-user! (:id auth-user) user-input)]
+            user-input   (merge {:image image
+                                 :bio   bio}
+                                optional-map)]
+        (store/update-user! (:id auth-user) user-input)
         (if-let [updated-user (store/find-by-email email-to-use)]
           [true (user->visible-user updated-user (:token auth-user))]
           [false {:errors {:other ["Cannot update user."]}}])))))

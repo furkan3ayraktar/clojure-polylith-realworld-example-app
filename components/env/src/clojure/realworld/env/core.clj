@@ -36,9 +36,9 @@
         {}))))
 
 (def env
-  (let [env-file (read-env-file "env.edn")
+  (let [env-file     (read-env-file "env.edn")
         system-props (read-system-props)
-        system-env (read-system-env)]
+        system-env   (read-system-env)]
     (merge system-props
            system-env
            env-file)))

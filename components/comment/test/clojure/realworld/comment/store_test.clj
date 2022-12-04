@@ -66,5 +66,5 @@
         comment-before (store/find-by-id 1)
         _ (store/delete-comment! 1)
         comment-after (store/find-by-id 1)]
-    (is (not (nil? comment-before)))
+    (is (some? comment-before))
     (is (nil? comment-after))))

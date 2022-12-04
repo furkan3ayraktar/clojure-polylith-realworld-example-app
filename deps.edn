@@ -27,14 +27,14 @@
                                   "bases/rest-api/src"
                                   "bases/rest-api/resources"]
 
-                    :extra-deps  {clj-time/clj-time                     {:mvn/version "0.15.2"}
-                                  clj-jwt/clj-jwt                       {:mvn/version "0.1.1"}
+                    :extra-deps  {buddy/buddy-sign                      {:mvn/version "3.4.333"}
+                                  com.widdindustries/cljc.java-time     {:mvn/version "0.1.21"}
                                   com.taoensso/timbre                   {:mvn/version "4.10.0"}
                                   compojure/compojure                   {:mvn/version "1.6.0"}
                                   crypto-password/crypto-password       {:mvn/version "0.2.0"}
                                   honeysql/honeysql                     {:mvn/version "0.9.2"}
                                   metosin/spec-tools                    {:mvn/version "0.6.1"}
-                                  org.clojure/clojure                   {:mvn/version "1.10.3"}
+                                  org.clojure/clojure                   {:mvn/version "1.11.1"}
                                   org.clojure/data.json                 {:mvn/version "0.2.6"}
                                   org.clojure/java.jdbc                 {:mvn/version "0.7.5"}
                                   org.xerial/sqlite-jdbc                {:mvn/version "3.7.2"}
