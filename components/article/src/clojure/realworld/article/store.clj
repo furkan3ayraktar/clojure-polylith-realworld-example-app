@@ -5,9 +5,9 @@
             [honeysql.core :as sql]))
 
 (defn find-by-slug [slug]
-  (let [query {:select [:*]
-               :from   [:article]
-               :where  [:= :slug slug]}
+  (let [query   {:select [:*]
+                 :from   [:article]
+                 :where  [:= :slug slug]}
         results (jdbc/query (database/db) (sql/format query) {:identifiers identity})]
     (first results)))
 
@@ -15,25 +15,25 @@
   (jdbc/insert! (database/db) :article article-input {:entities identity}))
 
 (defn tags-with-names [tag-names]
-  (let [query {:select [:*]
-               :from   [:tag]
-               :where  [:in :name tag-names]}
+  (let [query   {:select [:*]
+                 :from   [:tag]
+                 :where  [:in :name tag-names]}
         results (jdbc/query (database/db) (sql/format query))]
     results))
 
 (defn add-tags-to-article! [article-id tag-names]
   (when-not (empty? tag-names)
-    (let [tags (tags-with-names tag-names)
+    (let [tags   (tags-with-names tag-names)
           inputs (mapv #(hash-map :articleId article-id
                                   :tagId (:id %))
                        tags)]
       (jdbc/insert-multi! (database/db) :articleTags inputs))))
 
 (defn article-tags [article-id]
-  (let [query {:select [:name]
-               :from   [:articleTags]
-               :join   [:tag [:= :tagId :tag.id]]
-               :where  [:= :articleId article-id]}
+  (let [query   {:select [:name]
+                 :from   [:articleTags]
+                 :join   [:tag [:= :tagId :tag.id]]
+                 :where  [:= :articleId article-id]}
         results (jdbc/query (database/db) (sql/format query))]
     (mapv :name results)))
 
@@ -48,17 +48,17 @@
       (insert-tag! name))))
 
 (defn favorited? [user-id article-id]
-  (let [query {:select [:%count.*]
-               :from   [:favoriteArticles]
-               :where  [:and [:= :articleId article-id]
-                        [:= :userId user-id]]}
+  (let [query  {:select [:%count.*]
+                :from   [:favoriteArticles]
+                :where  [:and [:= :articleId article-id]
+                         [:= :userId user-id]]}
         result (jdbc/query (database/db) (sql/format query))]
     (< 0 (-> result first first val))))
 
 (defn favorites-count [article-id]
-  (let [query {:select [:%count.*]
-               :from   [:favoriteArticles]
-               :where  [:= :articleId article-id]}
+  (let [query  {:select [:%count.*]
+                :from   [:favoriteArticles]
+                :where  [:= :articleId article-id]}
         result (jdbc/query (database/db) (sql/format query))]
     (-> result first first val)))
 
@@ -76,9 +76,9 @@
         query-3 {:delete-from :article
                  :where       [:= :id id]}]
     (jdbc/with-db-transaction [trans-conn (database/db)]
-      (jdbc/execute! trans-conn (sql/format query-1))
-      (jdbc/execute! trans-conn (sql/format query-2))
-      (jdbc/execute! trans-conn (sql/format query-3)))
+                              (jdbc/execute! trans-conn (sql/format query-1))
+                              (jdbc/execute! trans-conn (sql/format query-2))
+                              (jdbc/execute! trans-conn (sql/format query-3)))
     nil))
 
 (defn favorite! [user-id article-id]
@@ -94,57 +94,57 @@
       (jdbc/execute! (database/db) (sql/format query)))))
 
 (defn feed [user-id limit offset]
-  (let [query {:select   [:a.*]
-               :from     [[:article :a]]
-               :join     [[:userFollows :u] [:= :a.userId :u.followedUserId]]
-               :where    [:= :u.userId user-id]
-               :order-by [[:a.updatedAt :desc] [:a.id :desc]]
-               :limit    limit
-               :offset   offset}
+  (let [query   {:select   [:a.*]
+                 :from     [[:article :a]]
+                 :join     [[:userFollows :u] [:= :a.userId :u.followedUserId]]
+                 :where    [:= :u.userId user-id]
+                 :order-by [[:a.updatedAt :desc] [:a.id :desc]]
+                 :limit    limit
+                 :offset   offset}
         results (jdbc/query (database/db) (sql/format query) {:identifiers identity})]
     results))
 
 (defn articles-by-tag [limit offset tag]
-  (let [query {:select   [:a.*]
-               :from     [[:article :a]]
-               :join     [[:articleTags :at] [:= :a.id :at.articleId]
-                          [:tag :t] [:= :at.tagId :t.id]]
-               :where    [:= :t.name tag]
-               :order-by [[:updatedAt :desc] [:id :desc]]
-               :limit    limit
-               :offset   offset}
+  (let [query   {:select   [:a.*]
+                 :from     [[:article :a]]
+                 :join     [[:articleTags :at] [:= :a.id :at.articleId]
+                            [:tag :t] [:= :at.tagId :t.id]]
+                 :where    [:= :t.name tag]
+                 :order-by [[:updatedAt :desc] [:id :desc]]
+                 :limit    limit
+                 :offset   offset}
         results (jdbc/query (database/db) (sql/format query) {:identifiers identity})]
     results))
 
 (defn articles-by-author [limit offset author]
-  (let [query {:select   [:a.*]
-               :from     [[:article :a]]
-               :join     [[:user :u] [:= :a.userId :u.id]]
-               :where    [:= :u.username author]
-               :order-by [[:updatedAt :desc] [:id :desc]]
-               :limit    limit
-               :offset   offset}
+  (let [query   {:select   [:a.*]
+                 :from     [[:article :a]]
+                 :join     [[:user :u] [:= :a.userId :u.id]]
+                 :where    [:= :u.username author]
+                 :order-by [[:updatedAt :desc] [:id :desc]]
+                 :limit    limit
+                 :offset   offset}
         results (jdbc/query (database/db) (sql/format query) {:identifiers identity})]
     results))
 
 (defn articles-by-favorited [limit offset favorited]
-  (let [query {:select   [:a.*]
-               :from     [[:article :a]]
-               :join     [[:favoriteArticles :fa] [:= :a.id :fa.articleId]
-                          [:user :u] [:= :fa.userId :u.id]]
-               :where    [:= :u.username favorited]
-               :order-by [[:updatedAt :desc] [:id :desc]]
-               :limit    limit
-               :offset   offset}
+  (let [query   {:select   [:a.*]
+                 :from     [[:article :a]]
+                 :join     [[:favoriteArticles :fa] [:= :a.id :fa.articleId]
+                            [:user :u] [:= :fa.userId :u.id]]
+                 :where    [:= :u.username favorited]
+                 :order-by [[:updatedAt :desc] [:id :desc]]
+                 :limit    limit
+                 :offset   offset}
         results (jdbc/query (database/db) (sql/format query) {:identifiers identity})]
     results))
 
 (defn all-articles [limit offset]
-  (let [query {:select   [:*]
-               :from     [:article]
-               :order-by [[:updatedAt :desc] [:id :desc]]
-               :limit    limit
-               :offset   offset}
+  (let [query   {:select   [:*]
+                 :from     [:article]
+                 :order-by [[:updatedAt :desc] [:id :desc]]
+                 :limit    limit
+                 :offset   offset}
         results (jdbc/query (database/db) (sql/format query) {:identifiers identity})]
     results))
 
