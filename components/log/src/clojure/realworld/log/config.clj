@@ -66,7 +66,7 @@
                        (when-not (.exists log)
                          (io/make-parents log))
                        (if (.exists log)
-                         (if (<= (.lastModified log) (.getTimeInMillis prev-cal))
+                         (when (<= (.lastModified log) (.getTimeInMillis prev-cal))
                            (shift-log-period log path prev-cal))
                          (.createNewFile log))
                        (spit path (with-out-str (println output-str)) :append true)

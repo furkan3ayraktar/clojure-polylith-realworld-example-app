@@ -1,5 +1,5 @@
 (ns clojure.realworld.rest-api.handler-test
-  (:require [clojure.test :refer :all]
+  (:require [clojure.test :refer [deftest is use-fixtures]]
             [clojure.realworld.article.interface :as article]
             [clojure.realworld.article.interface.spec :as article-spec]
             [clojure.realworld.rest-api.handler :as handler]

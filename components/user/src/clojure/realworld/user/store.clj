@@ -20,6 +20,10 @@
 
 (defn find-by-id [id]
   (find-by :id id))
+;; => #'clojure.realworld.user.store/find-by-id
+
+;; => #'clojure.realworld.user.store/find-by-id
+
 
 (defn find-by-username-or-id [username-or-id]
   (if (s/valid? spec/id username-or-id)

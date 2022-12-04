@@ -3,7 +3,7 @@
 
  :aliases   {:dev  {:extra-paths ["development/src"
 
-                                    ; Components
+                                  ; Components
                                   "components/article/src"
                                   "components/article/resources"
                                   "components/comment/src"
@@ -23,7 +23,7 @@
                                   "components/user/src"
                                   "components/user/resources"
 
-                                    ; Bases
+                                  ; Bases
                                   "bases/rest-api/src"
                                   "bases/rest-api/resources"]
 
