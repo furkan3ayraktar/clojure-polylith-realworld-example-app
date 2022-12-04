@@ -11,6 +11,7 @@
 .idea/**/statistic.xml
 .idea/dictionaries/**
 .idea/libraries/**
+.idea/misc.xml
 
 # File-based project format
 *.iws
