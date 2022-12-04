@@ -32,19 +32,6 @@
     (when-not (expired? claims)
       claims)))
 
-(fn []
-
-  (token->claims (generate-token "a@b.com" "user"))
-
-  (jwt/unsign "token" (token-secret) {:skip-validation true})
-
-  (-> (generate-token "a@b.com" "user")
-      (jwt/unsign (token-secret) {:skip-validation true})
-      expired?
-      )
-
-  )
-
 (defn encrypt-password [password]
   (-> password crypto/encrypt str))
 
