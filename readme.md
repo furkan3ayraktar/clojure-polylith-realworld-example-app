@@ -65,6 +65,7 @@ Calva will start and connect to the REPL for you 💫
 - [Stable Points](#stable-points)
 - [Continuous Integration](#continuous-integration)
 - [How to create this workspace from scratch](#how-to-create-this-workspace-from-scratch)
+- [Steps required to use IntelliJ IDEA / Cursive](#steps-required-to-use-intellij-idea--cursive)
 
 
 ### General Structure
@@ -418,6 +419,9 @@ You can achieve the same result with fewer steps once you have learned the comma
 
 ### How to create this workspace from scratch
 You can find necessary steps to create this workspace with Polylith plugin [here](how-to.md).
+
+### Steps required to use IntelliJ IDEA / Cursive
+You can find necessary steps to make this project work in [Intellij IDEA](https://www.jetbrains.com/idea/) / [Cursive](https://cursive-ide.com) plugin [here](cursive.md).
 
 ### Note about deps.edn vs Leiningen
 
