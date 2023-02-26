@@ -9,7 +9,7 @@
   `(core/info ~args))
 
 (defmacro warn [& args]
-  `(core/info ~args))
+  `(core/warn ~args))
 
 (defmacro error [& args]
   `(core/error ~args))

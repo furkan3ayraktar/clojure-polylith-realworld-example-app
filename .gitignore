@@ -3,30 +3,24 @@
 **/.cpcache
 **/.DS_Store
 
-# User-specific stuff
-.idea/**/workspace.xml
-.idea/**/tasks.xml
-.idea/**/usage.statistics.xml
-.idea/**/shelf
-.idea/**/statistic.xml
-.idea/dictionaries/**
-.idea/libraries/**
-
-# File-based project format
+# IntelliJ-related
 *.iws
 *.ipr
+*.iml
+.idea/*
+!.idea/runConfigurations/REPL.xml
+!.idea/clojure-deps.xml
 
-# Cursive Clojure plugin
-.idea/replstate.xml
+# REPL-related
 .nrepl-port
 
 # Project specific
 database.db
 test.db
-*.iml
 
-# clojure-lsp
-.lsp/sqlite*.db
-
-# Calva VS Code extension
-.calva/output-window/output.calva-repl
+# VSCode-related
+**/.calva/*
+.clj-kondo/*
+out/*
+.lsp/*
+**/.portal

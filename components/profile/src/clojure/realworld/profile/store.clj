@@ -1,7 +1,7 @@
 (ns clojure.realworld.profile.store
   (:require [clojure.java.jdbc :as jdbc]
             [clojure.realworld.database.interface :as database]
-            [honeysql.core :as sql]))
+            [honey.sql :as sql]))
 
 (defn following? [user-id followed-user-id]
   (let [query {:select [:*]
