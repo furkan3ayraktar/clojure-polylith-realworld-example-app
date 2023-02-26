@@ -15,7 +15,10 @@
                                   poly/user {:local/root "components/user"}
 
                                   ; Bases
-                                  poly/rest-api {:local/root "bases/rest-api"}}}
+                                  poly/rest-api {:local/root "bases/rest-api"}
+
+                                  ; Development dependencies 
+                                  djblue/portal {:mvn/version "0.35.1"}}}
 
              :test {:extra-paths ["components/article/test"
                                   "components/comment/test"
