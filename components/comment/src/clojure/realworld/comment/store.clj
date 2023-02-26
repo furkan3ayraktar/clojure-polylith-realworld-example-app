@@ -1,7 +1,7 @@
 (ns clojure.realworld.comment.store
   (:require [clojure.java.jdbc :as jdbc]
             [clojure.realworld.database.interface :as database]
-            [honeysql.core :as sql]))
+            [honey.sql :as sql]))
 
 (defn comments [article-id]
   (let [query {:select [:*]

@@ -1,7 +1,7 @@
 (ns clojure.realworld.database.schema
   (:require [clojure.java.jdbc :as jdbc]
             [clojure.realworld.log.interface :as log]
-            [honeysql.core :as sql]))
+            [honey.sql :as sql]))
 
 (def user
   (jdbc/create-table-ddl :user

@@ -367,28 +367,28 @@ The CircleCI workflow for this project consists of six steps to demonstrate diff
 You can achieve the same result with fewer steps once you have learned the commands. The current steps are:
 
 - check
-  - This job runs the check command from Polylith as follows: ```clojure -A:poly check```. If there are any errors in the Polylith workspace, it returns with a non-zero exit code and the CircleCI workflow stops at this stage. 
+  - This job runs the check command from Polylith as follows: ```clojure -M:poly check```. If there are any errors in the Polylith workspace, it returns with a non-zero exit code and the CircleCI workflow stops at this stage. 
   If there are any warnings printed by Polylith, it will be visible in the job's output.
 - info
   - Prints useful information about the current state of the workspace. This job runs the following commands, one after another:
-    - ```clojure -A:poly ws```
+    - ```clojure -M:poly ws```
       - Prints the current workspace as data in [edn format](https://github.com/edn-format/edn).
-    - ```clojure -A:poly info```
+    - ```clojure -M:poly info```
       - Prints workspace information.
-    - ```clojure -A:poly deps```
+    - ```clojure -M:poly deps```
       - Prints the dependency information
-    - ```clojure -A:poly libs```
+    - ```clojure -M:poly libs```
       - Prints all libraries that are used in the workspace.
   - After this job is done, all this information will be available in the jobs output for debugging purposes if needed. You can read more about available commands [here](https://polylith.gitbook.io/poly/commands).
 - test
   - This job runs all the tests for all the bricks and projects that are directly or indirectly changed since the last stable point in time. 
     Polylith supports incremental testing out of the box by using stable point marks in the git history. 
-    It runs the following command: ```clojure -A:poly test :project```. 
+    It runs the following command: ```clojure -M:poly test :project```. 
     If any of the tests fail, it will exit with a non-zero exit code and the CircleCI workflow stops at this stage. 
     Information about the passed/failed tests will be printed in the job's output.
 - api-test
   - Runs end-to-end API tests using a [Postman](https://www.postman.com) collection defined under the `` api-tests `` directory. 
-    Before running the tests, start the backend service by executing the `` clojure -A:ring `` statement under `` projects/realworld-backend `` directory.
+    Before running the tests, start the backend service by executing the `` clojure -M:ring `` statement under `` projects/realworld-backend `` directory.
 - build-uberjar
   - This job creates an aot compiled uberjar for the realworld-backend project. Created artifact can be found in the artifacts section of this job's output.
 - mark-as-stable
@@ -406,7 +406,7 @@ You can find necessary steps to create this workspace with Polylith plugin [here
 
 ### Note about deps.edn vs Leiningen
 
-> This version uses [tools.deps](https://github.com/clojure/tools.deps.alpha). There is also an older version of this project that uses [Leiningen](https://leiningen.org/) on the [leiningen branch](https://github.com/furkan3ayraktar/clojure-polylith-realworld-example-app/tree/leiningen).
+> This version uses [tools.deps](https://github.com/clojure/tools.deps). There is also an older version of this project that uses [Leiningen](https://leiningen.org/) on the [leiningen branch](https://github.com/furkan3ayraktar/clojure-polylith-realworld-example-app/tree/leiningen).
 
 ## License
 

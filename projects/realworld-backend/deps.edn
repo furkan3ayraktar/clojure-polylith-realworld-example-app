@@ -17,10 +17,10 @@
              poly/user     {:local/root "../../components/user"}
              poly/rest-api {:local/root "../../bases/rest-api"}
 
-             org.clojure/clojure {:mvn/version "1.10.3"}}
+             org.clojure/clojure {:mvn/version "1.11.1"}}
 
  :aliases   {:test    {:extra-paths []
-                       :extra-deps  {org.clojure/test.check {:mvn/version "0.10.0-alpha3"}}}
+                       :extra-deps  {org.clojure/test.check {:mvn/version "1.1.1"}}}
 
              :aot     {:extra-paths ["classes"]
                        :main-opts   ["-e" "(compile,'clojure.realworld.rest-api.main)"]}

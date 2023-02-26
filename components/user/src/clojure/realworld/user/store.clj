@@ -3,7 +3,7 @@
             [clojure.realworld.database.interface :as database]
             [clojure.realworld.user.spec :as spec]
             [clojure.spec.alpha :as s]
-            [honeysql.core :as sql]))
+            [honey.sql :as sql]))
 
 (defn find-by [key value]
   (let [query {:select [:*]

@@ -1,4 +1,4 @@
 {:paths ["src" "resources"]
- :deps {metosin/spec-tools {:mvn/version "0.6.1"}}
+ :deps {metosin/spec-tools {:mvn/version "0.10.5"}}
  :aliases {:test {:extra-paths []
                   :extra-deps []}}}
