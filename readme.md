@@ -33,7 +33,22 @@ Then start the frontend and open http://localhost:3000/ in a web browser.
     ```sh
     $ poly info
     ```   
-(See [Workspace Info](#workspace-info) below.)
+> For detailed information, see [Workspace Info](#workspace-info) section below.
+
+> All Polylith commands can be run by starting a poly shell session by running `poly` command without any arguments on your terminal.
+
+## Start a REPL in VSCode / Calva
+1. Fork & clone this repo
+2. Open the project in VSCode
+3. [Install Calva extension](https://calva.io/getting-started/#install-vs-code-and-calva), if you don't have it installed alreaady.
+4. Press F1 and select `Calva: Start a Project REPL and Connect (aka Jack-In)`
+> <img src=".media/readme/03_calva_jack_in.png" width="50%" >
+5. In the `Project Selection` menu, select the `Workspace Root`
+> <img src=".media/readme/04_calva_project_selection.png" width="50%" >
+6. In the `Project Type` menu, select `Polylith RealWorld Server REPL`
+> <img src=".media/readme/05_calva_project_type.png" width="50%" >
+
+Calva will start and connect to the REPL for you 💫
 
 ## Table of Contents
 
