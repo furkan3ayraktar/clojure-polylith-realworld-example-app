@@ -22,13 +22,7 @@
  :aliases   {:test    {:extra-paths []
                        :extra-deps  {org.clojure/test.check {:mvn/version "1.1.1"}}}
 
-             :aot     {:extra-paths ["classes"]
-                       :main-opts   ["-e" "(compile,'clojure.realworld.rest-api.main)"]}
-
-             :uberjar {:extra-deps {uberdeps/uberdeps {:mvn/version "0.1.10"}}
-                       :main-opts  ["-m" "uberdeps.uberjar"
-                                    "--aliases" "aot"
-                                    "--main-class" "clojure.realworld.rest_api.main"]}
+             :uberjar {:main clojure.realworld.rest-api.main}
 
              :ring {:extra-deps {furkan3ayraktar/polylith-clj-deps-ring {:git/url   "https://github.com/furkan3ayraktar/polylith-clj-deps-ring.git"
                                                                          :sha       "7bb68846bb8a200a486a2886f1af95984538ec25"
