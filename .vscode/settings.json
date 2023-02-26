@@ -1,5 +1,6 @@
 {
     "calva.autoOpenJackInTerminal": true,
+    "calva.autoSelectReplConnectProjectType": "Polylith RealWorld Server REPL",
     "calva.replConnectSequences": [
         {
             "projectType": "deps.edn",

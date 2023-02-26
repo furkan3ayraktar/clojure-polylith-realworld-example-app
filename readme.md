@@ -45,10 +45,10 @@ Then start the frontend and open http://localhost:3000/ in a web browser.
 > <img src=".media/readme/03_calva_jack_in.png" width="50%" >
 5. In the `Project Selection` menu, select the `Workspace Root`
 > <img src=".media/readme/04_calva_project_selection.png" width="50%" >
-6. In the `Project Type` menu, select `Polylith RealWorld Server REPL`
-> <img src=".media/readme/05_calva_project_type.png" width="50%" >
 
 Calva will start and connect to the REPL for you 💫
+
+> Check [.vscode/settings.json](.vscode/settings.json) file to see what Calva does under the hood.
 
 ## Table of Contents
 
