@@ -33,7 +33,22 @@ Then start the frontend and open http://localhost:3000/ in a web browser.
     ```sh
     $ poly info
     ```   
-(See [Workspace Info](#workspace-info) below.)
+> For detailed information, see [Workspace Info](#workspace-info) section below.
+
+> All Polylith commands can be run by starting a poly shell session by running `poly` command without any arguments on your terminal.
+
+## Start a REPL in VSCode / Calva
+1. Fork & clone this repo
+2. Open the project in VSCode
+3. [Install Calva extension](https://calva.io/getting-started/#install-vs-code-and-calva), if you don't have it installed alreaady.
+4. Press F1 and select `Calva: Start a Project REPL and Connect (aka Jack-In)`
+> <img src=".media/readme/03_calva_jack_in.png" width="50%" >
+5. In the `Project Selection` menu, select the `Workspace Root`
+> <img src=".media/readme/04_calva_project_selection.png" width="50%" >
+
+Calva will start and connect to the REPL for you 💫
+
+> Check [.vscode/settings.json](.vscode/settings.json) file to see what Calva does under the hood.
 
 ## Table of Contents
 
@@ -50,6 +65,7 @@ Then start the frontend and open http://localhost:3000/ in a web browser.
 - [Stable Points](#stable-points)
 - [Continuous Integration](#continuous-integration)
 - [How to create this workspace from scratch](#how-to-create-this-workspace-from-scratch)
+- [Steps required to use IntelliJ IDEA / Cursive](#steps-required-to-use-intellij-idea--cursive)
 
 
 ### General Structure
@@ -403,6 +419,9 @@ You can achieve the same result with fewer steps once you have learned the comma
 
 ### How to create this workspace from scratch
 You can find necessary steps to create this workspace with Polylith plugin [here](how-to.md).
+
+### Steps required to use IntelliJ IDEA / Cursive
+You can find necessary steps to make this project work in [Intellij IDEA](https://www.jetbrains.com/idea/) / [Cursive](https://cursive-ide.com) plugin [here](cursive.md).
 
 ### Note about deps.edn vs Leiningen
 
