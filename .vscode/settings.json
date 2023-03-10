@@ -1,15 +1,18 @@
 {
-    "calva.autoOpenJackInTerminal": true,
-    "calva.autoSelectReplConnectProjectType": "Polylith RealWorld Server REPL",
+    // See https://calva.io/connect-sequences/ for more info about Calva REPL Connect Sequences
     "calva.replConnectSequences": [
         {
             "projectType": "deps.edn",
-            "afterCLJReplJackInCode": "(do (require '[dev.server] :reload) (in-ns 'dev.server))\n;Once the REPL is active, (start!) will start the server",
+            "afterCLJReplJackInCode": "(require '[dev.server] :reload) (in-ns 'dev.server) (start! 6003)",
             "name": "Polylith RealWorld Server REPL",
+            "autoSelect": true,
+            "projectRootPath": ["."],
             "cljsType": "none",
             "menuSelections": {
                 "cljAliases": ["dev", "test"]
             }
         }
-    ]
+    ],
+    // Set this to `false` to prevent Calva from automatically opening the Terminal pane
+    "calva.autoOpenJackInTerminal": true,
 }
