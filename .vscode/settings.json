@@ -4,13 +4,18 @@
         {
             "projectType": "deps.edn",
             "afterCLJReplJackInCode": "(require '[dev.server] :reload) (in-ns 'dev.server) (start! 6003)",
-            "name": "Polylith RealWorld Server REPL",
-            "autoSelect": true,
+            "name": "Polylith RealWorld Server REPL (start)",
+            "autoSelectForJackIn": true,
             "projectRootPath": ["."],
-            "cljsType": "none",
             "menuSelections": {
                 "cljAliases": ["dev", "test"]
-            }
+            },
+        },
+        {
+            "projectType": "deps.edn",
+            "name": "Polylith RealWorld Server REPL (connect)",
+            "autoSelectForConnect": true,
+            "projectRootPath": ["."],
         }
     ],
 
