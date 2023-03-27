@@ -5,16 +5,17 @@ A full-fledged [RealWorld](https://github.com/gothinkster/realworld) server (CRU
 #### Build Status
 [![CircleCI](https://circleci.com/gh/furkan3ayraktar/clojure-polylith-realworld-example-app/tree/master.svg?style=svg&circle-token=927fe6a1ea0db6ea74775199135b5feb92292818)](https://circleci.com/gh/furkan3ayraktar/clojure-polylith-realworld-example-app/tree/master)
 
-## Start it in your Clojure REPL
+## Start a REPL in VSCode / Calva
 
 1. Fork & clone this repo
-1. Open the project in your favorite Clojure editor, start the project, and connect the REPL. From a development perspective it is a regular `deps.edn` project. Just make sure to include the `:dev` and `:test` aliases, and you should be good.
-1. In the `dev.server` namespace, evaluate:
-    ```clojure
-    (start! 6003)
-    ```
+2. Open the project in VSCode
+    * [Install the Calva extension](https://calva.io/getting-started/#install-vs-code-and-calva), if you don't have it installed alreaady.
+3. Press F1 and select `Calva: Start a Project REPL and Connect (aka Jack-In)`
+> <img src=".media/readme/03_calva_jack_in.png" width="50%" >
 
-Now the Polylith RealWorld backend is up on port 6003!
+Calva will start the Polylith REPL, connect it to the VSCode, and start the RealWorld server at port 6003 for you 💫
+
+> Check [.vscode/settings.json](.vscode/settings.json) file to see what Calva does under the hood.
 
 ### Test it with a RealWorld Frontend
 
@@ -37,21 +38,20 @@ Then start the frontend and open http://localhost:3000/ in a web browser.
 
 > All Polylith commands can be run by starting a poly shell session by running `poly` command without any arguments on your terminal.
 
-## Start a REPL in VSCode / Calva
+## Start it in your Clojure REPL
 
 1. Fork & clone this repo
-1. Open the project in VSCode
-    * [Install the Calva extension](https://calva.io/getting-started/#install-vs-code-and-calva), if you don't have it installed alreaady.
-4. Press F1 and select `Calva: Start a Project REPL and Connect (aka Jack-In)`
-> <img src=".media/readme/03_calva_jack_in.png" width="50%" >
+1. Open the project in your favorite Clojure editor, start the project, and connect the REPL. From a development perspective it is a regular `deps.edn` project. Just make sure to include the `:dev` and `:test` aliases, and you should be good.
+1. In the `dev.server` namespace, evaluate:
+    ```clojure
+    (start! 6003)
+    ```
 
-This will make Calva start the project REPL, and connect it to the editor. 💫 I will also start the Real World server at port 6003.
-
-> Check [.vscode/settings.json](.vscode/settings.json) file to see what Calva does under the hood.
+Now the Polylith RealWorld backend is up on port 6003!
 
 ## Table of Contents
 
-- [Getting Started](#start-it-in-your-clojure-repl)
+- [Getting Started](#start-a-repl-in-vscode--calva)
 - [General Structure](#general-structure)
   - [Project](#project)
   - [Base](#base)

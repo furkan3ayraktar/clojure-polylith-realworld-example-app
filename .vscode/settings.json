@@ -19,12 +19,12 @@
         }
     ],
 
-    // You can start the repl yourself and keep it running, and Calva will connect
-    // to it when the project is opened. If you want to do it this way, use the command:
-    // **Calva: Copy Jack-in Command Line to Clipboard**
-    // To ensure that Calva's dependencies are met.
+    // When autoConnectRepl is set to `true`, you can start the REPL yourself and keep it running
+    // using the command produced by: **Calva: Copy Jack-in Command Line to Clipboard**. This will
+    // ensure that Calva's dependencies are met and Calva will connect to your REPL automatically
+    // when the project is opened.
     "calva.autoConnectRepl": true,
 
-    // Set this to `false` to prevent Calva from automatically opening the Terminal pane
+    // Set this to `false` to prevent Calva from automatically opening the Terminal pane.
     "calva.autoOpenJackInTerminal": true,
 }
