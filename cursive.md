@@ -59,7 +59,7 @@ For Cursive, change the `:dev` alias to have the following content:
                "bases/rest-api/src"]
 
  :extra-deps  {clj-jwt/clj-jwt {:mvn/version "0.1.1"}
-               clj-time/clj-time {:mvn/version "0.15.2 "}
+               clj-time/clj-time {:mvn/version "0.15.2"}
                com.github.seancorfield/honeysql {:mvn/version "2.4.980"}
                com.taoensso/timbre {:mvn/version "6.0.4"}
                compojure/compojure {:mvn/version "1.7.0"}
