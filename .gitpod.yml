@@ -6,11 +6,11 @@ vscode:
     - betterthantomorrow.calva
     -	djblue.portal
 
-#ports:
-#  - port: 5900
-#    onOpen: ignore
-#  - port: 6080
-#    onOpen: ignore
+ports:
+  - port: 5900
+    onOpen: ignore
+  - port: 6080
+    onOpen: ignore
     
 tasks:
   - name: Start the REPL
