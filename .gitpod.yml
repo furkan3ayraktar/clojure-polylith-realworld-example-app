@@ -13,6 +13,6 @@ ports:
     
 tasks:
   - name: Start the REPL
-    init: clojure -Sdeps '{:deps {nrepl/nrepl {:mvn/version,"1.0.0"},cider/cider-nrepl {:mvn/version,"0.28.5"}}}' -M:dev:test -m nrepl.cmdline --middleware "[cider.nrepl/cider-middleware]"
+    init: clojure -Sdeps '{:deps {nrepl/nrepl {:mvn/version,"1.0.0"},cider/cider-nrepl {:mvn/version,"0.28.5"}}}' -M:dev:test:default -m nrepl.cmdline --middleware "[cider.nrepl/cider-middleware]"
   - name: INSTRUCTIONS
     command: code doc/INSTRUCTIONS.md
