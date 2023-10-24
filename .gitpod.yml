@@ -4,6 +4,7 @@ image:
 vscode:
   extensions:
     - betterthantomorrow.calva
+    - djblue.portal
 
 ports:
   - port: 5900
