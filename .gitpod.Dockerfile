@@ -1,4 +1,4 @@
-FROM gitpod/workspace-clojure
+FROM gitpod/workspace-java-11
 
 RUN brew install clojure/tools/clojure
 
