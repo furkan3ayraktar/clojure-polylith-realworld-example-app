@@ -25,16 +25,13 @@
 (defn- my-main []
   (println "Hello World, from my-main workspace_activate.cljs script")
   (clear-disposables!)
-  #_(push-disposable
-   ;; It might surprise you to see how often and when this happens,
-   ;; and when it doesn't happen.
-   (vscode/workspace.onDidOpenTextDocument
-    (fn [doc]
-      (println "[Joyride example]"
-               (.-languageId doc)
-               "document opened:"
-               (.-fileName doc)))))
-  (vscode/commands.executeCommand "workbench.action.closePanel"))
+
+  (let [terminal (vscode/window.createTerminal
+                  #js {:name "Poly tool"})]
+    (push-disposable terminal)
+    (.show terminal true)
+    (.sendText terminal "poly")
+    (.sendText terminal "check")))
 
 (when (= (joyride/invoked-script) joyride/*file*)
   (my-main))
