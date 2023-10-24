@@ -26,6 +26,8 @@
     // when the project is opened.
     "calva.autoConnectRepl": true,
 
-    // Set this to `false` to prevent Calva from automatically opening the Terminal pane.
-    "calva.autoOpenJackInTerminal": true,
+    // Set this to `true` to make Calva show the Jack-in process in the Terminal pane.
+    "calva.autoOpenJackInTerminal": false,
+    // Enable this for a some startup messages from Calva.
+    "calva.showCalvaSaysOnStart": false
 }
