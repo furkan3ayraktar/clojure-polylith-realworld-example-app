@@ -26,12 +26,13 @@
   (println "Hello World, from my-main workspace_activate.cljs script")
   (clear-disposables!)
 
-  (let [terminal (vscode/window.createTerminal
-                  #js {:name "Poly tool"})]
-    (push-disposable terminal)
-    (.show terminal true)
-    (.sendText terminal "poly")
-    (.sendText terminal "check")))
+  (when (= "Gitpod" vscode/env.appHost)
+    (let [terminal (vscode/window.createTerminal
+                    #js {:name "Poly tool"})]
+      (push-disposable terminal)
+      (.show terminal true)
+      (.sendText terminal "poly")
+      (.sendText terminal "check"))))
 
 (when (= (joyride/invoked-script) joyride/*file*)
   (my-main))
