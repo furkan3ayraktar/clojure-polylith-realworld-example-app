@@ -29,5 +29,8 @@
     // Set this to `true` to make Calva show the Jack-in process in the Terminal pane.
     "calva.autoOpenJackInTerminal": false,
     // Enable this for a some startup messages from Calva.
-    "calva.showCalvaSaysOnStart": false
+    "calva.showCalvaSaysOnStart": false,
+
+    // Calm down the hover eagerness a bit
+    "editor.hover.delay": 1500
 }
