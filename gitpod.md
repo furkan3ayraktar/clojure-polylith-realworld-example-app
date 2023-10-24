@@ -37,5 +37,6 @@ It could be a good idea to fork this repo first, of course.
 ## TODO:
 
 * [ ] Change the link to https://github.com/furkan3ayraktar/clojure-polylith-realworld-example-app before merging. And update the screenshots in [.media/gitpod](.media/gitpod).
-* [ ] Figure out if we should silence the port 6003 opened, popup
-* [ ] Figure out if we can **Install Portal** message box
+* [ ] Pre-install poly tool as `poly`
+* [x] Figure out if we should silence the port 6003 opened, popup
+* [x] Figure out if we can **Install Portal** message box
