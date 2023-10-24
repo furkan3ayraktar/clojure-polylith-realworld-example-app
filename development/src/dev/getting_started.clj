@@ -66,7 +66,7 @@
 
   (def articles-again (http/get (str base-url "/articles") {:as :auto}))
   (:body articles-again)
-  (->> articles-again :body count)
+  (->> articles-again :body :articlesCount)
 
   ;; TODO: @furkan3ayraktar and @tengstrand and @Misophistful, please fill in the blank space!
 
