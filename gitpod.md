@@ -24,9 +24,16 @@ When you click the link you will first need to sign in to Gitpod using your Gith
 
 The Clojure file that opens will have further instructions and suggestions for what you can try at the REPL. There's also a file `src/hello_repl.clj` available for anyone unfamiliar with Calva and/or Clojure to start with.
 
-Now you can click that link above. 😄
+Now you can click that link above. 😄 (That said, see below about [considering forking first](#fork-first).)
 
 Happy coding! ❤️
 
+## Fork first?
 
-TODO: Change the link to https://github.com/furkan3ayraktar/clojure-polylith-realworld-example-app before merging. And update the screenshots in [.media/gitpod](.media/gitpod).
+If you just click the link above, things will work, but you will not be able to immediately push your work to your own repo. If you find that you want to do that, use your git skills to retarget the local (albeit Gitpod hosted) repo to a repo of your own.
+
+It could be a good idea to fork this repo first, of course.
+
+## TODO:
+
+Change the link to https://github.com/furkan3ayraktar/clojure-polylith-realworld-example-app before merging. And update the screenshots in [.media/gitpod](.media/gitpod).
