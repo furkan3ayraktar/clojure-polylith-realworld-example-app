@@ -36,7 +36,7 @@ It could be a good idea to fork this repo first, of course.
 
 ## Gitpod Free hours are limited
 
-You may find it so fun to play with Polylith in the REPL that you run out of Gitpod hours. Then it is time for either:
+You may find it so fun to play with Polylith in the REPL that you run out of Gitpod hours. Then it is time to either:
 
 1. Upgrade to a paid Github plan
 2. Run this repository locally, that may involve
