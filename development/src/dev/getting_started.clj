@@ -1,5 +1,16 @@
 (ns dev.getting-started)
 
-;; Yada yada
+;; Welcome to the REPL for Getting Started with Polylith Real World example!
+;;
+;; If you are unfamiliar with Calva or Clojure, please open the file
+;; development/src/dev/getting_started.clj
+;; Cmd/Control-clicking this symbol will do it:
+'dev.hello-repl
 
-"Hello World"
+;; To confirm that you know Calva well enough to continue this session,
+;; Evaluate this string:
+
+"Hello Polylith Real World!"
+
+;; Great! Let's continue.
+;; TODO: @furkan and @tengstrand and @Misophistful, please fill in the blank space!
