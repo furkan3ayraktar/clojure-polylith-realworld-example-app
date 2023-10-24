@@ -67,15 +67,28 @@
   (def articles-again (http/get (str base-url "/articles") {:as :auto}))
   (:body articles-again)
   (->> articles-again :body :articlesCount)
-
-  ;; TODO: @furkan3ayraktar and @tengstrand and @Misophistful, please fill in the blank space!
-
-
-
+  
 
 
   :rcf)
 
+;; ======== The poly tool ========
+;; Learn about the poly tool here: https://polylith.gitbook.io/poly/
+;; We have started the tool in a terminal, open the terminal pane
+;; and you should find a terminal named “Poly tool”
+;; Commands you can try
+;; * `check` - checks the integrety of the project
+;; * `help`
+;; * `info`
+;; * `help info`
+;; * `test :all`
+;; * `help create
+
+(comment
+
+  ;; TODO: @furkan3ayraktar and @tengstrand and @Misophistful, please fill in the blank space!
+
+  :rcf)
 
 
 "Hello dear Polylith Real World explorer! You loaded this file in the REPL."
