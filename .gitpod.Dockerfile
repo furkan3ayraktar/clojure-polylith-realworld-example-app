@@ -1,4 +1,4 @@
-FROM gitpod/workspace-full-vnc
+FROM gitpod/workspace-clojure
 
 RUN brew install clojure/tools/clojure
 
