@@ -11,7 +11,6 @@
 ;;
 ;; If you are unfamiliar with Calva or Clojure, please open the file
 ;; development/src/dev/hello_repl.clj
-
 ;; To confirm that you know Calva well enough to continue this session,
 ;; 1. Load this file in the REPL
 ;;    You should see a greeting printed in the output window
