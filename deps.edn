@@ -17,8 +17,9 @@
                                   ; Bases
                                   poly/rest-api {:local/root "bases/rest-api"}
 
-                                  ; Development dependencies 
+                                  ; Development dependencies
                                   djblue/portal {:mvn/version "0.35.1"}
+                                  clj-http/clj-http {:mvn/version "3.12.3"}
                                   org.clojure/clojure {:mvn/version "1.11.1"}
                                   org.slf4j/slf4j-nop {:mvn/version "2.0.3"}}}
 
@@ -35,7 +36,7 @@
                     :extra-deps {polylith/clj-poly {:mvn/version "0.2.17-alpha"}}}
 
              :build {:deps {io.github.clojure/tools.build {:mvn/version "0.9.3"}
-                            io.github.seancorfield/build-clj {:git/tag "v0.9.2" 
+                            io.github.seancorfield/build-clj {:git/tag "v0.9.2"
                                                               :git/sha "9c9f078"}
                             org.clojure/tools.deps {:mvn/version "0.16.1281"}}
                      :paths []

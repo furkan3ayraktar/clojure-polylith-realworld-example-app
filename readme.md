@@ -5,6 +5,15 @@ A full-fledged [RealWorld](https://github.com/gothinkster/realworld) server (CRU
 #### Build Status
 [![CircleCI](https://circleci.com/gh/furkan3ayraktar/clojure-polylith-realworld-example-app/tree/master.svg?style=svg&circle-token=927fe6a1ea0db6ea74775199135b5feb92292818)](https://circleci.com/gh/furkan3ayraktar/clojure-polylith-realworld-example-app/tree/master)
 
+## Two quick ways to try this project
+
+You can try both!
+
+1. On your own machine, see below
+2. In your browser using Gitpod, see [Hack on Real World Polylith in your Browser](gitpod.md)
+
+There are many other ways too. But especially if your experience with Clojure is somewhat limited, the Gitpod variant is definitely an easy and quick one. You will have the development environment up and running in less than two minutes, without installing anything at all.
+
 ## Start a REPL in VSCode / Calva
 
 1. Fork & clone this repo
@@ -51,7 +60,7 @@ Now the Polylith RealWorld backend is up on port 6003!
 
 ## Table of Contents
 
-- [Getting Started](#start-a-repl-in-vscode--calva)
+- [Getting Started](#two-quick-ways-to-try-this-project)
 - [General Structure](#general-structure)
   - [Project](#project)
   - [Base](#base)
