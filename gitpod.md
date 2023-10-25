@@ -40,5 +40,5 @@ You may find it so fun to play with Polylith in the REPL that you run out of Git
 
 1. Upgrade to a paid Github plan
 2. Run this repository locally
-   * Check [the readme of this repository](readme.md) for instruction of how to run this example locally. (It is just a few steps more than running this on Gitpod.)
+   * Check [the readme of this repository](readme.md) for instructions of how to run this example locally. (It is just a few steps more than running this on Gitpod.)
 
