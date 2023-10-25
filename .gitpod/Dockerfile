@@ -12,3 +12,4 @@ RUN bash -c cat <<'EOF' > /home/gitpod/bin/poly && chmod +x /home/gitpod/bin/pol
 java $JVM_OPTS "-jar" "/home/gitpod/poly-0.2.17-alpha.jar" $@
 
 EOF
+RUN curl -sL https://raw.githubusercontent.com/borkdude/deps.clj/master/install > install_clojure && chmod +x install_clojure && ./install_clojure --dir /home/gitpod/bin --as-clj
