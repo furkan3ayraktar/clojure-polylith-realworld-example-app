@@ -5,7 +5,7 @@ Using [Gitpod](https://www.gitpod.io) you can explore a [Polylith](https://polyl
 ![Alt text](.media/gitpod/Gitpod-Polylith-RealWorld.png)
 
 Don't click on this link just yet: 
-https://gitpod.io/#https://github.com/PEZ/clojure-polylith-realworld-example-app
+https://gitpod.io/#https://github.com/furkan3ayraktar/clojure-polylith-realworld-example-app
 
 The link will take you to a full blown [VS Code](https://code.visualstudio.com/) running in your browser. The VS Code instance will have [Clojure](https://clojure.org) development support (through [Calva](https://calva.io)). The first time you use it, it may be quite a long wait. But then (after some little more waiting) you will be in the editor, connected to the REPL of the Polylith Real World server!
 
@@ -45,9 +45,3 @@ You may find it so fun to play with Polylith in the REPL that you run out of Git
    * Finding a Clojure environment for your editor of choice
    * Checking https://polylith.gitbook.io/poly/ out for how to install the `poly tool`
 
-## TODO:
-
-* [ ] Change the link to https://github.com/furkan3ayraktar/clojure-polylith-realworld-example-app before merging. And update the screenshots in [.media/gitpod](.media/gitpod).
-* [x] Pre-install poly tool as `poly`
-* [x] Figure out if we should silence the port 6003 opened, popup
-* [x] Figure out if we can **Install Portal** message box
