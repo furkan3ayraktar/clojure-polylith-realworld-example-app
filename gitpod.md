@@ -40,7 +40,7 @@ You may find it so fun to play with Polylith in the REPL that you run out of Git
 
 1. Upgrade to a paid Github plan
 2. Run this repository locally, that may involve
-   * Installng Java
+   * Installing Java
    * Installing Clojure
    * Finding a Clojure environment for your editor of choice
    * Checking https://polylith.gitbook.io/poly/ out for how to install the `poly tool`
