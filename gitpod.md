@@ -38,7 +38,7 @@ It could be a good idea to fork this repo first, of course.
 
 You may find it so fun to play with Polylith in the REPL that you run out of Gitpod hours. Then it is time to either:
 
-1. Upgrade to a paid Github plan
+1. Upgrade to a paid Gitpod plan
 2. Run this repository locally
    * Check [the readme of this repository](readme.md) for instructions of how to run this example locally. (It is just a few steps more than running this on Gitpod.)
 
