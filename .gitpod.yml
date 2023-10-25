@@ -18,6 +18,6 @@ tasks:
   - name: Polylith Real World nREPL Server
     command: clojure -Sdeps '{:deps {nrepl/nrepl {:mvn/version,"1.0.0"},cider/cider-nrepl {:mvn/version,"0.28.5"}}}' -M:dev:test:default -m nrepl.cmdline --middleware "[cider.nrepl/cider-middleware]"
   - name: Open Getting Started
-    command: code development/src/dev/getting_started.clj ; sleep 3; exit
+    command: code development/src/dev/getting_started.clj
   - name: Poly Tool
     command: poly
