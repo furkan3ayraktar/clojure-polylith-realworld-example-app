@@ -1,21 +1,32 @@
 (ns dev.getting-started
   (:require [clj-http.client :as http]))
 
-;; Welcome to the REPL for Getting Started with Polylith Real World example!
+;; Welcome to the REPL for:
+;; Getting Started with the Polylith Real World example!
+;;
+;; Please have some little patience while the wheels spin up. You'll
+;; know things are ready when you see timestamped log messages in
+;; the repl/output pane that will split open to the right of this file ->
+;; (We often refer to this as “The REPL/Output Window”.)
 ;;
 ;; If you are unfamiliar with Calva or Clojure, please open the file
 ;; development/src/dev/hello_repl.clj
 
 ;; To confirm that you know Calva well enough to continue this session,
 ;; 1. Load this file in the REPL
-;; 2. Evaluate this string:
+;;    You should see a greeting printed in the output window
+;; 2. Evaluate this string below
+;;    You should see the result (the string itself) appear both
+;;    inline in this pane and printed to the output window
 
 "Hello Polylith Real World!"
 
-;; Great! Let's continue.
-;; The guide is designed to run in Rich Comment Forms like the one below
-;; You are supposed to read instructions and evaluate the top level forms
-;; in the RCF (in that order 😀). If there is no instruction to evaluate
+;; Worked? Great! Let's continue.
+;; Didn't work as described? Please don't hesitate to file an issue.
+;;
+;; The guide is designed to run in Rich Comment Forms like the one
+;; below. You are supposed to read instructions and evaluate the
+;; top level forms in the RCF. If there is no instruction to evaluate
 ;; a top level form, consider it an implied instruction to do so.
 ;; Please don't hesitate to experiment with the code!
 
@@ -27,13 +38,14 @@
 
   ;; Fetch some articles
   (def articles (http/get (str base-url "/articles") {:as :auto}))
+
   ;; Look at them
   (:body articles)
 
   ;; Oh, no articles? We need to add one!
 
-  ;; First we need to create a user, this payload.
-  (def register-payload {:user {:username "Polylith Explorer"
+  ;; First we need to create a user, this is the API payload.
+  (def register-payload {:user {:username "Eager Polylith Explorer"
                                 :email "polylith-is-cool@example.com"
                                 :password "battery-staple-horse"}})
 
@@ -55,6 +67,7 @@
 
   (def article-request-headers {"Authorization" (str "Token " jwt-token)})
 
+  ;; Happy with the copy? Let's post it!
   (http/post (str base-url "/articles")
              {:form-params article-payload
               :headers article-request-headers
@@ -67,8 +80,6 @@
   (def articles-again (http/get (str base-url "/articles") {:as :auto}))
   (:body articles-again)
   (->> articles-again :body :articlesCount)
-  
-
 
   :rcf)
 
