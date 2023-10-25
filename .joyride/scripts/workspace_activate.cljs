@@ -26,7 +26,7 @@
   (println "Hello World, from my-main workspace_activate.cljs script")
   (clear-disposables!)
 
-  (when (= "Gitpod" vscode/env.appHost)
+  #_(when (= "Gitpod" vscode/env.appHost)
     (let [terminal (vscode/window.createTerminal
                     #js {:name "Poly tool"})]
       (push-disposable terminal)
