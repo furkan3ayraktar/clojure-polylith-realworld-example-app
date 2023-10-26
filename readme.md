@@ -3,7 +3,7 @@
 A full-fledged [RealWorld](https://github.com/gothinkster/realworld) server (CRUD, auth, advanced patterns, etc) built with [Clojure](https://clojure.org), [Polylith](https://polylith.gitbook.io/), and [Ring](https://github.com/ring-clojure/ring), including CRUD operations, authentication, routing, pagination, and more.
 
 #### Build Status
-[![CircleCI](https://circleci.com/gh/furkan3ayraktar/clojure-polylith-realworld-example-app/tree/master.svg?style=svg&circle-token=927fe6a1ea0db6ea74775199135b5feb92292818)](https://circleci.com/gh/furkan3ayraktar/clojure-polylith-realworld-example-app/tree/master)
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/furkan3ayraktar/clojure-polylith-realworld-example-app/tree/master.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/furkan3ayraktar/clojure-polylith-realworld-example-app/tree/master)
 
 ## Two quick ways to try this project
 
