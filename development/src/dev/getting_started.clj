@@ -83,16 +83,20 @@
   :rcf)
 
 ;; ======== The poly tool ========
-;; Learn about the poly tool here: https://polylith.gitbook.io/poly/
 ;; We have started the tool in a terminal, open the terminal pane
-;; and you should find a terminal named “Poly tool”
-;; Commands you can try
-;; * `check` - checks the integrety of the project
+;; and you should find a terminal named “poly shell”
+;; Commands you can try from the poly shell:
+;; * `check` - checks the integrity of the project
 ;; * `help`
 ;; * `info`
 ;; * `help info`
 ;; * `test :all`
-;; * `help create
+;; * `help create`
+;;
+;; NB: Don't prepend your poly tool commands with `poly`, that's
+;; for when you run the `poly` command from the operating system
+;; shell (bash etcetera).
+;; Learn about the poly tool here: https://polylith.gitbook.io/poly/
 
 (comment
 
