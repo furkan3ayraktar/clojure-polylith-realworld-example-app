@@ -2,7 +2,7 @@
 
 Using [Gitpod](https://www.gitpod.io) you can explore a [Polylith](https://polylith.gitbook.io/polylith/) implementation of [Real World](https://www.realworld.how/) from the Clojure REPL, without downloading or installing anything at all.
 
-![Alt text](.media/gitpod/Gitpod-Polylith-RealWorld.png)
+![Gitpod-Polylith-RealWorld-example](.media/gitpod/Gitpod-Polylith-RealWorld.png)
 
 Don't click on this link just yet: 
 https://gitpod.io/#https://github.com/furkan3ayraktar/clojure-polylith-realworld-example-app
@@ -20,7 +20,7 @@ That's it.
 
 When you click the link you will first need to sign in to Gitpod using your Github account, then create the workspace, then wait, then wait a bit again. Then you will have the REPL under your fingertips. The process looks like so:
 
-![Alt text](.media/gitpod/Gitpod-to-REPL.png)
+![Three click workflow of using the Gitpodified link to the repo, siging up/in to Gitpod, creating a workspace, and BOOM, a REPL into the running RealWorld Polylith example](.media/gitpod/Gitpod-to-REPL.png)
 
 The Clojure file that opens will have further instructions and suggestions for what you can try at the REPL. There's also a file `src/hello_repl.clj` available for anyone unfamiliar with Calva and/or Clojure to start with.
 
