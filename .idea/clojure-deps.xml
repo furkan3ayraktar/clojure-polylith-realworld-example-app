@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DepsProjectSettings">
-    <option name="enabledAliases">
-      <set>
-        <option value="deps" />
-        <option value="dev" />
-        <option value="test" />
-      </set>
-    </option>
-  </component>
   <component name="DepsProjectsManager">
     <option name="projectFiles">
-      <list>
+      <set>
+        <option value="file://$PROJECT_DIR$/bases/rest-api/deps.edn" />
+        <option value="file://$PROJECT_DIR$/components/article/deps.edn" />
+        <option value="file://$PROJECT_DIR$/components/comment/deps.edn" />
+        <option value="file://$PROJECT_DIR$/components/database/deps.edn" />
+        <option value="file://$PROJECT_DIR$/components/env/deps.edn" />
+        <option value="file://$PROJECT_DIR$/components/log/deps.edn" />
+        <option value="file://$PROJECT_DIR$/components/profile/deps.edn" />
+        <option value="file://$PROJECT_DIR$/components/spec/deps.edn" />
+        <option value="file://$PROJECT_DIR$/components/tag/deps.edn" />
+        <option value="file://$PROJECT_DIR$/components/user/deps.edn" />
         <option value="file://$PROJECT_DIR$/deps.edn" />
-      </list>
+      </set>
     </option>
   </component>
 </project>
