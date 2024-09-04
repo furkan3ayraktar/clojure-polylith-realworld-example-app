@@ -38,7 +38,7 @@ Then start the frontend and open http://localhost:3000/ in a web browser.
 
 ## Put the `poly` command to your service
 
-1. Install the [Polylith tool](https://polylith.gitbook.io/poly/install/install)
+1. Install the [Polylith tool](https://cljdoc.org/d/polylith/clj-poly/CURRENT/doc/install)
 2. Get ”at a glance" info about the project:
     ```sh
     $ poly info
@@ -106,7 +106,7 @@ The base in each project, glue components together via their 'interfaces' and ex
 
 There is only one base and one project in this workspace to keep it simple. The project named 'realworld-backend' bundles the base, components and libraries together. The development project makes it delightful to develop from one single place. You can run a REPL within the development project, start the Ring server for debugging or refactor the components easily by using your favorite IDE.
 
-The Polylith tool also helps you run the tests incrementally. If you run the `` poly test `` command from the root directory, it will detect changes made since the last stable point in time, and only run tests for the recent changes. [Check out Polylith tool](https://polylith.gitbook.io/poly/workflow/testing) for further information about incremental testing or simply write `` poly help `` to see available commands.
+The Polylith tool also helps you run the tests incrementally. If you run the `` poly test `` command from the root directory, it will detect changes made since the last stable point in time, and only run tests for the recent changes. [Check out Polylith tool](https://cljdoc.org/d/polylith/clj-poly/CURRENT/doc/testing) for further information about incremental testing or simply write `` poly help `` to see available commands.
 
 ##### Project
 Projects in the Polylith architecture are configurations for deployable artifacts. 
@@ -282,7 +282,7 @@ In the code example above, we can see that the interface functions redirect each
 By having an interface and an implementation of that interface, it is easy to compile/test/build (as well as develop) components in isolation. 
 This separation gives it ability to detect/test/build only changed parts of the workspace. 
 It also gives the developer a better development experience locally, with support for IDE refactoring via the  development project.
-You can read more about interfaces and their benefits [here](https://polylith.gitbook.io/poly/architecture/interface).  
+You can read more about interfaces and their benefits [here](https://cljdoc.org/d/polylith/clj-poly/CURRENT/doc/interface).  
 
 `` article ``, `` comment ``, `` profile ``, `` tag ``, and `` user `` components define functionality to endpoints required for the RealWorld backend. 
 The other components, `` database ``, `` env ``, `` spec `` and `` log ``, are created to encapsulate some other common code in the workspace. 
@@ -361,7 +361,7 @@ Run the following command from the root directory to print out workspace informa
 `` poly info ``
 
 This command will print an output like below. Here you can see that changed components are marked with a * symbol. 
-Refer to the [Polylith tool documentation](https://polylith.gitbook.io/poly/commands#info) for more detailed information about this command and other commands that Polylith provides.
+Refer to the [Polylith tool documentation](https://cljdoc.org/d/polylith/clj-poly/CURRENT/doc/reference/commands#info) for more detailed information about this command and other commands that Polylith provides.
 
 <img src=".media/readme/02_polylith_info.png" width="50%">
 
@@ -374,13 +374,13 @@ Run the following command from the root directory:
 `` poly test ``
 
 This command will run all the tests for changed components and other components that are affected by the current changes. 
-You can read more about the test command [here](https://polylith.gitbook.io/poly/commands#test) and [here](https://polylith.gitbook.io/poly/workflow/testing).
+You can read more about the test command [here](https://cljdoc.org/d/polylith/clj-poly/CURRENT/doc/reference/commands#test) and [here](https://cljdoc.org/d/polylith/clj-poly/CURRENT/doc/testing).
 
 ### Stable points in time
 Once you check the integrity of your workspace and see that all tests are green, you can commit your changes to your git repository and add (or move if there is one already) a git tag that starts with ``stable-`` prefix. 
 The Polylith tool with use this point in time to to  calculate what changes has been made. 
 You can easily add this logic to your continuous integration pipeline as a way to automate it. 
-Read more about stable points [here](https://polylith.gitbook.io/poly/workflow/tagging) where you can find
+Read more about stable points [here](https://cljdoc.org/d/polylith/clj-poly/CURRENT/doc/tagging) where you can find
 an example of how to implement the stable logic with the CI in the section below. 
 
 ### Continuous integration
@@ -403,7 +403,7 @@ You can achieve the same result with fewer steps once you have learned the comma
       - Prints the dependency information
     - ```clojure -M:poly libs```
       - Prints all libraries that are used in the workspace.
-  - After this job is done, all this information will be available in the jobs output for debugging purposes if needed. You can read more about available commands [here](https://polylith.gitbook.io/poly/commands).
+  - After this job is done, all this information will be available in the jobs output for debugging purposes if needed. You can read more about available commands [here](https://cljdoc.org/d/polylith/clj-poly/CURRENT/doc/reference/commands).
 - test
   - This job runs all the tests for all the bricks and projects that are directly or indirectly changed since the last stable point in time. 
     Polylith supports incremental testing out of the box by using stable point marks in the git history. 
