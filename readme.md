@@ -429,7 +429,7 @@ You can achieve the same result with fewer steps once you have learned the comma
 You can find necessary steps to create this workspace with Polylith plugin [here](how-to.md).
 
 ### Steps required to use IntelliJ IDEA / Cursive
-You can find necessary steps to make this project work in [Intellij IDEA](https://www.jetbrains.com/idea/) / [Cursive](https://cursive-ide.com) plugin [here](cursive.md).
+You can find necessary steps to make this project work in [Intellij IDEA](https://www.jetbrains.com/idea/) / [Cursive](https://cursive-ide.com) plugin [here](https://cursive-ide.com/userguide/polylith.html).
 
 ### Note about deps.edn vs Leiningen
 
