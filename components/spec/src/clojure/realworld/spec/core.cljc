@@ -2,11 +2,12 @@
   (:require [clojure.spec.alpha :as s]
             [clojure.spec.gen.alpha :as gen]
             [clojure.string :as str]
-            [spec-tools.core :as st])
-  (:import (java.util UUID)))
+            [spec-tools.core :as st]))
 
 (def ^:private email-regex #"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63}$")
-(def ^:private uri-regex #"https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)")
+(def ^:private uri-regex 
+  #?(:clj #"https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)"
+     :cljs #"https?:\\/\\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)"))
 (def ^:private slug-regex #"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 
 (def non-empty-string?
@@ -18,7 +19,7 @@
   (st/spec {:spec        non-empty-string?
             :type        :string
             :description "A non empty string spec with a special username (UUID) generator."
-            :gen         #(gen/fmap (fn [_] (str (UUID/randomUUID)))
+            :gen         #(gen/fmap (fn [_] (str (random-uuid)))
                                     (gen/string-alphanumeric))}))
 
 (def email?

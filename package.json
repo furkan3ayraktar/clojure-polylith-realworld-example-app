@@ -1,0 +1,27 @@
+{
+  "name": "clojure-polylith-realworld-example-app",
+  "version": "0.0.1",
+  "description": "Clojure/ClojureScript and Polylith codebase containing implementation that adheres to the RealWorld spec and API.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/furkan3ayraktar/clojure-polylith-realworld-example-app"
+  },
+  "author": {
+    "name": "Furkan Bayraktar"
+  },
+  "license": "MIT",
+  "scripts": {
+    "dev": "shadow-cljs -d cider/cider-nrepl:0.47.1 -d zprint:0.4.16 watch app test",
+    "release": "shadow-cljs release app",
+    "server": "shadow-cljs server",
+    "clean": "rm -rf target; rm -rf bases/web-app/resources/web_app/public/js",
+    "clean-win": "rmdir /s /q bases/web-app/resources/web_app/public/js & rmdir /s /q target"
+  },
+  "dependencies": {
+    "react": "16.9.0",
+    "react-dom": "16.9.0"
+  },
+  "devDependencies": {
+    "shadow-cljs": "^2.28.15"
+  }
+}

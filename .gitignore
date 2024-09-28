@@ -24,3 +24,6 @@ test.db
 out/*
 .lsp/*
 **/.portal
+.shadow-cljs
+bases/web-app/resources/web_app/public/js
+node_modules

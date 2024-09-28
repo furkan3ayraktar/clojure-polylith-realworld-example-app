@@ -3,7 +3,7 @@
             [clojure.realworld.comment.core :as core]
             [clojure.realworld.comment.spec :as spec]
             [clojure.realworld.database.interface :as database]
-            [clojure.realworld.user.interface.spec :as user-spec]
+            [clojure.realworld.user-spec.interface :as user-spec]
             [clojure.spec.alpha :as s]
             [clojure.spec.gen.alpha :as gen]
             [clojure.test :refer [deftest is use-fixtures]]))

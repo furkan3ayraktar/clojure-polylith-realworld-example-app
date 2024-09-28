@@ -1,4 +1,4 @@
-(ns clojure.realworld.user.spec
+(ns clojure.realworld.user-spec.spec
   (:require [clojure.realworld.spec.interface :as spec]
             [spec-tools.core :as st]
             [spec-tools.data-spec :as ds]))

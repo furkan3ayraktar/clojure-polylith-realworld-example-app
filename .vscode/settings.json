@@ -2,35 +2,65 @@
     // See https://calva.io/connect-sequences/ for more info about Calva REPL Connect Sequences
     "calva.replConnectSequences": [
         {
-            "projectType": "deps.edn",
+            // "projectType": "deps.edn",
+            "projectType": "shadow-cljs",
             "afterCLJReplJackInCode": "(require '[dev.server] :reload) (in-ns 'dev.server) (start! 6003)",
             "name": "Polylith RealWorld Server REPL (start)",
             "autoSelectForJackIn": true,
-            "projectRootPath": ["."],
+            "projectRootPath": [
+                "."
+            ],
+            // "menuSelections": {
+            //     "cljAliases": ["dev", "test"]
+            // },
+            "cljsType": "shadow-cljs",
             "menuSelections": {
-                "cljAliases": ["dev", "test"]
+                "cljsLaunchBuilds": [
+                    "app",
+                    "test"
+                ],
+                "cljsDefaultBuild": "app"
             },
         },
         {
-            "projectType": "deps.edn",
+            // "projectType": "deps.edn",
+            "projectType": "shadow-cljs",
             "name": "Polylith RealWorld Server REPL (connect)",
             "afterCLJReplJackInCode": "(require '[dev.server] :reload) (in-ns 'dev.server) (start! 6003)",
             "autoSelectForConnect": true,
-            "projectRootPath": ["."],
+            "projectRootPath": [
+                "."
+            ],
         }
     ],
-
     // When autoConnectRepl is set to `true`, you can start the REPL yourself and keep it running
     // using the command produced by: **Calva: Copy Jack-in Command Line to Clipboard**. This will
     // ensure that Calva's dependencies are met and Calva will connect to your REPL automatically
     // when the project is opened.
     "calva.autoConnectRepl": true,
-
     // Set this to `true` to make Calva show the Jack-in process in the Terminal pane.
     "calva.autoOpenJackInTerminal": false,
     // Enable this for a some startup messages from Calva.
     "calva.showCalvaSaysOnStart": false,
-
+    // Redirect the output from the REPL server process to the Output Destination.
+    // With this disabled, output from child threads of evaluations will not be shown in the output 
+    // destination, but instead in the terminal where the REPL is started (the jack-in terminal if 
+    // Calva started the REPL).
+    "calva.redirectServerOutputToRepl": true,
+    // Where different types of Calva output should be printed. 
+    // Calva categorizes output into three types:
+    // - **evaluation results**: Clojure data returned from an evaluation.
+    // - **evaluation output**: stdout/stderr from an evaluation
+    // - **other output**: Other messages, logs, etc
+    // You can select where each category of output should go to: the REPL Window, 
+    // the _Calva Says_ Output Channel, or the _Calva output_ (pseudo) terminal.
+    "calva.outputDestinations": {
+      "evalResults": "terminal",
+      "evalOutput": "terminal",
+      "otherOutput": "terminal"
+    },
+    // Use new repl output path
+    "calva.useLegacyReplWindowPath": false,
     // Calm down the hover eagerness a bit
     "editor.hover.delay": 1500
 }

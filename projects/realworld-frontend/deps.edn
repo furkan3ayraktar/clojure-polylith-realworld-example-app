@@ -1,0 +1,12 @@
+{:mvn/repos {"central" {:url "https://repo1.maven.org/maven2/"}
+             "clojars" {:url "https://clojars.org/repo"}}
+
+ :deps      {poly/spec {:local/root "../../components/spec"}
+             poly/user-spec {:local/root "../../components/user-spec"}
+             poly/web-ui {:local/root "../../components/web-ui"}
+             poly/web-app {:local/root "../../bases/web-app"}
+
+             org.clojure/clojure {:mvn/version "1.12.0"}}
+
+ :aliases   {:test {:extra-paths []
+                    :extra-deps  {org.clojure/test.check {:mvn/version "1.1.1"}}}}}

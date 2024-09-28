@@ -1,5 +1,7 @@
-(ns clojure.realworld.user.interface.spec
-  (:require [clojure.realworld.user.spec :as spec]))
+(ns clojure.realworld.user-spec.interface
+  (:require [clojure.realworld.user-spec.spec :as spec]))
+
+(def id spec/id)
 
 (def login spec/login)
 
