@@ -2,7 +2,6 @@
     // See https://calva.io/connect-sequences/ for more info about Calva REPL Connect Sequences
     "calva.replConnectSequences": [
         {
-            // "projectType": "deps.edn",
             "projectType": "shadow-cljs",
             "afterCLJReplJackInCode": "(require '[dev.server] :reload) (in-ns 'dev.server) (start! 6003)",
             "name": "Polylith RealWorld Server REPL (start)",
@@ -10,20 +9,16 @@
             "projectRootPath": [
                 "."
             ],
-            // "menuSelections": {
-            //     "cljAliases": ["dev", "test"]
-            // },
             "cljsType": "shadow-cljs",
             "menuSelections": {
                 "cljsLaunchBuilds": [
-                    "app",
+                    "realworld-frontend",
                     "test"
                 ],
-                "cljsDefaultBuild": "app"
+                "cljsDefaultBuild": "realworld-frontend"
             },
         },
         {
-            // "projectType": "deps.edn",
             "projectType": "shadow-cljs",
             "name": "Polylith RealWorld Server REPL (connect)",
             "afterCLJReplJackInCode": "(require '[dev.server] :reload) (in-ns 'dev.server) (start! 6003)",

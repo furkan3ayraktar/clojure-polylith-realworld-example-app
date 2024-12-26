@@ -4,13 +4,23 @@
 
  :nrepl {:write-port-file true}
 
- :builds {:app {:target :browser
-                :output-dir "bases/web-app/resources/web_app/public/js"
-                :asset-path "/js"
+ :builds {:realworld-frontend
+          {:target :browser
+           :output-dir "projects/realworld-frontend/resources/realworld_frontend/public/js"
+           :asset-path "/js"
 
-                :modules {:main {:init-fn clojure.realworld.web-app.main/init}}
+           :modules {:main {:init-fn clojure.realworld.web-app.main/init}}
 
-                :compiler-options {:shadow-keywords true}
+           :compiler-options {:shadow-keywords true}
 
-                :devtools {:http-root "bases/web-app/resources/web_app/public"
-                           :http-port 3000}}}}
+           :devtools {:http-root "projects/realworld-frontend/resources/realworld_frontend/public"
+                      :http-port 3000}}
+
+          :test 
+          {:target :browser-test
+                 :test-dir "out/test"
+                 :ns-regexp "-test$"
+                 :compiler-options {:static-fns false}
+                 :js-options {:resolve {"http2" false}}
+                 :devtools {:http-root "out/test"
+                            :http-port 3001}}}}

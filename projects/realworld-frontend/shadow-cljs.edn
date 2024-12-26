@@ -1,0 +1,26 @@
+{:deps {:aliases [:dev :test]}
+
+ :fs-watch {:hawk false}
+
+ :nrepl {:write-port-file true}
+
+ :js-options {:js-package-dirs ["node_modules" "../../node_modules"]}
+
+ :builds {:realworld-frontend {:target :browser
+                               :output-dir "resources/realworld_frontend/public/js"
+                               :asset-path "/js"
+
+                               :modules {:main {:init-fn clojure.realworld.web-app.main/init}}
+
+                               :compiler-options {:shadow-keywords true}
+
+                               :devtools {:http-root "resources/realworld_frontend/public"
+                                          :http-port 3000}}
+
+          :test {:target :browser-test
+                 :test-dir "out/test"
+                 :ns-regexp "-test$"
+                 :compiler-options {:static-fns false}
+                 :js-options {:resolve {"http2" false}}
+                 :devtools {:http-root "out/test"
+                            :http-port 3001}}}}

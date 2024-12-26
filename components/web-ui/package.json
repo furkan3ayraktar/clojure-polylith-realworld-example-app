@@ -1,0 +1,10 @@
+{
+  "name": "@poly/web-ui",
+  "description": "The component to provide the web UI",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "react": "16.9.0",
+    "react-dom": "16.9.0"
+  }
+}

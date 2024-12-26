@@ -1,0 +1,20 @@
+{
+  "name": "@poly/realworld-frontend",
+  "description": "The frontend project for RealWorld application",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "shadow-cljs -d cider/cider-nrepl:0.47.1 -d zprint:0.4.16 watch realworld-frontend test",
+    "release": "shadow-cljs release realworld-frontend",
+    "server": "shadow-cljs server",
+    "clean": "rm -rf target; rm -rf resources/realworld_frontend/public/js",
+    "clean-win": "rmdir /s /q resources/realworld_frontend/public/js & rmdir /s /q target"
+  },
+  "dependencies": {
+    "@poly/web-app": "*",
+    "@poly/web-ui": "*"
+  },
+  "devDependencies": {
+    "shadow-cljs": "^2.28.15"
+  }
+}

@@ -21,13 +21,13 @@
                                   poly/web-app {:local/root "bases/web-app"}
 
                                   ; Development dependencies
-                                  clj-http/clj-http {:mvn/version "3.12.3"}
-                                  thheller/shadow-cljs {:mvn/version "2.28.15"}
+                                  org.clojure/clojure {:mvn/version "1.12.0"}
                                   org.slf4j/slf4j-nop {:mvn/version "2.0.16"}
-                                  djblue/portal {:mvn/version "0.57.3"}
                                   io.github.clojure/tools.build {:mvn/version "0.10.5"}
                                   org.clojure/tools.namespace {:mvn/version "1.5.0"}
-                                  org.clojure/clojure {:mvn/version "1.12.0"}
+                                  clj-http/clj-http {:mvn/version "3.12.3"}
+                                  djblue/portal {:mvn/version "0.57.3"}
+                                  thheller/shadow-cljs {:mvn/version "2.28.15"}
                                   binaryage/devtools {:mvn/version "1.0.7"}}}
 
              :test {:extra-paths ["components/article/test"

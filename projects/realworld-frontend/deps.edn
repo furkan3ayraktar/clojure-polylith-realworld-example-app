@@ -1,5 +1,7 @@
 {:mvn/repos {"central" {:url "https://repo1.maven.org/maven2/"}
              "clojars" {:url "https://clojars.org/repo"}}
+ 
+ :paths     ["resources"]
 
  :deps      {poly/spec {:local/root "../../components/spec"}
              poly/user-spec {:local/root "../../components/user-spec"}
@@ -8,5 +10,8 @@
 
              org.clojure/clojure {:mvn/version "1.12.0"}}
 
- :aliases   {:test {:extra-paths []
+ :aliases   {:dev {:extra-deps {thheller/shadow-cljs {:mvn/version "2.28.15"}
+                                binaryage/devtools {:mvn/version "1.0.7"}}}
+
+             :test {:extra-paths []
                     :extra-deps  {org.clojure/test.check {:mvn/version "1.1.1"}}}}}

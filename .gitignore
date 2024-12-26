@@ -21,9 +21,9 @@ test.db
 # VSCode-related
 **/.calva/*
 .clj-kondo/*
-out/*
+**/out
 .lsp/*
 **/.portal
 .shadow-cljs
-bases/web-app/resources/web_app/public/js
+**/resources/*/public/js
 node_modules
