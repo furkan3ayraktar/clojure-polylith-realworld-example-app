@@ -16,11 +16,18 @@
            :devtools {:http-root "projects/realworld-frontend/resources/realworld_frontend/public"
                       :http-port 3000}}
 
-          :test 
+          :test
           {:target :browser-test
-                 :test-dir "out/test"
-                 :ns-regexp "-test$"
-                 :compiler-options {:static-fns false}
-                 :js-options {:resolve {"http2" false}}
-                 :devtools {:http-root "out/test"
-                            :http-port 3001}}}}
+           :test-dir "out/test"
+           :ns-regexp "-test$"
+           :compiler-options {:static-fns false}
+           :js-options {:resolve {"http2" false}}
+           :devtools {:http-root "out/test"
+                      :http-port 3001}}
+
+          :test-ci
+          {:target :karma
+           :output-to "out/test-ci/ci.js"
+           :ns-regexp "-test$"
+           :compiler-options {:static-fns false}
+           :js-options {:resolve {"http2" false}}}}}

@@ -5,11 +5,15 @@
     - creates an uberjar for the given project
   For help, run:
   clojure -A:deps -T:build help/doc"
-  (:require [clojure.java.io :as io]
-            [clojure.tools.build.api :as b]
-            [clojure.tools.deps :as t]
-            [clojure.tools.deps.util.dir :refer [with-dir]]
-            [org.corfield.build :as bb]))
+  (:require
+   [clojure.data.json :as json]
+   [clojure.java.io :as io]
+   [clojure.java.shell :as shell]
+   [clojure.string :as str]
+   [clojure.tools.build.api :as b]
+   [clojure.tools.deps :as t]
+   [clojure.tools.deps.util.dir :refer [with-dir]]
+   [org.corfield.build :as bb]))
 
 (defn- get-project-aliases []
   (let [edn-fn (juxt :root-edn :project-edn)]
@@ -65,3 +69,76 @@
         (b/delete {:path class-dir})
         (println "Uberjar is built.")
         opts))))
+
+(defn- ensure-workspace-name 
+  "Ensures the project has a valid package.json and returns the value 
+   of the name attribute from the package.json. 
+   
+   - For build-app task, The package.json must also have a script named \"build\".
+   - For test-ci-app task, The package.json must also have a script named \"test:ci\"."
+  [task project]
+  (let [project-root (str (System/getProperty "user.dir") "/projects/" project)]
+    (when-not (and project
+                   (.exists (io/file project-root))
+                   (.exists (io/file (str project-root "/deps.edn")))
+                   (.exists (io/file (str project-root "/package.json"))))
+      (throw (ex-info (str task " task requires a valid :project option") {:project project})))
+    (let [package-json-str (slurp (io/file project-root "package.json"))
+          {:strs [name scripts]} (json/read-str package-json-str)
+          has-script? (or (and (= "build-app" task) (contains? scripts "build"))
+                          (and (= "test-ci-app" task) (contains? scripts "test:ci")))]
+      (when-not name
+        (throw (ex-info (str task " task requires a valid yarn workspace") {:project project})))
+      (when-not has-script?
+        (throw (ex-info (str task " task requires a valid script in package.json")
+                        {:project project})))
+      name)))
+
+(defn run-sh 
+  "Runs the given shell script. 
+   
+   Prints the result of the script. Exits process if failed. Returns nil if success."
+  [& args]
+  (println "Running:" (str/join " " args))
+  (let [{:keys [exit out err]} (apply shell/sh args)]
+    (if (= 0 exit)
+      (do (println out)
+          nil)
+      (do (println err)
+          (System/exit exit)))))
+
+(defn build-app 
+  "Builds a frontend application for the specified project.
+   
+   Options:
+   * :project - required, the name of the project to build
+   
+   To run this command:
+   - The project must contain a valid package.json file.
+   - The package.json file should define a name and the project 
+     must be part of the yarn workspaces.
+   - The package.json file must have a script named \"build\"."
+  [{:keys [project]}]
+  (let [workspace-name (ensure-workspace-name "build-app" project)]
+    (run-sh "yarn")
+    (run-sh "yarn" "workspace" workspace-name "build")))
+
+(defn test-ci-app 
+  "Tests a frontend application for the specified project on the CI.
+   
+   Options:
+   * :project - required, the name of the project to build
+   
+   To run this command:
+   - The project must contain a valid package.json file.
+   - The package.json file should define a name and the project 
+     must be part of the yarn workspaces.
+   - The package.json file must have a script named \"test:ci\"."
+  [{:keys [project]}]
+  (if (= "development" (str project))
+    (do
+      (run-sh "yarn")
+      (run-sh "yarn" "test:ci"))
+    (let [workspace-name (ensure-workspace-name "test-ci-app" project)]
+      (run-sh "yarn")
+      (run-sh "yarn" "workspace" workspace-name "test:ci"))))

@@ -3,7 +3,7 @@ version: 2.0
 jobs:
   check:
     docker:
-      - image: cimg/clojure:1.11.1
+      - image: cimg/clojure:1.11.1-node
     working_directory: ~/realworld-example
     steps:
       - checkout
@@ -13,7 +13,7 @@ jobs:
             rm -rf ~/.gitconfig
       - restore_cache:
           keys:
-            - realworld-example-{{ checksum "deps.edn" }}-{{ checksum "projects/realworld-backend/deps.edn" }}
+            - realworld-example-{{ checksum "deps.edn" }}-{{ checksum "yarn.lock" }}
             - realworld-example-
       - run:
           name: Create polylith config if it does not exist
@@ -22,16 +22,21 @@ jobs:
           name: Force clojure to resolve dependencies
           command: clojure -A:dev:test -P
       - run:
+          name: Force yarn to resolve dependencies
+          command: yarn
+      - run:
           name: Check Polylith workspace
           command: clojure -M:poly check
       - save_cache:
-          key: realworld-example-{{ checksum "deps.edn" }}-{{ checksum "projects/realworld-backend/deps.edn" }}
+          key: realworld-example-{{ checksum "deps.edn" }}-{{ checksum "yarn.lock" }}
           paths:
+            - ~/.npm
             - ~/.polylith
             - ~/.m2
             - ~/.gitlibs
             - ~/.clojure
             - ~/realworld-example/.cpcache
+            - ~/realworld-example/node_modules
       - persist_to_workspace:
           root: .
           paths:
@@ -46,7 +51,8 @@ jobs:
           at: ~/realworld-example
       - restore_cache:
           keys:
-            - realworld-example-{{ checksum "deps.edn" }}-{{ checksum "projects/realworld-backend/deps.edn" }}
+            - realworld-example-{{ checksum "deps.edn" }}-{{ checksum "yarn.lock" }}
+            - realworld-example-
       - run:
           name: Add global git user email
           command: git config --global user.email "circleci@polyfy.com"
@@ -68,20 +74,26 @@ jobs:
 
   test:
     docker:
-      - image: cimg/clojure:1.11.1
+      - image: cimg/clojure:1.11.1-browsers
     working_directory: ~/realworld-example
+    environment:
+      CHROME_BIN: /usr/bin/google-chrome
     steps:
       - attach_workspace:
           at: ~/realworld-example
       - restore_cache:
           keys:
-            - realworld-example-{{ checksum "deps.edn" }}-{{ checksum "projects/realworld-backend/deps.edn" }}
+            - realworld-example-{{ checksum "deps.edn" }}-{{ checksum "yarn.lock" }}
+            - realworld-example-
       - run:
           name: Add global git user email
           command: git config --global user.email "circleci@polyfy.com"
       - run:
           name: Add global git user name
           command: git config --global user.name "CircleCI"
+      - run:
+          name: Run CLJS tests for Polylith workspace
+          command: clojure -T:build test-ci-app :project development
       - run:
           name: Run tests for Polylith workspace
           command: clojure -M:poly test :project
@@ -95,7 +107,8 @@ jobs:
           at: ~/realworld-example
       - restore_cache:
           keys:
-            - realworld-example-{{ checksum "deps.edn" }}-{{ checksum "projects/realworld-backend/deps.edn" }}
+            - realworld-example-{{ checksum "deps.edn" }}-{{ checksum "yarn.lock" }}
+            - realworld-example-
       - run:
           name: Run realworld backend
           command: clojure -M:ring
@@ -109,6 +122,29 @@ jobs:
           command: APIURL=http://localhost:6003/api ./run-api-tests.sh
           working_directory: ~/realworld-example/api-tests
 
+  frontend-test:
+    docker:
+      - image: cimg/clojure:1.11.1-browsers
+    working_directory: ~/realworld-example
+    environment:
+      CHROME_BIN: /usr/bin/google-chrome
+    steps:
+      - attach_workspace:
+          at: ~/realworld-example
+      - restore_cache:
+          keys:
+            - realworld-example-{{ checksum "deps.edn" }}-{{ checksum "yarn.lock" }}
+            - realworld-example-
+      - run:
+          name: Add global git user email
+          command: git config --global user.email "circleci@polyfy.com"
+      - run:
+          name: Add global git user name
+          command: git config --global user.name "CircleCI"
+      - run:
+          name: Run CLJS tests for realworld-frontend project
+          command: clojure -T:build test-ci-app :project realworld-frontend
+
   build-uberjar:
     docker:
       - image: cimg/clojure:1.11.1
@@ -118,7 +154,8 @@ jobs:
           at: ~/realworld-example
       - restore_cache:
           keys:
-            - realworld-example-{{ checksum "deps.edn" }}-{{ checksum "projects/realworld-backend/deps.edn" }}
+            - realworld-example-{{ checksum "deps.edn" }}-{{ checksum "yarn.lock" }}
+            - realworld-example-
       - run:
           name: Build realworld-backed project
           command: clojure -T:build uberjar :project realworld-backend
@@ -128,6 +165,40 @@ jobs:
             mkdir -p artifacts
 
             cp projects/realworld-backend/target/realworld-backend.jar artifacts/.
+      - store_artifacts:
+          path: ./artifacts
+
+  build-frontend:
+    docker:
+      - image: cimg/clojure:1.11.1-node
+    working_directory: ~/realworld-example
+    steps:
+      - attach_workspace:
+          at: ~/realworld-example
+      - restore_cache:
+          keys:
+            - realworld-example-{{ checksum "deps.edn" }}-{{ checksum "yarn.lock" }}
+            - realworld-example-
+      - run:
+          name: Add global git user email
+          command: git config --global user.email "circleci@polyfy.com"
+      - run:
+          name: Add global git user name
+          command: git config --global user.name "CircleCI"
+      - run:
+          name: Building realworld-frontend project
+          command: clojure -T:build build-app :project realworld-frontend
+      - run:
+          name: Copy artifact to artifacts folder
+          command: |
+            mkdir -p artifacts
+            mkdir -p artifacts/realworld-frontend
+
+            cp -a projects/realworld-frontend/resources/realworld_frontend/public/. artifacts/realworld-frontend/
+
+            cd artifacts
+
+            zip -r realworld-frontend.zip realworld-frontend
       - store_artifacts:
           path: ./artifacts
 
@@ -143,7 +214,8 @@ jobs:
             - "3d:7a:60:40:26:8e:a8:4e:9c:22:fe:77:3f:84:fb:ec"
       - restore_cache:
           keys:
-            - realworld-example-{{ checksum "deps.edn" }}-{{ checksum "projects/realworld-backend/deps.edn" }}
+            - realworld-example-{{ checksum "deps.edn" }}-{{ checksum "yarn.lock" }}
+            - realworld-example-
       - run:
           name: Add github.com to known hosts
           command: mkdir -p ~/.ssh && ssh-keyscan github.com >> ~/.ssh/known_hosts
@@ -174,13 +246,21 @@ workflows:
       - api-test:
           requires:
             - test
+      - frontend-test:
+          requires:
+            - test
       - build-uberjar:
+          requires:
+            - test
+      - build-frontend:
           requires:
             - test
       - mark-as-stable:
           requires:
             - api-test
+            - frontend-test
             - build-uberjar
+            - build-frontend
           filters:
             branches:
               only:

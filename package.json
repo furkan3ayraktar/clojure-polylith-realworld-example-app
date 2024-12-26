@@ -12,7 +12,8 @@
   },
   "license": "MIT",
   "scripts": {
-    "dev": "shadow-cljs -d cider/cider-nrepl:0.47.1 -d zprint:0.4.16 watch realworld-frontend test"
+    "dev": "shadow-cljs -d cider/cider-nrepl:0.47.1 -d zprint:0.4.16 watch realworld-frontend test",
+    "test:ci": "shadow-cljs compile test-ci && karma start --single-run"
   },
   "workspaces": [
     "bases/web-app",
@@ -20,6 +21,9 @@
     "projects/realworld-frontend"
   ],
   "devDependencies": {
-    "shadow-cljs": "^2.28.15"
+    "shadow-cljs": "^2.28.15",
+    "karma": "6.4.4",
+    "karma-chrome-launcher": "3.2.0",
+    "karma-cljs-test": "0.1.0"
   }
 }

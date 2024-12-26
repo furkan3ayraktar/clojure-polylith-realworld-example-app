@@ -13,5 +13,10 @@
  :aliases   {:dev {:extra-deps {thheller/shadow-cljs {:mvn/version "2.28.15"}
                                 binaryage/devtools {:mvn/version "1.0.7"}}}
 
-             :test {:extra-paths []
+             :test {; FIXME: This is not allowed. How to run project tests? Do we need a test 
+                    ;        runner by Polylith?
+                    :extra-paths ["../../components/user-spec/test"
+                                  "../../components/web-ui/test"
+                                  
+                                  "../../bases/web-app/test"]
                     :extra-deps  {org.clojure/test.check {:mvn/version "1.1.1"}}}}}
