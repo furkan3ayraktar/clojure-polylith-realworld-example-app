@@ -1,10 +1,12 @@
-{:top-namespace        "clojure.realworld"
- :interface-ns         "interface"
+{:top-namespace "clojure.realworld"
+ :interface-ns "interface"
  :default-profile-name "default"
- :compact-views        #{}
- :vcs                  {:name "git"
-                        :auto-add true}
+ :compact-views #{}
+ :dialects #{"clj" "cljs"}
+ :vcs {:name "git"
+       :auto-add true}
  :tag-patterns {:stable "stable-*"
                 :release "v[0-9]*"}
  :projects {"development" {:alias "dev"}
-            "realworld-backend" {:alias "rb"}}}
+            "realworld-backend" {:alias "be"}
+            "realworld-frontend" {:alias "fe"}}}
