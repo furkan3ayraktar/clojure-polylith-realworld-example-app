@@ -9,4 +9,5 @@
                 :release "v[0-9]*"}
  :projects {"development" {:alias "dev"}
             "realworld-backend" {:alias "be"}
-            "realworld-frontend" {:alias "fe"}}}
+            "realworld-frontend" {:alias "fe"
+                                  :necessary ["web-ui" "user-spec"]}}}
