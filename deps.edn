@@ -45,8 +45,9 @@
 
              :poly {:main-opts  ["-m" "polylith.clj.core.poly-cli.core"]
                     :extra-deps {polylith/clj-poly
-                                 {:git/url   "https://github.com/polyfy/polylith.git"
-                                  :sha       "6ca059f206e7771c5b0173622673df9ef76d25ec"
+                                 {:git/url "https://github.com/polyfy/polylith.git"
+                                  :git/sha "2790bc39611bf59db08e32d9e3e8e0f34195466c"
+                                  :git/tag "v0.2.22"
                                   :deps/root "projects/poly"}}}
 
              :build {:deps {io.github.clojure/tools.build {:mvn/version "0.10.5"}
