@@ -144,7 +144,7 @@
                                                    ;;      ```
        ;; -- URL @ "/editor" --------------------------------------------------
        :editor {:db       set-page
-                :dispatch (if slug                     ;; When we click article to edit we need
+                :dispatch (if (and slug (not= slug "new")) ;; When we click article to edit we need
                             [>set-active-article slug] ;; to set it active or if we want to write
                             [>reset-active-article])}  ;; a new article we reset
 
@@ -172,9 +172,11 @@
 (reg-event-fx                                            ;; usage: (dispatch [>set-active-article slug])
  >set-active-article
  (fn [{:keys [db]} [_ slug]]                             ;; 1st parameter in -fx events is no longer just db. It is a map which contains a :db key.
-   {:db         (assoc db :active-article slug)          ;; The handler is returning a map which describes two side-effects:
-    :dispatch-n [[>get-article-comments {:slug slug}]    ;; change to app-state :db and future event in this case :dispatch-n
-                 [>get-user-profile {:profile (get-in db [:articles slug :author :username])}]]}))
+   (if (and slug (not= slug "new"))
+     {:db         (assoc db :active-article slug)          ;; The handler is returning a map which describes two side-effects:
+      :dispatch-n [[>get-article-comments {:slug slug}]    ;; change to app-state :db and future event in this case :dispatch-n
+                   [>get-user-profile {:profile (get-in db [:articles slug :author :username])}]]}
+     {:db (assoc db :active-article slug)})))
 
 ;; -- GET Articles @ /api/articles --------------------------------------------
 ;;
@@ -335,14 +337,17 @@
 (reg-event-fx                                              ;; usage (dispatch [>get-article-comments {:slug "article-slug"}])
  >get-article-comments                                     ;; triggered when the article page is loaded
  (fn [{:keys [db]} [_ params]]                             ;; params = {:slug "article-slug"}
-   {:db         (assoc-in db [:loading :comments] true)
-    :http-xhrio {:method          :get
-                 :uri             (endpoint "articles" (:slug params) "comments") ;; evaluates to "api/articles/:slug/comments"
-                 :headers         (auth-header db) ;; get and pass user token obtained during login
-                 :response-format (json-response-format {:keywords? true}) ;; json response and all keys to keywords
-                 :on-success      [>get-article-comments-success] ;; trigger >get-article-comments-success event
-                 :on-failure      [>api-request-error {:request-type :get-article-comments ;; trigger >api-request-error event with request type :get-article-comments
-                                                       :loading :comments}]}}))
+   (let [slug (:slug params)]
+     (if (and slug (not= slug "new"))
+       {:db         (assoc-in db [:loading :comments] true)
+        :http-xhrio {:method          :get
+                     :uri             (endpoint "articles" slug "comments") ;; evaluates to "api/articles/:slug/comments"
+                     :headers         (auth-header db) ;; get and pass user token obtained during login
+                     :response-format (json-response-format {:keywords? true}) ;; json response and all keys to keywords
+                     :on-success      [>get-article-comments-success] ;; trigger >get-article-comments-success event
+                     :on-failure      [>api-request-error {:request-type :get-article-comments ;; trigger >api-request-error event with request type :get-article-comments
+                                                           :loading :comments}]}}
+       {:db (assoc-in db [:loading :comments] false)}))))
 
 (reg-event-db
  >get-article-comments-success
