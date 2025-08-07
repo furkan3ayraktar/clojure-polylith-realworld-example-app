@@ -20,13 +20,17 @@
 (def <profile ::profile)
 (def <loading ::loading)
 (def <filter ::filter)
+(def <active-filter ::active-filter)
 (def <errors ::errors)
 (def <user ::user)
 
 (reg-sub
  <active-page          ;; usage: (subscribe [<active-page])
  (fn [db _]            ;; db is the (map) value stored in the app-db atom
-   (:active-page db))) ;; extract a value from the application state
+   (let [page (:active-page db)]
+        (if (map? page)
+             (keyword (:name page))
+             page)))) ;; extract a value from the application state
 
 (reg-sub
  <articles                              ;; usage: (subscribe [<articles])
@@ -71,6 +75,11 @@
  <filter ;; usage: (subscribe [<filter])
  (fn [db _]
    (:filter db)))
+
+(reg-sub
+ <active-filter ;; usage: (subscribe [<active-filter])
+ (fn [db _]
+   (:active-filter db)))
 
 (reg-sub
  <errors ;; usage: (subscribe [<errors])

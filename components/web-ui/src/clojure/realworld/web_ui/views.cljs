@@ -127,7 +127,8 @@
           [:a.nav-link {:href (url-for :settings) :class (when (= active-page :settings) "active")}
            [:i.ion-gear-a "Settings"]]]
          [:li.nav-item
-          [:a.nav-link {:href (url-for :profile :user-id (:username user)) :class (when (= active-page :profile) "active")} (:username user)
+          [:a.nav-link {:class (when (= active-page :profile) "active")
+                        :on-click #(dispatch [events/>set-active-page {:page :profile :profile (:username user)}])} (:username user)
            [:img.user-pic {:src (:image user) :alt "user image"}]]]])]]))
 
 ;; -- Footer ------------------------------------------------------------------
@@ -147,6 +148,7 @@
 (defn home
   []
   (let [filter @(subscribe [subs/<filter])
+        active-filter @(subscribe [subs/<active-filter])
         tags @(subscribe [subs/<tags])
         loading @(subscribe [subs/<loading])
         articles @(subscribe [subs/<articles])
@@ -172,12 +174,12 @@
           (when (seq user)
             [:li.nav-item
              [:a.nav-link {:href     (url-for :home)
-                           :class    (when (:feed filter) "active")
+                           :class    (when (= active-filter :feed) "active")
                            :on-click #(get-feed-articles % {:offset 0
                                                             :limit  10})} "Your Feed"]])
           [:li.nav-item
            [:a.nav-link {:href     (url-for :home)
-                         :class    (when-not (or (:tag filter) (:feed filter)) "active")
+                         :class    (when (= active-filter :all) "active")
                          :on-click #(get-articles % {:offset 0
                                                      :limit  10})} "Global Feed"]] ;; first argument: % is browser event, second: map of filter params
           (when (:tag filter)
@@ -320,9 +322,11 @@
         [:div.articles-toggle
          [:ul.nav.nav-pills.outline-active
           [:li.nav-item
-           [:a.nav-link {:href (url-for :profile :user-id username) :class (when author " active")} "My Articles"]]
+           [:a.nav-link {:class (when author " active")
+                         :on-click #(dispatch [events/>get-articles {:author username}])} "My Articles"]]
           [:li.nav-item
-           [:a.nav-link {:href (url-for :favorited :user-id username) :class (when favorites "active")} "Favorited Articles"]]]]
+           [:a.nav-link {:class (when favorites "active")
+                         :on-click #(dispatch [events/>get-articles {:favorited (:username user)}])} "Favorited Articles"]]]]
         [articles-list articles (:articles loading)]]]]]))
 
 ;; -- Settings ----------------------------------------------------------------
@@ -503,15 +507,18 @@
 
 (defn pages
   [page-name]
-  (case page-name
-    :home [home]
-    :login [login]
-    :register [register]
-    :profile [profile]
-    :settings [settings]
-    :editor [editor]
-    :article [article]
-    [home]))
+  (let [page-keyword (if (map? page-name)
+                       (keyword (:name page-name))
+                       page-name)]
+    (case page-keyword
+      :home [home]
+      :login [login]
+      :register [register]
+      :profile [profile]
+      :settings [settings]
+      :editor [editor]
+      :article [article]
+      [home])))
 
 (defn app
   []
