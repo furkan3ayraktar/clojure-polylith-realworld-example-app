@@ -1,9 +1,9 @@
-(ns clojure.realworld.web-ui.events
+(ns clojure.realworld.core-ui.events
   (:require [ajax.core :refer [json-request-format json-response-format]]
             [cljs.reader :as rdr]
             [clojure.realworld.user-spec.interface :as user-spec]
-            [clojure.realworld.web-ui.db :as db]
-            [clojure.realworld.web-ui.router :as router]
+            [clojure.realworld.core-ui.db :as db]
+            [clojure.realworld.core-ui.router :as router]
             [clojure.spec.alpha :as s]
             [clojure.string :as str]
             [day8.re-frame.http-fx] ;; registers the :http-xhrio effect handler with re-frame

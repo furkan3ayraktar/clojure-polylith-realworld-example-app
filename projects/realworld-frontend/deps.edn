@@ -3,10 +3,15 @@
  
  :paths     ["resources"]
 
- :deps      {poly/spec {:local/root "../../components/spec"}
+ :deps      {poly/article-ui {:local/root "../../components/article-ui"}
+             poly/auth-ui {:local/root "../../components/auth-ui"}
+             poly/core-ui {:local/root "../../components/core-ui"}
+             poly/home-ui {:local/root "../../components/home-ui"}
+             poly/shared-ui {:local/root "../../components/shared-ui"}
+             poly/spec {:local/root "../../components/spec"}
              poly/user-spec {:local/root "../../components/user-spec"}
-             poly/web-ui {:local/root "../../components/web-ui"}
              poly/web-app {:local/root "../../bases/web-app"}
+             poly/web-ui {:local/root "../../components/web-ui"}
 
              org.clojure/clojure {:mvn/version "1.12.0"}}
 

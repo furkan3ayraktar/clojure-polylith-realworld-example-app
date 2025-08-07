@@ -1,0 +1,7 @@
+{:paths ["src"]
+ :deps {bidi/bidi {:mvn/version "2.1.6"}
+        kibu/pushy {:mvn/version "0.3.8"}
+        day8.re-frame/http-fx {:mvn/version "0.2.4"}
+        cljs-ajax/cljs-ajax {:mvn/version "0.8.4"}}
+ :aliases {:test {:extra-paths []
+                  :extra-deps {}}}}

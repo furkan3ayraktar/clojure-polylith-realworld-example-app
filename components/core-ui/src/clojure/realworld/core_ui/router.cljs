@@ -1,4 +1,4 @@
-(ns clojure.realworld.web-ui.router
+(ns clojure.realworld.core-ui.router
   (:require [bidi.bidi :as bidi]
             [pushy.core :as pushy]
             [re-frame.core :refer [dispatch]]))

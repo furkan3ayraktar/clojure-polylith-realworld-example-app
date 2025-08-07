@@ -5,11 +5,16 @@
 
                     :extra-deps  {; Components
                                   poly/article {:local/root "components/article"}
+                                  poly/article-ui {:local/root "components/article-ui"}
+                                  poly/auth-ui {:local/root "components/auth-ui"}
                                   poly/comment {:local/root "components/comment"}
+                                  poly/core-ui {:local/root "components/core-ui"}
                                   poly/database {:local/root "components/database"}
                                   poly/env {:local/root "components/env"}
+                                  poly/home-ui {:local/root "components/home-ui"}
                                   poly/log {:local/root "components/log"}
                                   poly/profile {:local/root "components/profile"}
+                                  poly/shared-ui {:local/root "components/shared-ui"}
                                   poly/spec {:local/root "components/spec"}
                                   poly/tag {:local/root "components/tag"}
                                   poly/user {:local/root "components/user"}

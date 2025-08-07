@@ -1,4 +1,4 @@
-(ns clojure.realworld.web-ui.subs
+(ns clojure.realworld.core-ui.subs
   (:require [re-frame.core :refer [reg-sub]]))
 
 ;; This namespace is a modified version of Jacek Schae's implementation.

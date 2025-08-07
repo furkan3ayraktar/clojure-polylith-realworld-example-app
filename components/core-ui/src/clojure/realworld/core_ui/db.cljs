@@ -1,4 +1,4 @@
-(ns clojure.realworld.web-ui.db
+(ns clojure.realworld.core-ui.db
   (:require [clojure.realworld.user-spec.interface :as user-spec]
             [clojure.spec.alpha :as s]))
 
