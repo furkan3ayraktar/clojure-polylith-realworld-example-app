@@ -1,4 +1,4 @@
-{:paths ["src" "resources"]
+{:paths ["src"]
  :deps {com.github.seancorfield/honeysql {:mvn/version "2.4.980"}
         org.clojure/java.jdbc {:mvn/version "0.7.12"}}
  :aliases {:test {:extra-paths ["test"]

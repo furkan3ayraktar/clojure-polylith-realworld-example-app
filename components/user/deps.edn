@@ -1,4 +1,4 @@
-{:paths ["src" "resources"]
+{:paths ["src"]
  :deps {clj-jwt/clj-jwt {:mvn/version "0.1.1"}
         clj-time/clj-time {:mvn/version "0.15.2"}
         crypto-password/crypto-password {:mvn/version "0.3.0"}
