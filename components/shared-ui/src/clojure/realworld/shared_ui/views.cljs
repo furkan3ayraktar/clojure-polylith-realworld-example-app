@@ -127,9 +127,8 @@
            [:i.ion-gear-a "Settings"]]]
          [:li.nav-item
           [:a.nav-link {:class (when (= active-page :profile) "active")
-                        :on-click #(do 
-                                    (js/console.log "Profile link clicked, dispatching event")
-                                    (dispatch [core-ui/>set-active-page {:page :profile :profile (:username user)}]))} (:username user)
+                        :on-click #(dispatch [core-ui/>set-active-page {:page :profile :profile (:username user)}])}
+           (:username user)
            [:img.user-pic {:src (:image user) :alt "user image"}]]]])]]))
 
 ;; -- Footer ------------------------------------------------------------------

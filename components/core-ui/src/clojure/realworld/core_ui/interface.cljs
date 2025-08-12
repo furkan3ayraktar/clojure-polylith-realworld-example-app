@@ -43,7 +43,6 @@
 (def >post-comment events/>post-comment)
 (def >post-comment-success events/>post-comment-success)
 (def >delete-comment events/>delete-comment)
-(def >set-active-filter events/>set-active-filter)
 (def >delete-comment-success events/>delete-comment-success)
 (def >get-user-profile events/>get-user-profile)
 (def >get-user-profile-success events/>get-user-profile-success)
@@ -85,4 +84,4 @@
 (defn auth-header
   "Get user token and format for API authorization"
   [db]
-  (events/auth-header db)) 
+  (events/auth-header db))

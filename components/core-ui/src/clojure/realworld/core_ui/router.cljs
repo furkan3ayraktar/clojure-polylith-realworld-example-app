@@ -37,19 +37,21 @@
                  (when x
                    (let [match (bidi/match-route routes x)]
                      (when match
-                       (js/console.log "Router match:" match)
-                       (js/console.log "Handler:" (:handler match))
                        {:page (keyword (:handler match))
                         :slug (:slug match)
                         :user-id (:user-id match)}))))))
 
+(def ^:private history-instance (atom nil))
+
 (defn set-token!
   "Set the browser history token"
-  [history token]
-  (pushy/set-token! history token))
+  [token]
+  (when @history-instance
+    (pushy/set-token! @history-instance token)))
 
 (defn start!
   "Start the router with the given dispatch function"
   [dispatch-fn]
   (let [history (create-history dispatch-fn)]
+    (reset! history-instance history)
     (pushy/start! history)))

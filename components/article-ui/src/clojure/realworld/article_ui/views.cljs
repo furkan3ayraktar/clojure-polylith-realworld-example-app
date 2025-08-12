@@ -16,11 +16,7 @@
         {:keys [author favorites]} @(subscribe [core-ui/<filter])
         loading @(subscribe [core-ui/<loading])
         articles @(subscribe [core-ui/<articles])
-        user @(subscribe [core-ui/<user])
-        _ (js/console.log "=== PROFILE COMPONENT RENDERED ===")
-        _ (js/console.log "Profile data:" {:image image :username username :bio bio :following following})
-        _ (js/console.log "Filter:" {:author author :favorites favorites})
-        _ (js/console.log "Articles count:" (count articles))]
+        user @(subscribe [core-ui/<user])]
     [:div.profile-page
      [:div.user-info
       [:div.container
@@ -55,12 +51,22 @@
   []
   (let [{:keys [title description body tagList slug]
          :as active-article} @(subscribe [core-ui/<active-article])
-        tagList (str/join " " tagList)
-        default {:title title :description description :body body :tagList tagList}
+        tagList-string (if (and tagList (seq tagList))
+                          (str/join " " tagList)
+                          "")
+        default {:title (or title "") :description (or description "") :body (or body "") :tagList tagList-string}
         content (r/atom default)
         upsert-article (fn [event content slug]
                          (.preventDefault event)
-                         (dispatch [core-ui/>upsert-article (assoc content :slug slug)]))]
+                         (let [tagList-array (if (string? (:tagList content))
+                                               (filter #(not (str/blank? %)) (str/split (:tagList content) #"\s+"))
+                                               (:tagList content))
+                               clean-content (assoc content :tagList tagList-array)]
+                           (if slug
+                             ;; Update existing article
+                             (dispatch [core-ui/>upsert-article {:slug slug :article clean-content}])
+                             ;; Create new article
+                             (dispatch [core-ui/>upsert-article {:article clean-content}]))))]
     [:div.editor-page
      [:div.container.page
       [:div.row
@@ -89,7 +95,7 @@
                                  :on-change     #(swap! content assoc :tagList (-> % .-target .-value))}]
            [:div.tag-list]]
           [:button.btn.btn-lg.btn-primary.pull-xs-right {:on-click #(upsert-article % @content slug)}
-           (if active-article
+           (if slug
              "Update Article"
              "Publish Article")]]]]]]]))
 

@@ -12,9 +12,6 @@
   []
   (let [filter @(subscribe [core-ui/<filter])
         active-filter @(subscribe [core-ui/<active-filter])
-        _ (js/console.log "=== HOME COMPONENT RENDERED ===")
-        _ (js/console.log "Filter:" filter)
-        _ (js/console.log "Active filter:" active-filter)
         tags @(subscribe [core-ui/<tags])
         loading @(subscribe [core-ui/<loading])
         articles @(subscribe [core-ui/<articles])
@@ -22,13 +19,9 @@
         user @(subscribe [core-ui/<user])
         get-articles (fn [event params]
                        (.preventDefault event)
-                       (js/console.log "=== GET ARTICLES CALLED ===")
-                       (js/console.log "Params:" params)
                        (dispatch [core-ui/>get-articles params]))
         get-feed-articles (fn [event params]
                             (.preventDefault event)
-                            (js/console.log "=== GET FEED ARTICLES CALLED ===")
-                            (js/console.log "Params:" params)
                             (dispatch [core-ui/>get-feed-articles params]))]
     [:div.home-page
      (when (empty? user)
