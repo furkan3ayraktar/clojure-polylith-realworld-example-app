@@ -1,6 +1,7 @@
 (ns clojure.realworld.article-ui.views
   (:require [clojure.realworld.core-ui.interface :as core-ui]
             [clojure.realworld.shared-ui.interface :as shared-ui]
+            [clojure.realworld.shared.interface :as shared]
             [re-frame.core :refer [dispatch subscribe]]
             [reagent.core :as r]
             [clojure.string :as str]))
@@ -58,9 +59,7 @@
         content (r/atom default)
         upsert-article (fn [event content slug]
                          (.preventDefault event)
-                         (let [tagList-array (if (string? (:tagList content))
-                                               (filter #(not (str/blank? %)) (str/split (:tagList content) #"\s+"))
-                                               (:tagList content))
+                         (let [tagList-array (shared/clean-tags (:tagList content))
                                clean-content (assoc content :tagList tagList-array)]
                            (if slug
                              ;; Update existing article

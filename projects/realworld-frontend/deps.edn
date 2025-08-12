@@ -7,6 +7,7 @@
              poly/auth-ui {:local/root "../../components/auth-ui"}
              poly/core-ui {:local/root "../../components/core-ui"}
              poly/home-ui {:local/root "../../components/home-ui"}
+             poly/shared {:local/root "../../components/shared"}
              poly/shared-ui {:local/root "../../components/shared-ui"}
              poly/spec {:local/root "../../components/spec"}
              poly/user-spec {:local/root "../../components/user-spec"}

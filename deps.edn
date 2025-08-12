@@ -15,6 +15,7 @@
                                   poly/log {:local/root "components/log"}
                                   poly/profile {:local/root "components/profile"}
                                   poly/shared-ui {:local/root "components/shared-ui"}
+                                  poly/shared {:local/root "components/shared"}
                                   poly/spec {:local/root "components/spec"}
                                   poly/tag {:local/root "components/tag"}
                                   poly/user {:local/root "components/user"}

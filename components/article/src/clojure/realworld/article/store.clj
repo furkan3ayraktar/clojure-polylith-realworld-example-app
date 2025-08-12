@@ -1,6 +1,7 @@
 (ns clojure.realworld.article.store
   (:require [clojure.java.jdbc :as jdbc]
             [clojure.realworld.database.interface :as database]
+            [clojure.realworld.shared.interface :as shared]
             [clojure.string :as str]
             [honey.sql :as sql]))
 
@@ -149,10 +150,10 @@
     results))
 
 (defn articles [limit offset author tag favorited]
-  (if-not (str/blank? author)
+  (if (shared/non-blank? author)
     (articles-by-author limit offset author)
-    (if-not (str/blank? tag)
+    (if (shared/non-blank? tag)
       (articles-by-tag limit offset tag)
-      (if-not (str/blank? favorited)
+      (if (shared/non-blank? favorited)
         (articles-by-favorited limit offset favorited)
         (all-articles limit offset)))))
