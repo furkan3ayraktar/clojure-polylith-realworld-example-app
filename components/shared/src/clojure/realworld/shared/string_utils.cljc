@@ -1,8 +1,8 @@
 (ns clojure.realworld.shared.string-utils
   (:require [clojure.string :as str]))
 
-(defn non-blank? [s]
-  (not (str/blank? s)))
+(defn non-blank? [string]
+  (not (str/blank? string)))
 
 (defn clean-tags [tag-input]
   (cond
