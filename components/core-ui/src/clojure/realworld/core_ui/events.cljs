@@ -8,17 +8,13 @@
             [clojure.string :as str]
             [day8.re-frame.http-fx] ;; registers the :http-xhrio effect handler with re-frame
             [re-frame.core :refer [after inject-cofx path reg-event-db
-                                   reg-event-fx reg-fx reg-cofx trim-v]]))
+                                   reg-event-fx reg-fx trim-v reg-cofx]]))
+
+;; Register cofx handlers
+(reg-cofx :local-store-user db/>local-store-user)
 
 ;; This namespace is a modified version of Jacek Schae's implementation.
 ;; Source: https://github.com/jacekschae/conduit/blob/ae3c15df1b76d3e0157e32ae24bae52bdb7ea365/src/conduit/events.cljs
-
-;; -- Cofx Handlers ------------------------------------------------------------
-;;
-(reg-cofx
- :local-store-user
- (fn [coeffects _event]
-   (assoc coeffects :local-store-user (db/get-user-ls))))
 
 ;; -- Interceptors --------------------------------------------------------------
 ;; Every event handler can be "wrapped" in a chain of interceptors. Each of these
@@ -97,7 +93,6 @@
 (def >post-comment ::post-comment)
 (def >post-comment-success ::post-comment-success)
 (def >delete-comment ::delete-comment)
-(def >set-active-filter ::set-active-filter)
 (def >delete-comment-success ::delete-comment-success)
 (def >get-user-profile ::get-user-profile)
 (def >get-user-profile-success ::get-user-profile-success)
@@ -115,17 +110,16 @@
 (def >api-request-error ::api-request-error)
 (def >set-url ::set-url)
 
-;; TODO: Fix router integration for set-url effect
-;; (reg-fx
-;;  >set-url
-;;  (fn [{:keys [url]}]
-;;    (router/set-token! url)))
+(reg-fx
+ >set-url
+ (fn [{:keys [url]}]
+   (router/set-token! url)))
 
 (reg-event-fx                                            ;; usage: (dispatch [>initialise-db])
  >initialise-db                                          ;; sets up initial application state
 
-   ;; the interceptor chain (a vector of interceptors)
-  [(inject-cofx :local-store-user)]                    ;; gets user from localstore, and puts into coeffects arg
+ ;; the interceptor chain (a vector of interceptors)
+ [(inject-cofx :local-store-user)]                    ;; gets user from localstore, and puts into coeffects arg
 
  ;; the event handler (function) being registered
  (fn [{:keys [local-store-user]} _]                      ;; take 2 vals from coeffects. Ignore event vector itself.
@@ -133,12 +127,9 @@
 
 (reg-event-fx                                            ;; usage: (dispatch [>set-active-page {:page :home})
  >set-active-page                                        ;; triggered when the user clicks on a link that redirects to another page
- (fn [{:keys [db]} [_ {:keys [page slug profile favorited user-id]}]] ;; destructure 2nd parameter to obtain keys
-   (let [page-keyword (if (map? page) 
-                        (keyword (:name page))
-                        page)
-         set-page (assoc db :active-page page-keyword)]
-     (case page-keyword
+ (fn [{:keys [db]} [_ {:keys [page slug profile favorited]}]] ;; destructure 2nd parameter to obtain keys
+   (let [set-page (assoc db :active-page page)]
+     (case page
        ;; -- URL @ "/" --------------------------------------------------------
        :home {:db         set-page
               :dispatch-n [(if (empty? (:user db)) ;; dispatch more than one event.
@@ -156,7 +147,7 @@
                                                    ;;      ```
        ;; -- URL @ "/editor" --------------------------------------------------
        :editor {:db       set-page
-                :dispatch (if slug                     ;; When we click article to edit we need
+                :dispatch (if (and slug (not= slug "new")) ;; When we click article to edit we need
                             [>set-active-article slug] ;; to set it active or if we want to write
                             [>reset-active-article])}  ;; a new article we reset
 
@@ -168,10 +159,10 @@
                               [>get-user-profile {:profile (get-in db [:articles slug :author :username])}]]}
 
        ;; -- URL @ "/profile/:slug" -------------------------------------------
-       :profile {:db         set-page
+       :profile {:db         (assoc set-page :active-article slug)
                  ;; :dispatch-n to dispatch multiple events
-                 :dispatch-n [[>get-user-profile {:profile (or user-id profile)}]
-                              [>get-articles {:author (or user-id profile)}]]}
+                 :dispatch-n [[>get-user-profile {:profile profile}]
+                              [>get-articles {:author profile}]]}
        ;; -- URL @ "/profile/:slug/favorites" ---------------------------------
        :favorited {:db       (assoc db :active-page :profile)            ;; even though we are at :favorited, we still
                    :dispatch [>get-articles {:favorited favorited}]})))) ;; display :profile with :favorited articles
@@ -184,9 +175,11 @@
 (reg-event-fx                                            ;; usage: (dispatch [>set-active-article slug])
  >set-active-article
  (fn [{:keys [db]} [_ slug]]                             ;; 1st parameter in -fx events is no longer just db. It is a map which contains a :db key.
-   {:db         (assoc db :active-article slug)          ;; The handler is returning a map which describes two side-effects:
-    :dispatch-n [[>get-article-comments {:slug slug}]    ;; change to app-state :db and future event in this case :dispatch-n
-                 [>get-user-profile {:profile (get-in db [:articles slug :author :username])}]]}))
+   (if (and slug (not= slug "new"))
+     {:db         (assoc db :active-article slug)          ;; The handler is returning a map which describes two side-effects:
+      :dispatch-n [[>get-article-comments {:slug slug}]    ;; change to app-state :db and future event in this case :dispatch-n
+                   [>get-user-profile {:profile (get-in db [:articles slug :author :username])}]]}
+     {:db (assoc db :active-article slug)})))
 
 ;; -- GET Articles @ /api/articles --------------------------------------------
 ;;
@@ -207,8 +200,7 @@
                     (assoc-in [:filter :tag] (:tag params)) ;; so that we can easily show and hide
                     (assoc-in [:filter :author] (:author params)) ;; appropriate ui components
                     (assoc-in [:filter :favorites] (:favorited params))
-                    (assoc-in [:filter :feed] false)
-                    (assoc :active-filter :all))})) ;; Set filter type for UI state
+                    (assoc-in [:filter :feed] false))})) ;; we need to disable filter by feed every time since it's not supported query param
 
 (reg-event-db
  >get-articles-success
@@ -268,9 +260,7 @@
                            :active-article (:slug article)))
     :dispatch-n [[>get-article {:slug (:slug article)}]           ;; when the users clicks save we fetch the new version
                  [>get-article-comments {:slug (:slug article)}]] ;; of the article and comments from the server
-    ;; TODO: Fix router integration for set-url effect
-    ;; >set-url    {:url (str "/article/" (:slug article))}
-    }))
+    >set-url    {:url (str "/article/" (:slug article))}}))
 
 ;; -- DELETE Article @ /api/articles/:slug ------------------------------------
 ;;
@@ -315,8 +305,7 @@
                     (assoc-in [:filter :tag] nil)        ;; with feed-articles, we turn off almost all
                     (assoc-in [:filter :author] nil)     ;; filters to make sure everything on the
                     (assoc-in [:filter :favorites] nil)  ;; client is displayed correctly.
-                    (assoc-in [:filter :feed] true)
-                    (assoc :active-filter :feed))}))  ;; Set filter type for UI state
+                    (assoc-in [:filter :feed] true))}))  ;; This is the only one we need
 
 (reg-event-db
  >get-feed-articles-success
@@ -351,14 +340,17 @@
 (reg-event-fx                                              ;; usage (dispatch [>get-article-comments {:slug "article-slug"}])
  >get-article-comments                                     ;; triggered when the article page is loaded
  (fn [{:keys [db]} [_ params]]                             ;; params = {:slug "article-slug"}
-   {:db         (assoc-in db [:loading :comments] true)
-    :http-xhrio {:method          :get
-                 :uri             (endpoint "articles" (:slug params) "comments") ;; evaluates to "api/articles/:slug/comments"
-                 :headers         (auth-header db) ;; get and pass user token obtained during login
-                 :response-format (json-response-format {:keywords? true}) ;; json response and all keys to keywords
-                 :on-success      [>get-article-comments-success] ;; trigger >get-article-comments-success event
-                 :on-failure      [>api-request-error {:request-type :get-article-comments ;; trigger >api-request-error event with request type :get-article-comments
-                                                       :loading :comments}]}}))
+   (let [slug (:slug params)]
+     (if (and slug (not= slug "new"))
+       {:db         (assoc-in db [:loading :comments] true)
+        :http-xhrio {:method          :get
+                     :uri             (endpoint "articles" slug "comments") ;; evaluates to "api/articles/:slug/comments"
+                     :headers         (auth-header db) ;; get and pass user token obtained during login
+                     :response-format (json-response-format {:keywords? true}) ;; json response and all keys to keywords
+                     :on-success      [>get-article-comments-success] ;; trigger >get-article-comments-success event
+                     :on-failure      [>api-request-error {:request-type :get-article-comments ;; trigger >api-request-error event with request type :get-article-comments
+                                                           :loading :comments}]}}
+       {:db (assoc-in db [:loading :comments] false)}))))
 
 (reg-event-db
  >get-article-comments-success
@@ -408,11 +400,6 @@
                  :on-success      [>delete-comment-success] ;; trigger >delete-comment-success
                  :on-failure      [>api-request-error {:request-type :delete-comment ;; trigger >api-request-error event
                                                        :loading :comments}]}}))
-
-(reg-event-db
- >set-active-filter
- (fn [db [_ filter-type]]
-   (assoc db :active-filter filter-type)))
 
 (reg-event-db
  >delete-comment-success
