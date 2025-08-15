@@ -28,13 +28,26 @@ Calva will start the Polylith REPL, connect it to the VSCode, and start the Real
 
 ### Test it with a RealWorld Frontend
 
-A sweet way to put the server to some tests is to fork the [re-frame RealWorld frontend by Jacek Schae](https://github.com/jacekschae/conduit) and modify it to run against this server by editing the definition of `api-url` in `src/conduit/events.cljs` to be:
+You can now test the full-stack application entirely from your own workspace! This project includes a complete RealWorld frontend built with re-frame and Shadow-CLJS.
 
-```clojure
-(def api-url "http://localhost:6003/api")
-```
+1. Start the backend server (see [Start it in your Clojure REPL](#start-it-in-your-clojure-repl) above)
+2. In another terminal, navigate to the frontend project and start the development server:
+   ```bash
+   cd projects/realworld-frontend
+   
+   # Install dependencies (first time only)
+   npm install
+   # or: yarn install
+   
+   # Start the development server
+   npm run dev
+   # or: yarn dev
+   ```
+3. Open http://localhost:3000/ in your web browser
 
-Then start the frontend and open http://localhost:3000/ in a web browser.
+The frontend is automatically configured to connect to the backend at `http://localhost:6003/api`.
+
+**Note:** The `yarn dev` or `npm run dev` command will automatically watch for changes and recompile as needed, making development much smoother than manual compilation commands.
 
 ## Put the `poly` command to your service
 
