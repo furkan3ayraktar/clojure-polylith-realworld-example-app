@@ -1,6 +1,6 @@
 (ns clojure.realworld.shared-ui.views
   (:require [clojure.realworld.core-ui.interface :as core-ui]
-            [clojure.realworld.user-spec.interface :as user-spec]
+            [clojure.realworld.spec.interface :as user-spec]
             [clojure.string :as str]
             [re-frame.core :refer [dispatch subscribe]]
             [reagent.core :as r]))

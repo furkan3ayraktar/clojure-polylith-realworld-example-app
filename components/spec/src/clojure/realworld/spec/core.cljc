@@ -15,13 +15,6 @@
             :type        :string
             :description "Non empty string spec. Checks with clojure.string/blank?"}))
 
-(def username?
-  (st/spec {:spec        non-empty-string?
-            :type        :string
-            :description "A non empty string spec with a special username (UUID) generator."
-            :gen         #(gen/fmap (fn [_] (str (random-uuid)))
-                                    (gen/string-alphanumeric))}))
-
 (def email?
   (st/spec {:spec        (s/and string? #(re-matches email-regex %))
             :type        :string

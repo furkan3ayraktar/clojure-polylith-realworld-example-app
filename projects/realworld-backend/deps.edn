@@ -16,7 +16,6 @@
              poly/spec {:local/root "../../components/spec"}
              poly/tag {:local/root "../../components/tag"}
              poly/user {:local/root "../../components/user"}
-             poly/user-spec {:local/root "../../components/user-spec"}
              poly/rest-api {:local/root "../../bases/rest-api"}
 
              org.clojure/clojure {:mvn/version "1.12.1"}}

@@ -19,7 +19,7 @@
                                   poly/spec {:local/root "components/spec"}
                                   poly/tag {:local/root "components/tag"}
                                   poly/user {:local/root "components/user"}
-                                  poly/user-spec {:local/root "components/user-spec"}
+                                  
                                   poly/web-ui {:local/root "components/web-ui"}
 
                                   ; Bases
@@ -44,7 +44,7 @@
                                   "components/profile/test"
                                   "components/tag/test"
                                   "components/user/test"
-                                  "components/user-spec/test"
+                                  
                                   "components/web-ui/test"
 
                                   "bases/rest-api/test"

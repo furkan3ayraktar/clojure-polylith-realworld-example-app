@@ -10,9 +10,8 @@
              poly/shared {:local/root "../../components/shared"}
              poly/shared-ui {:local/root "../../components/shared-ui"}
              poly/spec {:local/root "../../components/spec"}
-             poly/user-spec {:local/root "../../components/user-spec"}
-             poly/web-app {:local/root "../../bases/web-app"}
              poly/web-ui {:local/root "../../components/web-ui"}
+             poly/web-app {:local/root "../../bases/web-app"}
 
              org.clojure/clojure {:mvn/version "1.12.1"}}
 
@@ -23,7 +22,7 @@
 
              :test {; FIXME: This is not allowed. How to run project tests? Do we need a test 
                     ;        runner by Polylith?
-                    :extra-paths ["../../components/user-spec/test"
+                    :extra-paths [
                                   "../../components/web-ui/test"
                                   
                                   "../../bases/web-app/test"]

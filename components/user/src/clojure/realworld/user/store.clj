@@ -1,7 +1,7 @@
 (ns clojure.realworld.user.store
   (:require [clojure.java.jdbc :as jdbc]
             [clojure.realworld.database.interface :as database]
-            [clojure.realworld.user-spec.interface :as user-spec]
+            [clojure.realworld.spec.interface :as user-spec]
             [clojure.spec.alpha :as s]
             [honey.sql :as sql]))
 

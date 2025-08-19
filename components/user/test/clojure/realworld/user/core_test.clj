@@ -3,7 +3,7 @@
             [clojure.java.jdbc :as jdbc]
             [clojure.realworld.database.interface :as database]
             [clojure.realworld.user.core :as core]
-            [clojure.realworld.user-spec.interface :as user-spec]
+            [clojure.realworld.spec.interface :as user-spec]
             [clojure.spec.alpha :as s]
             [clojure.spec.gen.alpha :as gen]
             [clojure.test :refer [deftest is use-fixtures]]))

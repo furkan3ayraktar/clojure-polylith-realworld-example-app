@@ -64,13 +64,13 @@ A convenient way to run the `poly` tool is to start a `shell`:
 1. [Install](https://clojure.org/guides/install_clojure) the `clojure` command, if you haven't installed it already.
 2. Start a `poly` shell, by executing `clojure -M:poly` from the workspace root (_clojure-polylith-realworld-example-app_).
 
-<img src="images/shell.png" alt="overview" width="300">
+<img src="images/shell.png" alt="shell" width="300">
 
 From here we can execute different commands, e.g. the `info` command:
 ```sh
 clojure-polylith-realworld-example-app$ info
 ```
-<img src="images/info.png" alt="overview" width="300">
+<img src="images/info.png" alt="info" width="300">
 
 For detailed information, see [Workspace Info](#workspace-info) section below.
 
@@ -138,16 +138,24 @@ supplementary development sources, and projects. The subdirectories of the works
 ```
 ▾ bases
   ▸ rest-api
+  ▸ web-app
 ▾ components
   ▸ article
+  ▸ article-ui
+  ▸ auth-ui
   ▸ comment
+  ▸ core-ui
   ▸ database
   ▸ env
+  ▸ home-ui
   ▸ log
   ▸ profile
+  ▸ shared
+  ▸ shared-ui
   ▸ spec
   ▸ tag
   ▸ user
+  ▸ web-ui
 ▸ development
 ▾ projects
   ▸ realworld-backend

@@ -9,7 +9,7 @@
             [clojure.realworld.spec.interface :as spec]
             [clojure.realworld.tag.interface :as tag]
             [clojure.realworld.user.interface :as user]
-            [clojure.realworld.user-spec.interface :as user-spec]
+            [clojure.realworld.spec.interface :as user-spec]
             [clojure.spec.alpha :as s]
             [clojure.spec.gen.alpha :as gen]))
 

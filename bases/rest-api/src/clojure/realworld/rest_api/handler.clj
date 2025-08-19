@@ -8,7 +8,7 @@
             [clojure.realworld.profile.interface :as profile]
             [clojure.realworld.tag.interface :as tag]
             [clojure.realworld.user.interface :as user]
-            [clojure.realworld.user-spec.interface :as user-spec]
+            [clojure.realworld.spec.interface :as user-spec]
             [clojure.spec.alpha :as s]
             [clojure.realworld.env.interface :as env]))
 
