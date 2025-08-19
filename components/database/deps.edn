@@ -1,6 +1,6 @@
 {:paths ["src"]
- :deps {com.github.seancorfield/honeysql {:mvn/version "2.4.980"}
+ :deps {com.github.seancorfield/honeysql {:mvn/version "2.7.1340"}
         org.clojure/java.jdbc {:mvn/version "0.7.12"}
-        org.xerial/sqlite-jdbc {:mvn/version "3.41.0.0"}}
+        org.xerial/sqlite-jdbc {:mvn/version "3.50.3.0"}}
  :aliases {:test {:extra-paths []
                   :extra-deps []}}}

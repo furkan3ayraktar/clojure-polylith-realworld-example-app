@@ -2,7 +2,7 @@
  :deps {clj-jwt/clj-jwt {:mvn/version "0.1.1"}
         clj-time/clj-time {:mvn/version "0.15.2"}
         crypto-password/crypto-password {:mvn/version "0.3.0"}
-        com.github.seancorfield/honeysql {:mvn/version "2.4.980"}
+        com.github.seancorfield/honeysql {:mvn/version "2.7.1340"}
         org.clojure/java.jdbc {:mvn/version "0.7.12"}}
  :aliases {:test {:extra-paths ["test"]
                   :extra-deps []}}}

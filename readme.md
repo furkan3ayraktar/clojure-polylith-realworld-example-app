@@ -1,6 +1,8 @@
-# ![RealWorld Example App](logo.png)
+# ![RealWorld Example App](images/logo.png)
 
 A full-fledged [RealWorld](https://github.com/gothinkster/realworld) server (CRUD, auth, advanced patterns, etc) built with [Clojure](https://clojure.org), [Polylith](https://polylith.gitbook.io/), and [Ring](https://github.com/ring-clojure/ring), including CRUD operations, authentication, routing, pagination, and more.
+
+![overview](images/overview.png)
 
 #### Build Status
 [![CircleCI](https://dl.circleci.com/status-badge/img/gh/furkan3ayraktar/clojure-polylith-realworld-example-app/tree/master.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/furkan3ayraktar/clojure-polylith-realworld-example-app/tree/master)
@@ -18,58 +20,100 @@ There are many other ways too. But especially if your experience with Clojure is
 
 1. Fork & clone this repo
 2. Open the project in VSCode
-    * [Install the Calva extension](https://calva.io/getting-started/#install-vs-code-and-calva), if you don't have it installed alreaady.
+    * [Install the Calva extension](https://calva.io/getting-started/#install-vs-code-and-calva), if you don't have it installed already.
 3. Press F1 and select `Calva: Start a Project REPL and Connect (aka Jack-In)`
-> <img src=".media/readme/03_calva_jack_in.png" width="50%" >
+> <img src=".media/readme/03_calva_jack_in.png" width="40%" >
 
-Calva will start the Polylith REPL, connect it to the VSCode, and start the RealWorld server at port 6003 for you 💫
+Calva will start the Polylith REPL, connect it to the VSCode, start the RealWorld backend server at port 6003,
+and launch the Shadow-CLJS frontend development server at port 3000 for you 💫
+
+It will look something like this:
+
+```bash
+Jacking in...
+Auto-selecting project type "Polylith RealWorld Server REPL (start)".
+You can change this from settings:
+  - See https://calva.io/connect-sequences/
+
+
+Starting Jack-in: (cd /Users/tengstrand/source/clojure-polylith-realworld-example-app; npx shadow-cljs -d cider/cider-nrepl:0.55.4 watch realworld-frontend test)
+Using host:port localhost:55151 ...
+Hooking up nREPL sessions ...
+Connected session: clj
+Evaluating code from settings: 'calva.autoEvaluateCode.onConnect.clj'
+
+; clj  shadow.user 
+nilC
+Evaluating 'afterCLJReplJackInCode'
+2025-08-19T06:30:47.126Z Mac INFO [clojure.realworld.rest-api.main] - Starting server on port:  6003
+2025-08-19T06:30:47.134Z Mac INFO [clojure.realworld.log.config:77] - Initialized logging. Using console to print logs.
+2025-08-19T06:30:47.341Z Mac INFO [clojure.realworld.rest-api.api] - Database schema is valid.
+2025-08-19T06:30:47.341Z Mac INFO [clojure.realworld.rest-api.api] - Initialized server.
+
+#object [org.eclipse.jetty.server.Server 0x18d9a28f "oejs.Server@18d9a28f{STARTED}[12.0.21,sto=0]"]
+Creating cljs repl session...
+Connecting cljs repl: Polylith RealWorld Server REPL (start)...
+```
 
 > Check [.vscode/settings.json](.vscode/settings.json) file to see what Calva does under the hood.
 
-### Test it with a RealWorld Frontend
 
-You can now test the full-stack application entirely from your own workspace! This project includes a complete RealWorld frontend built with re-frame and Shadow-CLJS.
+## Put the `poly` tool to your service
 
-1. Start the backend server (see [Start it in your Clojure REPL](#start-it-in-your-clojure-repl) above)
-2. In another terminal, navigate to the frontend project and start the development server:
+A convenient way to run the `poly` tool is to start a `shell`:
+1. [Install](https://clojure.org/guides/install_clojure) the `clojure` command, if you haven't installed it already.
+2. Start a `poly` shell, by executing `clojure -M:poly` from the workspace root, `clojure-polylith-realworld-example-app`.
+
+<img src="images/shell.png" alt="overview" width="300">
+
+From here we can execute different commands, e.g. the `info` command:
+```sh
+clojure-polylith-realworld-example-app$ info
+```
+<img src="images/info.png" alt="overview" width="300">
+
+For detailed information, see [Workspace Info](#workspace-info) section below.
+
+## (Optional) Start it manually in your Clojure REPL
+
+If you prefer not to use VSCode/Calva, you can start the project manually:
+
+1. Fork & clone this repo (if not already done).
+2. Open the project in your favorite Clojure editor
+   - Open the project folder in your editor (Emacs, IntelliJ, etc.)
+   - Start a Clojure REPL with the project
+     - From a development perspective, this is a regular `deps.edn` project
+     - Make sure to include the `:dev` and `:test` aliases when starting the REPL
+
+   Example with `clj` command:
    ```bash
-   cd projects/realworld-frontend
-   
-   # Install dependencies (first time only)
-   npm install
-   # or: yarn install
-   
-   # Start the development server
-   npm run dev
-   # or: yarn dev
+   clj -M:dev:test
    ```
-3. Open http://localhost:3000/ in your web browser
-
-The frontend is automatically configured to connect to the backend at `http://localhost:6003/api`.
-
-**Note:** The `yarn dev` or `npm run dev` command will automatically watch for changes and recompile as needed, making development much smoother than manual compilation commands.
-
-## Put the `poly` command to your service
-
-1. Install the [Polylith tool](https://cljdoc.org/d/polylith/clj-poly/CURRENT/doc/install)
-2. Get ”at a glance" info about the project:
-    ```sh
-    $ poly info
-    ```   
-> For detailed information, see [Workspace Info](#workspace-info) section below.
-
-> All Polylith commands can be run by starting a poly shell session by running `poly` command without any arguments on your terminal.
-
-## Start it in your Clojure REPL
-
-1. Fork & clone this repo
-1. Open the project in your favorite Clojure editor, start the project, and connect the REPL. From a development perspective it is a regular `deps.edn` project. Just make sure to include the `:dev` and `:test` aliases, and you should be good.
-1. In the `dev.server` namespace, evaluate:
+3. Start the backend server.
+   - In the `dev.server` namespace, evaluate:
     ```clojure
     (start! 6003)
     ```
+  - This will start the RealWorld backend API server on port 6003
+  - You should see logs indicating the server is running
+4. Start the frontend development server.
+  - Open a new terminal window/tab
+  - Navigate to the workspace root directory
+  - Install npm dependencies (only needed once after cloning):
+    ```bash
+    npm install
+    ```
+  - Start the Shadow-CLJS development server:
+    ```bash
+    npx shadow-cljs watch realworld-frontend
+    ```
+  - Wait for the build to complete (you'll see "Build completed" message)
 
-Now the Polylith RealWorld backend is up on port 6003!
+**Result:**
+- Backend API available at http://localhost:6003
+- Frontend application available at http://localhost:3000
+
+Now open http://localhost:3000 in your browser to test the app!
 
 ## Table of Contents
 
