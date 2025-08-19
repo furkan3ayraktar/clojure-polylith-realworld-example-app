@@ -79,35 +79,30 @@ For detailed information, see [Workspace Info](#workspace-info) section below.
 If you prefer not to use VSCode/Calva, you can start the project manually:
 
 1. Fork & clone this repo (if not already done).
-2. Open the project in your favorite Clojure editor
-   - Open the project folder in your editor (Emacs, IntelliJ, etc.)
+2. Open the workspace in your favorite Clojure editor
+   - Open the workspace directory in your editor (Emacs, IntelliJ/IDEA, etc.)
    - Start a Clojure REPL with the project
      - From a development perspective, this is a regular `deps.edn` project
      - Make sure to include the `:dev` and `:test` aliases when starting the REPL
-
-   Example with `clj` command:
-   ```bash
-   clj -M:dev:test
-   ```
 3. Start the backend server.
    - In the `dev.server` namespace, evaluate:
     ```clojure
     (start! 6003)
     ```
-  - This will start the RealWorld backend API server on port 6003
-  - You should see logs indicating the server is running
+   - This will start the RealWorld backend API server on port 6003
+   - You should see logs indicating the server is running
 4. Start the frontend development server.
-  - Open a new terminal window/tab
-  - Navigate to the workspace root directory
-  - Install npm dependencies (only needed once after cloning):
+   - Open a new terminal window/tab
+   - Navigate to the workspace root directory
+   - Install npm dependencies (only needed once after cloning):
     ```bash
     npm install
     ```
-  - Start the Shadow-CLJS development server:
-    ```bash
-    npx shadow-cljs watch realworld-frontend
-    ```
-  - Wait for the build to complete (you'll see "Build completed" message)
+   - Start the Shadow-CLJS development server:
+     ```bash
+     npx shadow-cljs watch realworld-frontend
+     ```
+   - Wait for the build to complete (you'll see "Build completed" message)
 
 **Result:**
 - Backend API available at http://localhost:6003
