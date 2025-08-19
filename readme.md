@@ -134,7 +134,9 @@ If you are not familiar with Polylith Architecture, please refer to its [documen
 
 The workspace is the root directory in a Polylith codebase, and is where we work with all our building blocks and projects. 
 A workspace is usually version controlled in a monorepo, and contains all the building blocks, 
-supplementary development sources, and projects. The subdirectories of the workspace looks like this:
+supplementary development sources, and projects.
+
+The workspace structure looks like this:
 ```
 ▾ bases
   ▸ rest-api
@@ -161,8 +163,9 @@ supplementary development sources, and projects. The subdirectories of the works
   ▸ realworld-backend
 ```
 
-Components are the main building blocks in Polylith. Bases are another kind of building blocks where the difference from components is that they expose a public API to the outside world. Both bases and components are encapsulated blocks of code that can be assembled together into services, libraries or tools. Components communicate to each other through their 'interfaces'. 
-The base in each project, glue components together via their 'interfaces' and expose the business logic via a public API, in this project's case, a REST API. 
+Components are the main building blocks in Polylith. Bases are another kind of building blocks where the difference from components is that they expose a public API to the outside world. Both bases and components are encapsulated blocks of code that can be assembled together into services and tools.
+Components communicate to each other through their _interfaces_. 
+The base in each project, glue components together via their _interfaces_ and expose the business logic via a public API, in this project's case, a REST API for the backend, and a web application for the frontend. 
 
 There is only one base and one project in this workspace to keep it simple. The project named 'realworld-backend' bundles the base, components and libraries together. The development project makes it delightful to develop from one single place. You can run a REPL within the development project, start the Ring server for debugging or refactor the components easily by using your favorite IDE.
 
