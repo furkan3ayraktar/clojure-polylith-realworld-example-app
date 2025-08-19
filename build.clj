@@ -9,12 +9,19 @@
    [clojure.data.json :as json]
    [clojure.java.io :as io]
    [clojure.java.shell :as shell]
-   [clojure.java.process]
    [clojure.string :as str]
    [clojure.tools.build.api :as b]
    [clojure.tools.deps :as t]
    [clojure.tools.deps.util.dir :refer [with-dir]]
    [org.corfield.build :as bb]))
+
+;; Ensure clojure.java.process is available for build tools
+(try
+  (require 'clojure.java.process)
+  (catch Exception _
+    ;; If clojure.java.process is not available, this is fine
+    ;; The build tools will handle it appropriately
+    ))
 
 (defn- get-project-aliases []
   (let [edn-fn (juxt :root-edn :project-edn)]
