@@ -1,8 +1,8 @@
-# ![RealWorld Example App](images/logo.png)
+# ![RealWorld Example App](.media/readme/logo.png)
 
 A full-fledged [RealWorld](https://github.com/gothinkster/realworld) server (CRUD, auth, advanced patterns, etc) built with [Clojure](https://clojure.org), [Polylith](https://polylith.gitbook.io/), and [Ring](https://github.com/ring-clojure/ring), including CRUD operations, authentication, routing, pagination, and more.
 
-![overview](images/overview.png)
+![overview](.media/readme/overview.png)
 
 #### Build Status
 [![CircleCI](https://dl.circleci.com/status-badge/img/gh/furkan3ayraktar/clojure-polylith-realworld-example-app/tree/master.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/furkan3ayraktar/clojure-polylith-realworld-example-app/tree/master)
@@ -64,13 +64,13 @@ A convenient way to run the `poly` tool is to start a `shell`:
 1. [Install](https://clojure.org/guides/install_clojure) the `clojure` command, if you haven't installed it already.
 2. Start a `poly` shell, by executing `clojure -M:poly` from the workspace root (_clojure-polylith-realworld-example-app_).
 
-<img src="images/shell.png" alt="shell" width="300">
+<img src=".media/readme/shell.png" alt="shell" width="300">
 
 From here we can execute different commands, e.g. the `info` command:
 ```sh
 clojure-polylith-realworld-example-app$ info
 ```
-<img src="images/info.png" alt="info" width="300">
+<img src=".media/readme/info.png" alt="info" width="300">
 
 For detailed information, see [Workspace Info](#workspace-info) section below.
 
@@ -191,10 +191,11 @@ The magic here is the project's `deps.edn` file which refers to the sources, res
 A project only has it's `deps.edn` file to define project specific configuration and external dependencies. 
 All the code and resources in a project come from the components and the base, which creates the project.
 
+## Backend
+
 ##### Base
 Bases in Polylith architecture are the building blocks that expose a public API to the outside world.
-There are two bases in our workspace: `rest-api` and `web-app`.
-The `rest-api` base exposes its functionality via a RESTful API. 
+The `rest-api` backend base exposes its functionality via a RESTful API. 
 In order to achieve this, it uses Ring and [Compojure](https://github.com/weavejester/compojure). 
 There are four namespaces under the `src` directory of `bases/rest-api`:
 - `api.clj`
