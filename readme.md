@@ -22,7 +22,7 @@ There are many other ways too. But especially if your experience with Clojure is
 2. Open the project in VSCode
     * [Install the Calva extension](https://calva.io/getting-started/#install-vs-code-and-calva), if you don't have it installed already.
 3. Press F1 and select `Calva: Start a Project REPL and Connect (aka Jack-In)`
-> <img src=".media/readme/03_calva_jack_in.png" width="40%" >
+> <img src=".media/readme/03_calva_jack_in.png" width="60%" >
 
 Calva will start the Polylith REPL, connect it to the VSCode, start the RealWorld backend server at port 6003,
 and launch the Shadow-CLJS frontend development server at port 3000 for you 💫
@@ -43,7 +43,7 @@ Connected session: clj
 Evaluating code from settings: 'calva.autoEvaluateCode.onConnect.clj'
 
 ; clj  shadow.user 
-nilC
+nil
 Evaluating 'afterCLJReplJackInCode'
 2025-08-19T06:30:47.126Z Mac INFO [clojure.realworld.rest-api.main] - Starting server on port:  6003
 2025-08-19T06:30:47.134Z Mac INFO [clojure.realworld.log.config:77] - Initialized logging. Using console to print logs.
@@ -62,7 +62,7 @@ Connecting cljs repl: Polylith RealWorld Server REPL (start)...
 
 A convenient way to run the `poly` tool is to start a `shell`:
 1. [Install](https://clojure.org/guides/install_clojure) the `clojure` command, if you haven't installed it already.
-2. Start a `poly` shell, by executing `clojure -M:poly` from the workspace root, `clojure-polylith-realworld-example-app`.
+2. Start a `poly` shell, by executing `clojure -M:poly` from the workspace root (_clojure-polylith-realworld-example-app_).
 
 <img src="images/shell.png" alt="overview" width="300">
 
