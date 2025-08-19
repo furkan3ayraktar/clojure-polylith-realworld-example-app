@@ -3,7 +3,7 @@ version: 2.0
 jobs:
   check:
     docker:
-      - image: cimg/clojure:1.11.1-openjdk-21.0-node
+      - image: cimg/clojure:1.11.4-openjdk-21.0-node
     working_directory: ~/realworld-example
     steps:
       - checkout
@@ -44,7 +44,7 @@ jobs:
 
   info:
     docker:
-      - image: cimg/clojure:1.11.1-openjdk-21.0
+      - image: cimg/clojure:1.11.4-openjdk-21.0
     working_directory: ~/realworld-example
     steps:
       - attach_workspace:
@@ -74,7 +74,7 @@ jobs:
 
   test:
     docker:
-      - image: cimg/clojure:1.11.1-openjdk-21.0-browsers
+      - image: cimg/clojure:1.11.4-openjdk-21.0-browsers
     working_directory: ~/realworld-example
     environment:
       CHROME_BIN: /usr/bin/google-chrome
@@ -100,7 +100,7 @@ jobs:
 
   api-test:
     docker:
-      - image: cimg/clojure:1.11.1-openjdk-21.0-node
+      - image: cimg/clojure:1.11.4-openjdk-21.0-node
     working_directory: ~/realworld-example
     steps:
       - attach_workspace:
@@ -124,10 +124,8 @@ jobs:
 
   frontend-test:
     docker:
-      - image: cimg/clojure:1.11.1-openjdk-21.0-browsers
+      - image: cimg/clojure:1.11.4-openjdk-21.0-browsers
     working_directory: ~/realworld-example
-    environment:
-      CHROME_BIN: /usr/bin/google-chrome
     steps:
       - attach_workspace:
           at: ~/realworld-example
@@ -147,7 +145,7 @@ jobs:
 
   build-uberjar:
     docker:
-      - image: cimg/clojure:1.11.1-openjdk-21.0
+      - image: cimg/clojure:1.11.4-openjdk-21.0
     working_directory: ~/realworld-example
     steps:
       - attach_workspace:
@@ -170,7 +168,7 @@ jobs:
 
   build-frontend:
     docker:
-      - image: cimg/clojure:1.11.1-openjdk-21.0-node
+      - image: cimg/clojure:1.11.4-openjdk-21.0-node
     working_directory: ~/realworld-example
     steps:
       - attach_workspace:
@@ -204,7 +202,7 @@ jobs:
 
   mark-as-stable:
     docker:
-      - image: cimg/clojure:1.11.1-openjdk-21.0
+      - image: cimg/clojure:1.11.4-openjdk-21.0
     working_directory: ~/realworld-example
     steps:
       - attach_workspace:
