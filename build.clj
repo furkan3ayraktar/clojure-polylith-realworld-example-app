@@ -9,6 +9,7 @@
    [clojure.data.json :as json]
    [clojure.java.io :as io]
    [clojure.java.shell :as shell]
+   [clojure.java.process]
    [clojure.string :as str]
    [clojure.tools.build.api :as b]
    [clojure.tools.deps :as t]
