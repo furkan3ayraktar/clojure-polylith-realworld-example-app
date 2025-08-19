@@ -1,6 +1,7 @@
 # ![RealWorld Example App](.media/readme/logo.png)
 
-A full-fledged [RealWorld](https://github.com/gothinkster/realworld) server (CRUD, auth, advanced patterns, etc) built with [Clojure](https://clojure.org), [Polylith](https://polylith.gitbook.io/), and [Ring](https://github.com/ring-clojure/ring), including CRUD operations, authentication, routing, pagination, and more.
+A full-fledged [RealWorld](https://github.com/gothinkster/realworld) full-stack application (CRUD, auth, advanced patterns, etc) built with [Clojure](https://clojure.org) + [ClojureScript](https://clojurescript.org), [Polylith](https://polylith.gitbook.io/), [Ring](https://github.com/ring-clojure/ring) for the backend API,
+and [Re-frame](https://day8.github.io/re-frame/), [Polylith](https://polylith.gitbook.io/) for the frontend, including CRUD operations, authentication, routing, pagination, and more.
 
 ![overview](.media/readme/overview.png)
 
@@ -61,7 +62,7 @@ Connecting cljs repl: Polylith RealWorld Server REPL (start)...
 ## Put the `poly` tool to your service
 
 A convenient way to run the `poly` tool is to start a `shell`:
-1. [Install](https://clojure.org/guides/install_clojure) the `clojure` command, if you haven't installed it already.
+1. [Install](https://clojure.org/guides/install_clojure) the `clojure` command, if you haven't already.
 2. Start a `poly` shell, by executing `clojure -M:poly` from the workspace root (_clojure-polylith-realworld-example-app_).
 
 <img src=".media/readme/shell.png" alt="shell" width="300">
@@ -95,9 +96,9 @@ If you prefer not to use VSCode/Calva, you can start the project manually:
    - Open a new terminal window/tab
    - Navigate to the workspace root directory
    - Install npm dependencies (only needed once after cloning):
-    ```bash
-    npm install
-    ```
+     ```bash
+     npm install
+     ```
    - Start the Shadow-CLJS development server:
      ```bash
      npx shadow-cljs watch realworld-frontend
@@ -161,13 +162,15 @@ The workspace structure looks like this:
 ▸ development
 ▾ projects
   ▸ realworld-backend
+  ▸ realworld-frontend
 ```
 
 Components are the main building blocks in Polylith.
 Bases are another kind of building blocks where the difference from components is that they expose a public API to the outside world.
 Both bases and components are encapsulated blocks of code that can be assembled together into services and tools.
 Components communicate to each other through their _interfaces_. 
-The base in each project, glue components together via their _interfaces_ and expose the business logic via a public API, in this project's case, a REST API for the backend, and a web application for the frontend. 
+The base in each project glues components together via their _interfaces_ and exposes the business logic via a public API.
+In this project's case, the `rest-api` base provides a REST API for the backend, while the `web-app` base serves a web application for the frontend. 
 
 There are two bases and two projects in this workspace.
 The `rest-api` base provides the backend REST API, while the `web-app` base serves the frontend web application.
