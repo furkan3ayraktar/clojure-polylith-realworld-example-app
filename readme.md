@@ -179,7 +179,7 @@ The `development` project makes it delightful to develop both backend and fronte
 You can run a REPL within the development project, start the Ring server for debugging or refactor the components easily by using your favorite IDE.
 
 The Polylith tool also helps you run the tests incrementally.
-If you run the poly `test` command from the workspace root directory, it will detect changes made since the last stable point in time (see [tagging](https://cljdoc.org/d/polylith/clj-poly/CURRENT/doc/tagging)) and only run tests for the recent changes (it will only run test for .clj and .cljc files at the moment).
+If you run the poly `test` command from the workspace root directory, it will detect changes made since the last stable point in time (see [tagging](https://cljdoc.org/d/polylith/clj-poly/CURRENT/doc/tagging)) and only run tests for the recent changes (it will only run tests for .clj and .cljc files at the moment).
 Please check out the [test section](https://cljdoc.org/d/polylith/clj-poly/CURRENT/doc/testing) of the _poly_ tool for further information about incremental testing or execute the [help](https://cljdoc.org/d/polylith/clj-poly/0.2.22/doc/reference/commands) command to see available commands.
 
 ##### Project
@@ -190,7 +190,7 @@ The `realworld-backend` project bundles the `rest-api` base with backend compone
 
 If you look at the directory `projects/realworld-backend`, you will see a standard `deps.edn` file. 
 The magic here is the project's `deps.edn` file which refers to the sources, resources and tests of actual components and bases. 
-A project only has it's `deps.edn` file to define project specific configuration and external dependencies. 
+A project only has its `deps.edn` file to define project specific configuration and external dependencies. 
 All the code and resources in a project come from the components and the base, which creates the project.
 
 ## Backend
@@ -309,7 +309,7 @@ One of them contains the exposed functions in the interface and the other one co
 (def profile spec/profile)
 ```
 
-As you can see, the interfaces are just passing through to the real implemantation encapsulated in the component.
+As you can see, the interfaces are just passing through to the real implementation encapsulated in the component.
 
 One example of using these interfaces can be found under `handler.clj` namespace of `rest-api` base:  
 ```clojure
@@ -434,15 +434,15 @@ You can define these variables under the `env.edn` file for local development:
 + `:allowed-origins`
   + Comma separated string of origins. Used to whitelist origins for CORS.
 + `:environment`
-  + Defines current environment. Currently used for logging. If set to LOCAL, logs printed to console.
+  + Defines current environment. Currently used for logging. If set to LOCAL, logs are printed to console.
 + `:database`
-  + Defaults to database.db. If provided, it will be the name of the file that contains the SQLite database.
+  + Defaults to `database.db`. If provided, it will be the name of the file that contains the SQLite database.
 + `:secret`
-  + Secret for JWT token.
+  + Secret for JWT token generation.
 
 ### Database
 The project uses an SQLite database to make it easy to run. 
-It can easily be changed to another SQL database, by editing the database connection and changing to a real jdbc dependency. 
+It can easily be changed to another SQL database by editing the database connection and changing to a real JDBC dependency. 
 There is an existing database under the development project, ready to be used.
 If you want to start from scratch, you can delete `database.db` and start the server again. 
 It will generate a database with correct schema on start.
@@ -619,7 +619,7 @@ You can achieve the same result with fewer steps once you have learned the comma
   - Runs end-to-end API tests using a [Postman](https://www.postman.com) collection defined under the `api-tests` directory. 
     Before running the tests, start the backend service by executing the `clojure -M:ring` statement under `projects/realworld-backend` directory.
 - build-uberjar
-  - This job creates an aot compiled uberjar for the realworld-backend project. Created artifact can be found in the artifacts section of this job's output.
+  - This job creates an AOT compiled uberjar for the realworld-backend project. The created artifact can be found in the artifacts section of this job's output.
 - mark-as-stable
   - This job only runs for the commits made to the master branch. 
     It adds (or moves if there is already one) the `stable-master` tag to the repository. 
@@ -629,7 +629,7 @@ You can achieve the same result with fewer steps once you have learned the comma
     - `git tag -f -a "stable-$CIRCLE_BRANCH" -m "[skip ci] Added Stable Polylith tag"`
       - Creates or moves the tag
     - `git push origin $CIRCLE_BRANCH --tags --force`
-      - Pushed tag back to the git repository
+      - Pushes the tag back to the git repository
 
 ### How to create this workspace from scratch
 You can find necessary steps to create this workspace with Polylith plugin [here](how-to.md).
