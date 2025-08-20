@@ -487,6 +487,60 @@ The application follows a unidirectional data flow where:
 3. State changes trigger UI re-renders
 4. Subscriptions provide reactive data to views
 
+##### UI Component Details
+Each UI component is designed as a self-contained unit with specific responsibilities:
+
+**`core-ui` Component**
+- **Purpose**: Central application logic and state management
+- **Key Functions**: 
+  - Global state management via Re-frame app-db
+  - Event handling for application-wide actions
+  - Router management and navigation state
+  - User authentication state and session management
+- **Architecture**: Acts as the "brain" of the frontend, coordinating between all other components
+
+**`shared-ui` Component**
+- **Purpose**: Reusable UI elements used across multiple pages
+- **Key Components**:
+  - Header with navigation and user menu
+  - Footer with application information
+  - Article display components (meta, content, actions)
+  - Common form elements and buttons
+- **Design Principle**: Single source of truth for consistent UI patterns
+
+**`auth-ui` Component**
+- **Purpose**: User authentication and account management
+- **Key Views**:
+  - Login form with validation
+  - Registration form with user creation
+  - Settings page for profile updates
+  - Password change functionality
+- **State Management**: Handles user credentials, authentication tokens, and profile data
+
+**`home-ui` Component**
+- **Purpose**: Main landing page and article discovery
+- **Key Features**:
+  - Global feed of all articles
+  - User-specific feed (for authenticated users)
+  - Article filtering and pagination
+  - Tag-based navigation
+- **Data Flow**: Fetches articles from backend API and manages feed state
+
+**`article-ui` Component**
+- **Purpose**: Article creation, editing, and detailed viewing
+- **Key Functionality**:
+  - Article editor with rich text support
+  - Article detail view with comments
+  - Favorite/unfavorite actions
+  - Article management (create, edit, delete)
+- **Integration**: Works closely with `shared-ui` for article display components
+
+Each component follows Polylith principles:
+- **Clear interfaces** for inter-component communication
+- **Isolated state** where possible, shared state where necessary
+- **Reusable logic** through well-defined event handlers
+- **Testable architecture** with clear separation of concerns
+
 ### poly CLI crash course
 
 ##### Workspace info
