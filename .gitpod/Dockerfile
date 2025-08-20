@@ -10,4 +10,4 @@ RUN curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash - \
     && node -v && npm -v
 
 RUN curl -sL https://raw.githubusercontent.com/borkdude/deps.clj/master/install > install_clojure && chmod +x install_clojure && ./install_clojure --dir /home/gitpod/bin --as-clj && clojure -Sdeps '{:deps {nrepl/nrepl {:mvn/version,"1.0.0"},cider/cider-nrepl {:mvn/version,"0.28.5"}}}' -P
-RUN yarn install
+RUN npm install -g corepack

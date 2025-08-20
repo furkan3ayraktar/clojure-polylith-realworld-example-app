@@ -19,6 +19,8 @@ ports:
     onOpen: ignore
     
 tasks:
+  - name: Install NPM dependencies
+    command: yarn install
   - name: Polylith Real World nREPL Server
     command: npx shadow-cljs -d cider/cider-nrepl:0.47.1 -d zprint:0.4.16 watch realworld-frontend test
   - name: Open Getting Started
