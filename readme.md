@@ -367,7 +367,7 @@ This is how the `user`'s interface looks:
 It's only possible to call component functions via their `interface.clj`.
 
 In the code example above, we can see that the interface functions redirect each function call to an actual implementation inside the component. 
-By having an interface and an implementation of that interface, it is easy to compile/test/build (as well as develop) components in isolation. 
+By having an interface and an implementation of that interface, it is easy to compile, test, and build (as well as develop) components in isolation. 
 This separation gives the system the ability to detect, test, and build only the changed parts of the workspace. 
 It also gives the developer a better development experience locally, with support for IDE refactoring via the  development project.
 You can read more about interfaces and their benefits [here](https://cljdoc.org/d/polylith/clj-poly/CURRENT/doc/interface).  
