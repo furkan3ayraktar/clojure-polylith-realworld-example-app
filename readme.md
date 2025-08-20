@@ -485,31 +485,49 @@ The application follows a unidirectional data flow where:
 ### poly CLI crash course
 
 ##### Workspace info
-Run the following command from the root directory to print out workspace information and changes since the last stable point in time:
-`poly info`
+If you still have a [shell](https://cljdoc.org/d/polylith/clj-poly/CURRENT/doc/shell) running (that you started with `clojure -M:poly`) you can now execute the [info](https://cljdoc.org/d/polylith/clj-poly/CURRENT/doc/reference/commands#info) command again:
+```
+clojure-polylith-realworld-example-app$ info
+```
+<img src=".media/readme/info.png" width="300">
 
-This command will print an output like below. Here you can see that changed components are marked with a * symbol.
-Refer to the [Polylith tool documentation](https://cljdoc.org/d/polylith/clj-poly/CURRENT/doc/reference/commands#info) for more detailed information about this command and other commands that Polylith provides.
-
-<img src=".media/readme/02_polylith_info.png" width="300">
+If a component, base, or project is changed, it will be marked with an asterisk (*), which is explained [here](https://cljdoc.org/d/polylith/clj-poly/CURRENT/doc/tagging#make-a-change)
 
 ##### Check workspace integrity
 In order to guarantee workspace integrity, which means all components refer to each other through their interfaces.
-The Polylith tool provides you with the `poly check` command that will check the entire workspace and print out errors and/or warnings, if any.
+The Polylith tool provides you with the [check](https://cljdoc.org/d/polylith/clj-poly/CURRENT/doc/reference/commands#check) command that will check the entire workspace and print out errors and/or warnings, if any.
+The [info](https://cljdoc.org/d/polylith/clj-poly/CURRENT/doc/reference/commands#info) command can be used for the same purpose, because it will also perform the `check` internally and show the same information after the info table.
 
 ##### Run tests
-Run the following command from the root directory:
-`poly test`
+At the time of writing, the internal [test runner](https://cljdoc.org/d/polylith/clj-poly/CURRENT/doc/test-runners) and other external test runners only support Clojure (.clj + .cljc files).
+If we run the [test](https://cljdoc.org/d/polylith/clj-poly/CURRENT/doc/reference/commands#test) command, it will only run tests for the backend project:
+```
+Projects to run tests from: realworld-backend, realworld-frontend
 
-This command will run all the tests for changed components and other components that are affected by the current changes.
-You can read more about the test command [here](https://cljdoc.org/d/polylith/clj-poly/CURRENT/doc/reference/commands#test) and [here](https://cljdoc.org/d/polylith/clj-poly/CURRENT/doc/testing).
+Running tests for the realworld-backend project using test runner: Polylith built-in clojure.test runner...
+Running tests from the realworld-backend project, including 6 bricks: article, comment, profile, tag, user, rest-api
+
+Testing clojure.realworld.article.core-test
+SLF4J(W): No SLF4J providers were found.
+SLF4J(W): Defaulting to no-operation (NOP) logger implementation
+SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
+
+Ran 20 tests containing 53 assertions.
+0 failures, 0 errors.
+
+Test results: 53 passes, 0 failures, 0 errors.
+
+...
+
+No tests to run for the realworld-frontend project using test runner: Polylith built-in clojure.test runner.
+```
 
 ##### Stable points in time
 Once you check the integrity of your workspace and see that all tests are green, you can commit your changes to your git repository and add (or move if there is one already) a git tag that starts with `stable-` prefix.
-The Polylith tool with use this point in time to calculate what changes has been made.
+The Polylith tool will use this point in time to calculate what changes has been made.
 You can easily add this logic to your continuous integration pipeline as a way to automate it.
 Read more about stable points [here](https://cljdoc.org/d/polylith/clj-poly/CURRENT/doc/tagging) where you can find
-an example of how to implement the stable logic with the CI in the section below.
+an example of how to implement CI pipeline in the section below.
 
 ### Continuous integration
 This repository has a [CircleCI](https://circleci.com) configuration to demonstrate how to use the Polylith tool to incrementally run tests and build artifacts. 
@@ -531,7 +549,8 @@ You can achieve the same result with fewer steps once you have learned the comma
       - Prints the dependency information
     - `clojure -M:poly libs`
       - Prints all libraries that are used in the workspace.
-  - After this job is done, all this information will be available in the jobs output for debugging purposes if needed. You can read more about available commands [here](https://cljdoc.org/d/polylith/clj-poly/CURRENT/doc/reference/commands).
+  - After this job is done, all this information will be available in the jobs output for debugging purposes if needed.
+    You can read more about available commands [here](https://cljdoc.org/d/polylith/clj-poly/CURRENT/doc/reference/commands).
 - test
   - This job runs all the tests for all the bricks and projects that are directly or indirectly changed since the last stable point in time. 
     Polylith supports incremental testing out of the box by using stable point marks in the git history. 
@@ -547,7 +566,8 @@ You can achieve the same result with fewer steps once you have learned the comma
   - This job only runs for the commits made to the master branch. 
     It adds (or moves if there is already one) the `stable-master` tag to the repository. 
     At this point in the workflow, it is proven that the Polylith workspace is valid and that all the tests have passed. 
-    It is safe to mark this commit as stable. It does that by running the following commands one after another:
+    It is safe to mark this commit as stable.
+    It does that by running the following commands one after another:
     - `git tag -f -a "stable-$CIRCLE_BRANCH" -m "[skip ci] Added Stable Polylith tag"`
       - Creates or moves the tag
     - `git push origin $CIRCLE_BRANCH --tags --force`
@@ -561,7 +581,8 @@ You can find necessary steps to make this project work in [Intellij IDEA](https:
 
 ### Note about deps.edn vs Leiningen
 
-> This version uses [tools.deps](https://github.com/clojure/tools.deps). There is also an older version of this project that uses [Leiningen](https://leiningen.org/) on the [leiningen branch](https://github.com/furkan3ayraktar/clojure-polylith-realworld-example-app/tree/leiningen).
+> This version uses [tools.deps](https://github.com/clojure/tools.deps).
+  There is also an older version of this project that uses [Leiningen](https://leiningen.org/) on the [leiningen branch](https://github.com/furkan3ayraktar/clojure-polylith-realworld-example-app/tree/leiningen).
 
 ## License
 
