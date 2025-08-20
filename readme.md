@@ -56,14 +56,15 @@ Creating cljs repl session...
 Connecting cljs repl: Polylith RealWorld Server REPL (start)...
 ```
 
-> Check [.vscode/settings.json](.vscode/settings.json) file to see what Calva does under the hood.
+> (Optional) check [.vscode/settings.json](.vscode/settings.json) file to see what Calva does under the hood.
 
+Now open http://localhost:3000 in your browser to test the app!
 
 ## Put the `poly` tool to your service
 
 A convenient way to run the `poly` tool is to start a `shell`:
 1. [Install](https://clojure.org/guides/install_clojure) the `clojure` command, if you haven't already.
-2. Start a `poly` shell, by executing `clojure -M:poly` from the workspace root (_clojure-polylith-realworld-example-app_).
+2. Start a `poly` [shell](https://cljdoc.org/d/polylith/clj-poly/CURRENT/doc/shell), by executing `clojure -M:poly` from the workspace root (_clojure-polylith-realworld-example-app_).
 
 <img src=".media/readme/shell.png" alt="shell" width="300">
 
@@ -108,8 +109,6 @@ If you prefer not to use VSCode/Calva, you can start the project manually:
 **Result:**
 - Backend API available at http://localhost:6003
 - Frontend application available at http://localhost:3000
-
-Now open http://localhost:3000 in your browser to test the app!
 
 ## Table of Contents
 
