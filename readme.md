@@ -285,10 +285,11 @@ Following the rules of the Polylith architecture means that `handler.clj` doesn'
 
 ##### Components
 Components are the main building blocks in a Polylith architecture.
-In this workspace, there are nine different components. 
+In this workspace, there are 16 different components, where 11 are used in this backend project. 
 Let's take a deeper look at one of the interfaces, like `profile`. 
-The interface of the `profile` component is split into two different files.
-One of them contains the function interfaces and the other one contains the exposed specs.
+The interface of the `profile` component is split into two different files/namespaces.
+One of them contains the exposed functions in the interface and the other one contains the exposed specs.
+*
 ```clojure
 (ns clojure.realworld.profile.interface
   (:require [clojure.realworld.profile.core :as core]))
@@ -312,7 +313,7 @@ One of them contains the function interfaces and the other one contains the expo
 
 As you can see, the interfaces are just passing through to the real implemantation encapsulated in the component.
 
-One example of using these interfaces can be found under `handler.clj` namespace of `rest-api` base.  
+One example of using these interfaces can be found under `handler.clj` namespace of `rest-api` base:  
 ```clojure
 (ns clojure.realworld.rest-api.handler
   (:require ;;...
@@ -343,7 +344,7 @@ to the `follow!` function that lives in the `core` namespace inside the `profile
     [false {:errors {:username ["Cannot find a profile with given username."]}}]))
 ```
 Here is another function call to the `user` component from `profile` component.
-This is how the `user`s interface looks like: 
+This is how the `user`s interface looks: 
 ```clojure
 (ns clojure.realworld.user.interface
   (:require [clojure.realworld.user.core :as core]
@@ -382,7 +383,9 @@ This is included in the workspace to demonstrate how to create wrapper component
 This gives you an opportunity to declare your own interface for an external library and if you decide to use another external library, 
 you can just switch to another component implementing the same interface without affecting other components.
 
-The `database` component is another type of common functionality component. It contains schema definitions for the sqlite database and functions to apply that schema. If you check Ring initializer function in `api.clj` namespace of `rest-api` base, you'll see this:
+The `database` component is another type of common functionality component.
+It contains schema definitions for the sqlite database and functions to apply that schema.
+If you check Ring initializer function in `api.clj` namespace of `rest-api` base, you'll see this:
 ```clojure
 (defn init []
   (try
@@ -442,13 +445,15 @@ You can define these variables under the `env.edn` file for local development.
 ### Database
 The project uses an SQLite database to make it easy to run. 
 It can easily be changed to another SQL database, by editing the database connection and changing to a real jdbc dependency. 
-There is an existing database under the development project, ready to be used. If you want to start from scratch, you can delete `database.db and start the server again. 
-It will generate a database with correct schema on start. The project also checks if the schema is valid or not, and prints out proper logs for each case.
+There is an existing database under the development project, ready to be used.
+If you want to start from scratch, you can delete `database.db and start the server again. 
+It will generate a database with correct schema on start.
+The project also checks if the schema is valid or not, and prints out proper logs for each case.
 
 ## Frontend
 
 ##### Base
-The `web-app` base serves the frontend web application using ClojureScript and Re-frame.
+The `web-app` base serves the frontend web application using [ClojureScript](https://clojurescript.org) and [Re-frame](https://day8.github.io/re-frame).
 It provides the user interface for the RealWorld application, including article management, user authentication, and profile features.
 
 There is one key namespace under the `src` directory of `bases/web-app`:
@@ -471,10 +476,10 @@ Each UI component communicates through well-defined interfaces and manages its o
 ##### Frontend Architecture
 The frontend uses a modern ClojureScript stack:
 
-- **Re-frame** for state management and event handling
-- **Shadow-CLJS** for build tooling and development server
-- **Bidi** for client-side routing
-- **Pushy** for browser history management
+- [Re-frame](https://day8.github.io/re-frame) for state management and event handling
+- [shadow-cljs](https://github.com/thheller/shadow-cljs) for build tooling and development server
+- [Bidi](https://github.com/juxt/bidi) for client-side routing
+- [Pushy](https://github.com/kibu-australia/pushy) for browser history management
 
 The application follows a unidirectional data flow where:
 1. User interactions trigger events
@@ -491,7 +496,7 @@ clojure-polylith-realworld-example-app$ info
 ```
 <img src=".media/readme/info.png" width="300">
 
-If a component, base, or project is changed, it will be marked with an asterisk (*), which is explained [here](https://cljdoc.org/d/polylith/clj-poly/CURRENT/doc/tagging#make-a-change)
+If a component, base, or project is changed, it will be marked with an asterisk (*), which is explained [here](https://cljdoc.org/d/polylith/clj-poly/CURRENT/doc/tagging#make-a-change).
 
 ##### Check workspace integrity
 In order to guarantee workspace integrity, which means all components refer to each other through their interfaces.
