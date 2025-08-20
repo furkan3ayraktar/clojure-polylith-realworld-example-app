@@ -287,8 +287,7 @@ Components are the main building blocks in a Polylith architecture.
 In this workspace, there are 16 different components, where 11 are used in this backend project. 
 Let's take a deeper look at one of the interfaces, like `profile`. 
 The interface of the `profile` component is split into two different files/namespaces.
-One of them contains the exposed functions in the interface and the other one contains the exposed specs.
-*
+One of them contains the exposed functions in the interface and the other one contains the exposed specs:
 ```clojure
 (ns clojure.realworld.profile.interface
   (:require [clojure.realworld.profile.core :as core]))
@@ -342,8 +341,8 @@ to the `follow!` function that lives in the `core` namespace inside the `profile
       [true (create-profile user true)])
     [false {:errors {:username ["Cannot find a profile with given username."]}}]))
 ```
-Here is another function call to the `user` component from `profile` component.
-This is how the `user`s interface looks: 
+Here is another function call to the `user` component from the `profile` component.
+This is how the `user`'s interface looks: 
 ```clojure
 (ns clojure.realworld.user.interface
   (:require [clojure.realworld.user.core :as core]
@@ -364,7 +363,7 @@ This is how the `user`s interface looks:
 (defn find-by-username-or-id [username-or-id]
   (store/find-by-username-or-id username-or-id))
 ```
-`profile` uses `find-by-username-or-id` function from `user` component. This is how different components talk to each other within the workspace.
+`profile` uses `find-by-username-or-id` function from the `user` component. This is how different components talk to each other within the workspace.
 It's only possible to call component functions via their `interface.clj`.
 
 In the code example above, we can see that the interface functions redirect each function call to an actual implementation inside the component. 
