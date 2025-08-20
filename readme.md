@@ -253,7 +253,7 @@ Otherwise, it will execute the handler.
 The `main.clj` namespace contains a main function to expose the REST API via a [Jetty](https://www.eclipse.org/jetty/) server.
 If you look at the project configuration at `projects/realworld-backend/deps.edn` you'll notice that there are two aliases named `:aot` and `:uberjar`.
 With the help of those two aliases and `main.clj`, we can create an uberjar which is a single jar file that can be run directly on any machine that has Java runtime.
-Once the jar file is run, the main function defined under `main.clj` will be triggered and it will start the server.
+Once the jar file is run, the main function defined in `main.clj` will be triggered and start the server.
 
 The `web-app` base serves the frontend web application using ClojureScript and Re-frame.
 It provides the user interface for the RealWorld application, including article management, user authentication, and profile features. 
