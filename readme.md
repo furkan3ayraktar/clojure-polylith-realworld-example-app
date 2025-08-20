@@ -401,7 +401,7 @@ If you check Ring initializer function in `api.clj` namespace of `rest-api` base
     (catch Exception e
       (log/error e "Could not start server."))))
 ```
-Here, we use helper functions from the `database` component's `interface.clj` to check if an sqlite database exists in the current path and if it exists, to check the validity of the schema. 
+Here, we use helper functions from the `database` component's `interface.clj` to check if an SQLite database exists in the current path and, if it does, to validate the schema. 
 The interface for the `database` component looks like this:
 ```clojure
 (ns clojure.realworld.database.interface
