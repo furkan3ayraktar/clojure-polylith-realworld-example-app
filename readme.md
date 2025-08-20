@@ -130,7 +130,7 @@ If you prefer not to use VSCode/Calva, you can start the project manually:
 
 ### General Structure
 This project is structured according to Polylith Architecture principles. 
-If you are not familiar with Polylith Architecture, please refer to its [documentation](https://polylith.gitbook.io/polylith) for further and deeper understanding.
+If you are not familiar with the Polylith architecture, please refer to its [documentation](https://polylith.gitbook.io/polylith) for further and deeper understanding.
 
 The workspace is the root directory in a Polylith codebase, and is where we work with all our building blocks and projects. 
 A workspace is usually version controlled in a monorepo, and contains all the building blocks, 
@@ -179,11 +179,11 @@ The `development` project makes it delightful to develop both backend and fronte
 You can run a REPL within the development project, start the Ring server for debugging or refactor the components easily by using your favorite IDE.
 
 The Polylith tool also helps you run the tests incrementally.
-If you run the poly `test` command from the root directory, it will detect changes made since the last stable point in time, and only run tests for the recent changes (it will only run test for .clj and .cljc files at the moment).
-Please check out the [test section](https://cljdoc.org/d/polylith/clj-poly/CURRENT/doc/testing) of the _poly_ tool for further information about incremental testing or execute the `help` command to see available commands.
+If you run the poly `test` command from the workspace root directory, it will detect changes made since the last stable point in time (see [tagging](https://cljdoc.org/d/polylith/clj-poly/CURRENT/doc/tagging)) and only run tests for the recent changes (it will only run test for .clj and .cljc files at the moment).
+Please check out the [test section](https://cljdoc.org/d/polylith/clj-poly/CURRENT/doc/testing) of the _poly_ tool for further information about incremental testing or execute the [help](https://cljdoc.org/d/polylith/clj-poly/0.2.22/doc/reference/commands) command to see available commands.
 
 ##### Project
-Projects in the Polylith architecture are configurations for deployable artifacts. 
+Projects in the Polylith architecture are configurations for deployable artifacts (explained in detail [here](https://cljdoc.org/d/polylith/clj-poly/0.2.22/doc/project)). 
 There are two projects in this workspace: `realworld-backend` and `realworld-frontend`. 
 Projects are a way to assemble a base with a set of components and libraries into deployable bundles. 
 The `realworld-backend` project bundles the `rest-api` base with backend components for API deployment, while the `realworld-frontend` project bundles the `web-app` base with frontend components for web application deployment.
