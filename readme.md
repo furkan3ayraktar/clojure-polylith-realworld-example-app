@@ -19,11 +19,11 @@ There are many other ways too. But especially if your experience with Clojure is
 
 ## Start a REPL in VSCode / Calva
 
-1. Fork & clone this repo
+1. Fork and clone this repo
 2. Open the project in VSCode
     * [Install the Calva extension](https://calva.io/getting-started/#install-vs-code-and-calva) if you don't have it already.
 3. Press F1 and select `Calva: Start a Project REPL and Connect (aka Jack-In)`
-> <img src=".media/readme/03_calva_jack_in.png" width="60%" >
+> <img src=".media/readme/calva-jack-in.png" width="60%" >
 
 Calva will start the Polylith REPL, connect it to the VSCode, start the RealWorld backend server at port 6003,
 and launch the Shadow-CLJS frontend development server at port 3000 for you 💫
@@ -208,7 +208,7 @@ There are four namespaces under the `src` directory of `bases/rest-api`:
 The `api.clj` namespace contains route definitions for compojure and init function for Ring.
 The REST API looks like this:
 
-![rest-api](.media/readme/01_rest_api.png)
+![rest-api](.media/readme/rest-api.png)
 
 These routes are defined with compojure with this piece of code:
 ```clojure
