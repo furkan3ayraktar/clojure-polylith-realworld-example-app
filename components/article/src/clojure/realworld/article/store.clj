@@ -2,7 +2,6 @@
   (:require [clojure.java.jdbc :as jdbc]
             [clojure.realworld.database.interface :as database]
             [clojure.realworld.shared.interface :as shared]
-            [clojure.string :as str]
             [honey.sql :as sql]))
 
 (defn find-by-slug [slug]

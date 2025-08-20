@@ -1,7 +1,6 @@
 (ns clojure.realworld.core-ui.router
   (:require [bidi.bidi :as bidi]
-            [pushy.core :as pushy]
-            [re-frame.core :refer [dispatch]]))
+            [pushy.core :as pushy]))
 
 ;; This namespace is a modified version of Jacek Schae's implementation.
 ;; Source: https://github.com/jacekschae/conduit/blob/ae3c15df1b76d3e0157e32ae24bae52bdb7ea365/src/conduit/router.cljs

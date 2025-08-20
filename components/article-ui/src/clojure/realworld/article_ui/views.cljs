@@ -50,8 +50,7 @@
 ;;
 (defn editor
   []
-  (let [{:keys [title description body tagList slug]
-         :as active-article} @(subscribe [core-ui/<active-article])
+  (let [{:keys [title description body tagList slug]} @(subscribe [core-ui/<active-article])
         tagList-string (if (and tagList (seq tagList))
                           (str/join " " tagList)
                           "")

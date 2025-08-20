@@ -1,0 +1,5 @@
+{:lint-as {}
+ :linters {:clojure-lsp/unused-public-var {:level :info
+                                           :exclude-regex #{"clojure.realworld.+\\.interface.*"
+                                                            "dev.*"}}
+           :deprecated-var {:level :info}}}

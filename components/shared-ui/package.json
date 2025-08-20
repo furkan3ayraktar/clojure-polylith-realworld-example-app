@@ -1,0 +1,6 @@
+{
+  "name": "@poly/shared-ui",
+  "description": "The component to provide the shared UI",
+  "version": "0.0.1",
+  "private": true
+}

@@ -4,7 +4,7 @@
             [clojure.realworld.auth-ui.interface :as auth-ui]
             [clojure.realworld.article-ui.interface :as article-ui]
             [clojure.realworld.home-ui.interface :as home-ui]
-            [re-frame.core :refer [dispatch subscribe]]))
+            [re-frame.core :refer [subscribe]]))
 
 ;; -- Main App Component -----------------------------------------------------
 ;;

@@ -1,0 +1,6 @@
+{
+  "name": "@poly/article-ui",
+  "description": "The component to provide the article UI",
+  "version": "0.0.1",
+  "private": true
+}

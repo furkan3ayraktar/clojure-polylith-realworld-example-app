@@ -17,13 +17,21 @@
   },
   "workspaces": [
     "bases/web-app",
+    "components/article-ui",
+    "components/auth-ui",
+    "components/core-ui",
+    "components/home-ui",
+    "components/shared",
+    "components/shared-ui",
+    "components/spec",
     "components/web-ui",
     "projects/realworld-frontend"
   ],
   "devDependencies": {
-    "shadow-cljs": "^2.28.15",
     "karma": "6.4.4",
     "karma-chrome-launcher": "3.2.0",
-    "karma-cljs-test": "0.1.0"
-  }
+    "karma-cljs-test": "0.1.0",
+    "shadow-cljs": "^3.2.0"
+  },
+  "packageManager": "yarn@4.6.0"
 }

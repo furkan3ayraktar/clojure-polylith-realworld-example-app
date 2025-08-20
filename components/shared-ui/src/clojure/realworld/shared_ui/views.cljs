@@ -1,9 +1,6 @@
 (ns clojure.realworld.shared-ui.views
   (:require [clojure.realworld.core-ui.interface :as core-ui]
-            [clojure.realworld.spec.interface :as user-spec]
-            [clojure.string :as str]
-            [re-frame.core :refer [dispatch subscribe]]
-            [reagent.core :as r]))
+            [re-frame.core :refer [dispatch subscribe]]))
 
 ;; This namespace is a modified version of Jacek Schae's implementation.
 ;; Source: https://github.com/jacekschae/conduit/blob/ae3c15df1b76d3e0157e32ae24bae52bdb7ea365/src/conduit/views.cljs

@@ -1,0 +1,6 @@
+{
+  "name": "@poly/spec",
+  "description": "The component to provide the spec",
+  "version": "0.0.1",
+  "private": true
+}

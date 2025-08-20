@@ -21,9 +21,11 @@ test.db
 # VSCode-related
 **/.calva/*
 .clj-kondo/*
+!.clj-kondo/config.edn
 **/out
 .lsp/*
 **/.portal
 .shadow-cljs
 **/resources/*/public/js
 node_modules
+.yarn/

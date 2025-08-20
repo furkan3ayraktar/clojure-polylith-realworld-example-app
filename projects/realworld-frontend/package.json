@@ -12,13 +12,20 @@
     "clean-win": "rmdir /s /q resources/realworld_frontend/public/js & rmdir /s /q target"
   },
   "dependencies": {
+    "@poly/article-ui": "*",
+    "@poly/auth-ui": "*",
+    "@poly/core-ui": "*",
+    "@poly/home-ui": "*",
+    "@poly/shared": "*",
+    "@poly/shared-ui": "*",
+    "@poly/spec": "*",
     "@poly/web-app": "*",
     "@poly/web-ui": "*"
   },
   "devDependencies": {
-    "shadow-cljs": "^2.28.15",
     "karma": "6.4.4",
     "karma-chrome-launcher": "3.2.0",
-    "karma-cljs-test": "0.1.0"
+    "karma-cljs-test": "0.1.0",
+    "shadow-cljs": "^2.28.15"
   }
 }

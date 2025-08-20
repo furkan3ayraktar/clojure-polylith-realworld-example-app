@@ -27,7 +27,7 @@
     (try
       (handler req)
       (catch Exception e
-        (let [message (str "An unknown exception occurred.")]
+        (let [message "An unknown exception occurred."]
           (log/error e message)
           {:status 500
            :body   {:errors {:other [message]}}})))))

@@ -8,7 +8,6 @@
             [clojure.realworld.profile.interface :as profile]
             [clojure.realworld.tag.interface :as tag]
             [clojure.realworld.user.interface :as user]
-            [clojure.realworld.spec.interface :as user-spec]
             [clojure.spec.alpha :as s]
             [clojure.realworld.env.interface :as env]))
 
@@ -38,14 +37,14 @@
 
 (defn login [req]
   (let [user (-> req :params :user)]
-    (if (s/valid? user-spec/login user)
+    (if (s/valid? spec/login user)
       (let [[ok? res] (user/login! user)]
         (handle (if ok? 200 404) res))
       (handle 422 {:errors {:body ["Invalid request body."]}}))))
 
 (defn register [req]
   (let [user (-> req :params :user)]
-    (if (s/valid? user-spec/register user)
+    (if (s/valid? spec/register user)
       (let [[ok? res] (user/register! user)]
         (handle (if ok? 200 404) res))
       (handle 422 {:errors {:body ["Invalid request body."]}}))))
@@ -57,7 +56,7 @@
 (defn update-user [req]
   (let [auth-user (-> req :auth-user)
         user (-> req :params :user)]
-    (if (s/valid? user-spec/update-user user)
+    (if (s/valid? spec/update-user user)
       (let [[ok? res] (user/update-user! auth-user user)]
         (handle (if ok? 200 404) res))
       (handle 422 {:errors {:body ["Invalid request body."]}}))))

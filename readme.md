@@ -19,14 +19,19 @@ There are many other ways too. But especially if your experience with Clojure is
 
 ## Start a REPL in VSCode / Calva
 
+### Requirements
+- Java 21+
+- Node 20+
+
+### Run the project
 1. Fork and clone this repo
-2. Open the project in VSCode
+2. Execute `yarn` at the root to install npm dependencies
+3. Open the project in VSCode
     * [Install the Calva extension](https://calva.io/getting-started/#install-vs-code-and-calva) if you don't have it already.
-3. Press F1 and select `Calva: Start a Project REPL and Connect (aka Jack-In)`
+4. Press F1 and select `Calva: Start a Project REPL and Connect (aka Jack-In)`
 > <img src=".media/readme/calva-jack-in.png" width="60%" >
 
-Calva will start the Polylith REPL, connect it to the VSCode, start the RealWorld backend server at port 6003,
-and launch the Shadow-CLJS frontend development server at port 3000 for you 💫
+Calva will start the Polylith REPL, connect it to the VSCode, start the RealWorld backend server at port 6003, and launch the Shadow-CLJS frontend development server at port 3000 for you 💫
 
 It will look something like this:
 
@@ -255,9 +260,6 @@ If you look at the project configuration at `projects/realworld-backend/deps.edn
 With the help of those two aliases and `main.clj`, we can create an uberjar which is a single jar file that can be run directly on any machine that has Java runtime.
 Once the jar file is run, the main function defined in `main.clj` will be triggered and start the server.
 
-The `web-app` base serves the frontend web application using ClojureScript and Re-frame.
-It provides the user interface for the RealWorld application, including article management, user authentication, and profile features. 
-
 Finally, the `handler.clj` namespace is the place where we define our handlers.
 Since `rest-api` is the only place where our project exposes its functionality, its handler needs to call functions in different components via their `interfaces`.
 If you check out the `:require` statements on top of the namespace, you'll see this:
@@ -450,9 +452,102 @@ The project also checks if the schema is valid or not, and prints out proper log
 
 ## Frontend
 
+We use [yarn workspaces](https://yarnpkg.com/features/workspaces) and [shadow-cljs](https://github.com/thheller/shadow-cljs) to implement Polylith architecture for frontend applications similar to how tools.deps helps us in the backend. Each component and base that is used from a frontend application has a `package.json` file defining their `npm` dependencies.
+
+Example `package.json` from `web-app` base:
+```json
+{
+  "name": "@poly/web-app",
+  "description": "The base as the entry point to the web application",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "react": "16.9.0",
+    "react-dom": "16.9.0"
+  }
+}
+```
+
+The `package.json` at the root level defines the available packages (projects, bases, and components) for the frontend development environment. See how `workspaces` attribute lists all available projects, bases, and components, similar to the `deps.edn` at root.
+```json
+{
+  "name": "clojure-polylith-realworld-example-app",
+  "description": "Clojure/ClojureScript and Polylith codebase containing implementation that adheres to the RealWorld spec and API.",
+  "version": "0.0.1",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/furkan3ayraktar/clojure-polylith-realworld-example-app"
+  },
+  "author": {
+    "name": "Furkan Bayraktar"
+  },
+  "license": "MIT",
+  "scripts": {
+    "dev": "shadow-cljs -d cider/cider-nrepl:0.47.1 -d zprint:0.4.16 watch realworld-frontend test",
+    "test:ci": "shadow-cljs compile test-ci && karma start --single-run"
+  },
+  "workspaces": [
+    "bases/web-app",
+    "components/article-ui",
+    "components/auth-ui",
+    "components/core-ui",
+    "components/home-ui",
+    "components/shared",
+    "components/shared-ui",
+    "components/spec",
+    "components/web-ui",
+    "projects/realworld-frontend"
+  ],
+  "devDependencies": {
+    "karma": "6.4.4",
+    "karma-chrome-launcher": "3.2.0",
+    "karma-cljs-test": "0.1.0",
+    "shadow-cljs": "^3.2.0"
+  },
+  "packageManager": "yarn@4.6.0"
+}
+```
+
+Finally, `package.json` at the `realworld-frontend` project glues together components and bases needed: 
+```json
+{
+  "name": "@poly/realworld-frontend",
+  "description": "The frontend project for RealWorld application",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "shadow-cljs -d cider/cider-nrepl:0.47.1 -d zprint:0.4.16 watch realworld-frontend test",
+    "test:ci": "shadow-cljs compile test-ci && karma start --single-run",
+    "build": "shadow-cljs release realworld-frontend",
+    "server": "shadow-cljs server",
+    "clean": "rm -rf target; rm -rf resources/realworld_frontend/public/js",
+    "clean-win": "rmdir /s /q resources/realworld_frontend/public/js & rmdir /s /q target"
+  },
+  "dependencies": {
+    "@poly/article-ui": "*",
+    "@poly/auth-ui": "*",
+    "@poly/core-ui": "*",
+    "@poly/home-ui": "*",
+    "@poly/shared": "*",
+    "@poly/shared-ui": "*",
+    "@poly/spec": "*",
+    "@poly/web-app": "*",
+    "@poly/web-ui": "*"
+  },
+  "devDependencies": {
+    "karma": "6.4.4",
+    "karma-chrome-launcher": "3.2.0",
+    "karma-cljs-test": "0.1.0",
+    "shadow-cljs": "^2.28.15"
+  }
+}
+```
+
+> Note: Even though this project only demonstrates using Polylith (together with `yarn` and `shadow-cljs`) in frontend possible, it is perfectly possible to build ClojureScript applications targeting NodeJS environment using NodeJS support in `shadow-cljs`. The configuration explained above applies to NodeJS applications as well.
+
 ##### Base
-The `web-app` base serves the frontend web application using [ClojureScript](https://clojurescript.org) and [Re-frame](https://day8.github.io/re-frame).
-It provides the user interface for the RealWorld application, including article management, user authentication, and profile features.
+The `web-app` base serves the frontend web application using [ClojureScript](https://clojurescript.org) and [Re-frame](https://day8.github.io/re-frame). It provides the user interface for the RealWorld application, including article management, user authentication, and profile features.
 
 There is one key namespace under the `src` directory of `bases/web-app`:
 - `main.cljs` - Entry point that initializes the Re-frame application and starts the router
@@ -589,9 +684,11 @@ an example of how to implement CI pipeline in the section below.
 
 ### Continuous integration
 This repository has a [CircleCI](https://circleci.com) configuration to demonstrate how to use the Polylith tool to incrementally run tests and build artifacts. 
+
 The CircleCI configuration file is located at `.circleci/config.yml`.
 
-The CircleCI workflow for this project consists of six steps to demonstrate different commands from the Polylith tool. 
+The CircleCI workflow for this project consists of eight steps to demonstrate different commands from the Polylith tool. 
+
 You can achieve the same result with fewer steps once you have learned the commands. The current steps are:
 
 - check
@@ -611,20 +708,38 @@ You can achieve the same result with fewer steps once you have learned the comma
     You can read more about available commands [here](https://cljdoc.org/d/polylith/clj-poly/CURRENT/doc/reference/commands).
 - test
   - This job runs all the tests for all the bricks and projects that are directly or indirectly changed since the last stable point in time. 
+    
     Polylith supports incremental testing out of the box by using stable point marks in the git history. 
+    
     It runs the following command: `clojure -M:poly test :project`. 
+    
     If any of the tests fail, it will exit with a non-zero exit code and the CircleCI workflow stops at this stage. 
+    
     Information about the passed/failed tests will be printed in the job's output.
+    
+    > Note that tests run at this step are run in the JVM. Any frontend tests will be run in another step. If you have `cljc` tests, they will be run in this step in the JVM. The same tests will also run in the browser environment together with the frontend tests.
 - api-test
   - Runs end-to-end API tests using a [Postman](https://www.postman.com) collection defined under the `api-tests` directory. 
     Before running the tests, start the backend service by executing the `clojure -M:ring` statement under `projects/realworld-backend` directory.
+- frontend-test
+  - Runs all frontend tests using [karma](https://github.com/karma-runner/karma).
+    
+    It runs the following command: `clojure -T:build test-ci-app :project realworld-frontend`.
+
+    The command uses yarn's workspace focus functionality to isolate tests to the specific project and its dependencies. See `build.clj` for more details. 
 - build-uberjar
   - This job creates an AOT compiled uberjar for the realworld-backend project. The created artifact can be found in the artifacts section of this job's output.
+- build-frontend
+  - This job builds the frontend application using `shadow-cljs`. The resulting files will be placed in a zip file and can be found in the artifacts section of this job's output.
 - mark-as-stable
   - This job only runs for the commits made to the master branch. 
+    
     It adds (or moves if there is already one) the `stable-master` tag to the repository. 
+    
     At this point in the workflow, it is proven that the Polylith workspace is valid and that all the tests have passed. 
+    
     It is safe to mark this commit as stable.
+    
     It does that by running the following commands one after another:
     - `git tag -f -a "stable-$CIRCLE_BRANCH" -m "[skip ci] Added Stable Polylith tag"`
       - Creates or moves the tag

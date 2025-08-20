@@ -1,0 +1,6 @@
+{
+  "name": "@poly/auth-ui",
+  "description": "The component to provide the auth UI",
+  "version": "0.0.1",
+  "private": true
+}

@@ -1,0 +1,6 @@
+{
+  "name": "@poly/home-ui",
+  "description": "The component to provide the home UI",
+  "version": "0.0.1",
+  "private": true
+}
