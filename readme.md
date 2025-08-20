@@ -429,7 +429,7 @@ The interface for the `database` component looks like this:
 
 ### Environment Variables
 The following environment variables are used in the project. 
-You can define these variables under the `env.edn` file for local development.
+You can define these variables under the `env.edn` file for local development:
 
 + `:allowed-origins`
   + Comma separated string of origins. Used to whitelist origins for CORS.
@@ -444,7 +444,7 @@ You can define these variables under the `env.edn` file for local development.
 The project uses an SQLite database to make it easy to run. 
 It can easily be changed to another SQL database, by editing the database connection and changing to a real jdbc dependency. 
 There is an existing database under the development project, ready to be used.
-If you want to start from scratch, you can delete `database.db and start the server again. 
+If you want to start from scratch, you can delete `database.db` and start the server again. 
 It will generate a database with correct schema on start.
 The project also checks if the schema is valid or not, and prints out proper logs for each case.
 
@@ -548,12 +548,13 @@ clojure-polylith-realworld-example-app$ info
 ```
 <img src=".media/readme/info.png" width="300">
 
-If a component, base, or project is changed, it will be marked with an asterisk (*), which is explained [here](https://cljdoc.org/d/polylith/clj-poly/CURRENT/doc/tagging#make-a-change).
+If a component, base, or project is changed, it will be marked with an asterisk (*).
+How modified files are detected and displayed is described in detail [here](https://cljdoc.org/d/polylith/clj-poly/CURRENT/doc/tagging#make-a-change).
 
 ##### Check workspace integrity
-In order to guarantee workspace integrity, which means all components refer to each other through their interfaces.
-The Polylith tool provides you with the [check](https://cljdoc.org/d/polylith/clj-poly/CURRENT/doc/reference/commands#check) command that will check the entire workspace and print out errors and/or warnings, if any.
-The [info](https://cljdoc.org/d/polylith/clj-poly/CURRENT/doc/reference/commands#info) command can be used for the same purpose, because it will also perform the `check` internally and show the same information after the info table.
+In order to guarantee workspace integrity, which means all components refer to each other through their interfaces,
+the Polylith tool provides you with the [check](https://cljdoc.org/d/polylith/clj-poly/CURRENT/doc/reference/commands#check) command that will check the entire workspace and print out errors and/or warnings, if any.
+The [info](https://cljdoc.org/d/polylith/clj-poly/CURRENT/doc/reference/commands#info) command can be used for the same purpose, because it will also perform the `check` internally and show the same information after the `info` table.
 
 ##### Run tests
 At the time of writing, the internal [test runner](https://cljdoc.org/d/polylith/clj-poly/CURRENT/doc/test-runners) and other external test runners only support Clojure (.clj + .cljc files).
@@ -581,7 +582,7 @@ No tests to run for the realworld-frontend project using test runner: Polylith b
 
 ##### Stable points in time
 Once you check the integrity of your workspace and see that all tests are green, you can commit your changes to your git repository and add (or move if there is one already) a git tag that starts with `stable-` prefix.
-The Polylith tool will use this point in time to calculate what changes has been made.
+The Polylith tool will use this point in time to calculate what changes have been made.
 You can easily add this logic to your continuous integration pipeline as a way to automate it.
 Read more about stable points [here](https://cljdoc.org/d/polylith/clj-poly/CURRENT/doc/tagging) where you can find
 an example of how to implement CI pipeline in the section below.
