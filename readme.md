@@ -445,32 +445,71 @@ It can easily be changed to another SQL database, by editing the database connec
 There is an existing database under the development project, ready to be used. If you want to start from scratch, you can delete `database.db and start the server again. 
 It will generate a database with correct schema on start. The project also checks if the schema is valid or not, and prints out proper logs for each case.
 
-### Workspace info
+## Frontend
+
+##### Base
+The `web-app` base serves the frontend web application using ClojureScript and Re-frame.
+It provides the user interface for the RealWorld application, including article management, user authentication, and profile features.
+
+There is one key namespace under the `src` directory of `bases/web-app`:
+- `main.cljs` - Entry point that initializes the Re-frame application and starts the router
+
+The `main.cljs` namespace initializes the Re-frame application, sets up the database, and starts the client-side router.
+It serves as the entry point for the frontend application and coordinates the startup of all UI components.
+
+##### UI Components
+The frontend is built using several specialized UI components that follow Polylith principles:
+
+- **`core-ui`** - Core application logic, routing, and state management
+- **`shared-ui`** - Reusable UI components like header, footer, and article displays
+- **`auth-ui`** - Authentication-related views (login, register, settings)
+- **`home-ui`** - Home page with article feeds and navigation
+- **`article-ui`** - Article creation, editing, and management views
+
+Each UI component communicates through well-defined interfaces and manages its own local state while sharing global state through Re-frame's app-db.
+
+##### Frontend Architecture
+The frontend uses a modern ClojureScript stack:
+
+- **Re-frame** for state management and event handling
+- **Shadow-CLJS** for build tooling and development server
+- **Bidi** for client-side routing
+- **Pushy** for browser history management
+
+The application follows a unidirectional data flow where:
+1. User interactions trigger events
+2. Events update the application state
+3. State changes trigger UI re-renders
+4. Subscriptions provide reactive data to views
+
+### poly CLI crash course
+
+##### Workspace info
 Run the following command from the root directory to print out workspace information and changes since the last stable point in time:
 `poly info`
 
-This command will print an output like below. Here you can see that changed components are marked with a * symbol. 
+This command will print an output like below. Here you can see that changed components are marked with a * symbol.
 Refer to the [Polylith tool documentation](https://cljdoc.org/d/polylith/clj-poly/CURRENT/doc/reference/commands#info) for more detailed information about this command and other commands that Polylith provides.
 
-<img src=".media/readme/02_polylith_info.png" width="50%">
+<img src=".media/readme/02_polylith_info.png" width="300">
 
-### Check workspace integrity
+##### Check workspace integrity
 In order to guarantee workspace integrity, which means all components refer to each other through their interfaces.
 The Polylith tool provides you with the `poly check` command that will check the entire workspace and print out errors and/or warnings, if any.
 
-### Running tests
+##### Run tests
 Run the following command from the root directory:
 `poly test`
 
-This command will run all the tests for changed components and other components that are affected by the current changes. 
+This command will run all the tests for changed components and other components that are affected by the current changes.
 You can read more about the test command [here](https://cljdoc.org/d/polylith/clj-poly/CURRENT/doc/reference/commands#test) and [here](https://cljdoc.org/d/polylith/clj-poly/CURRENT/doc/testing).
 
-### Stable points in time
-Once you check the integrity of your workspace and see that all tests are green, you can commit your changes to your git repository and add (or move if there is one already) a git tag that starts with `stable-` prefix. 
-The Polylith tool with use this point in time to to  calculate what changes has been made. 
-You can easily add this logic to your continuous integration pipeline as a way to automate it. 
+##### Stable points in time
+Once you check the integrity of your workspace and see that all tests are green, you can commit your changes to your git repository and add (or move if there is one already) a git tag that starts with `stable-` prefix.
+The Polylith tool with use this point in time to calculate what changes has been made.
+You can easily add this logic to your continuous integration pipeline as a way to automate it.
 Read more about stable points [here](https://cljdoc.org/d/polylith/clj-poly/CURRENT/doc/tagging) where you can find
-an example of how to implement the stable logic with the CI in the section below. 
+an example of how to implement the stable logic with the CI in the section below.
 
 ### Continuous integration
 This repository has a [CircleCI](https://circleci.com) configuration to demonstrate how to use the Polylith tool to incrementally run tests and build artifacts. 
