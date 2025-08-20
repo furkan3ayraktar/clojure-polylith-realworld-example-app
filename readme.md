@@ -1,7 +1,7 @@
 # ![RealWorld Example App](.media/readme/logo.png)
 
-A full-fledged [RealWorld](https://github.com/gothinkster/realworld) full-stack application (CRUD, auth, advanced patterns, etc) built with [Clojure](https://clojure.org) + [ClojureScript](https://clojurescript.org), [Polylith](https://polylith.gitbook.io/), [Ring](https://github.com/ring-clojure/ring) for the backend API,
-and [Re-frame](https://day8.github.io/re-frame/), [Polylith](https://polylith.gitbook.io/) for the frontend, including CRUD operations, authentication, routing, pagination, and more.
+A full-fledged [RealWorld](https://github.com/gothinkster/realworld) full-stack application (CRUD, auth, advanced patterns, etc) built with [Clojure](https://clojure.org), [Polylith](https://polylith.gitbook.io/), [Ring](https://github.com/ring-clojure/ring) for the backend API,
+and [ClojureScript](https://clojurescript.org), [Polylith](https://polylith.gitbook.io/), [Re-frame](https://day8.github.io/re-frame/) for the frontend, including CRUD operations, authentication, routing, pagination, and more.
 
 ![overview](.media/readme/overview.png)
 
