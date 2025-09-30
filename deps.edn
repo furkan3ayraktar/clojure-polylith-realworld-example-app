@@ -52,16 +52,15 @@
                     :extra-deps  {org.clojure/test.check {:mvn/version "1.1.1"}}}
 
              :poly {:main-opts  ["-m" "polylith.clj.core.poly-cli.core"]
+                    :jvm-opts ["--enable-native-access=ALL-UNNAMED"]
                     :extra-deps {polylith/clj-poly
                                  {:git/url "https://github.com/polyfy/polylith.git"
                                   :git/sha "da0e5df90466d32554866b81b34ab4c9fc367795"
                                   :deps/root "projects/poly"}}}
 
              :poly-local {:main-opts ["-m" "polylith.clj.core.poly-cli.core"]
+                          :jvm-opts ["--enable-native-access=ALL-UNNAMED"]
                           :extra-deps {polylith/clj-poly {:local/root "../polylith/projects/poly"}}}
-
-             :polyx-local {:main-opts ["-m" "polylith.clj.core.poly-cli.core"]
-                           :extra-deps {polylith/clj-poly {:local/root "../polylith/projects/polyx"}}}
 
              :build {:deps {io.github.clojure/tools.build {:mvn/version "0.10.10"}
                             io.github.seancorfield/build-clj {:git/tag "v0.9.2"
